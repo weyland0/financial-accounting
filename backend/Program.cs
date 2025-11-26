@@ -16,6 +16,7 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 
 builder.Services.AddScoped<IPasswordHasher, PasswordHasher>();
 builder.Services.AddScoped<IJwtTokenService, JwtTokenService>();
+builder.Services.AddScoped<IAuthService, AuthService>();
 
 var jwtSettings = builder.Configuration.GetSection("Jwt");
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
