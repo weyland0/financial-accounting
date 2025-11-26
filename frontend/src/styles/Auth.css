@@ -1,0 +1,443 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body {
+  height: 100%;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Helvetica Neue', sans-serif;
+  background-color: #f8f9fa;
+  color: #333;
+}
+
+#root {
+  height: 100%;
+}
+
+/* ═══════════════════════════════════════════════════════════════ */
+/* 📱 AUTH СТРАНИЦЫ (Login и Register)                            */
+/* ═══════════════════════════════════════════════════════════════ */
+
+.auth-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  padding: 20px;
+  background-color: #f8f9fa;
+}
+
+.auth-box {
+  background: white;
+  padding: 40px;
+  border-radius: 8px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+  width: 100%;
+  max-width: 380px;
+  border: 1px solid #e9ecef;
+}
+
+/* 📝 Заголовок формы */
+.auth-box h1 {
+  font-size: 24px;
+  font-weight: 600;
+  color: #1a1a1a;
+  margin-bottom: 8px;
+  text-align: center;
+}
+
+.auth-box h2 {
+  font-size: 20px;
+  font-weight: 600;
+  color: #1a1a1a;
+  margin-bottom: 24px;
+  text-align: center;
+}
+
+/* ⚠️ Сообщение об ошибке */
+.error-message {
+  background-color: #fff5f5;
+  color: #c92a2a;
+  padding: 12px 14px;
+  border-radius: 6px;
+  margin-bottom: 20px;
+  border-left: 3px solid #c92a2a;
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+/* ✅ Сообщение об успехе (опционально) */
+.success-message {
+  background-color: #f1fdf4;
+  color: #2f8f3f;
+  padding: 12px 14px;
+  border-radius: 6px;
+  margin-bottom: 20px;
+  border-left: 3px solid #2f8f3f;
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+/* 📝 Форма */
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* 📋 Группа формы */
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.form-group label {
+  font-size: 13px;
+  font-weight: 500;
+  color: #495057;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.form-group input {
+  padding: 11px 13px;
+  border: 1px solid #dee2e6;
+  border-radius: 6px;
+  font-size: 14px;
+  font-family: inherit;
+  background-color: #ffffff;
+  color: #1a1a1a;
+  transition: all 0.2s ease;
+}
+
+.form-group input:focus {
+  outline: none;
+  border-color: #495057;
+  box-shadow: 0 0 0 3px rgba(73, 80, 87, 0.1);
+  background-color: #ffffff;
+}
+
+.form-group input::placeholder {
+  color: #adb5bd;
+}
+
+.form-group input:disabled {
+  background-color: #f8f9fa;
+  color: #6c757d;
+  cursor: not-allowed;
+  opacity: 0.65;
+}
+
+/* 🔘 Кнопка отправки */
+.btn-primary {
+  padding: 11px 16px;
+  background-color: #212529;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  margin-top: 4px;
+}
+
+.btn-primary:hover:not(:disabled) {
+  background-color: #343a40;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.12);
+}
+
+.btn-primary:active:not(:disabled) {
+  background-color: #1a1e22;
+  transform: translateY(1px);
+}
+
+.btn-primary:disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
+}
+
+/* 🔗 Ссылка на другую страницу */
+.auth-link {
+  text-align: center;
+  margin-top: 20px;
+  font-size: 13px;
+  color: #6c757d;
+}
+
+.auth-link a {
+  color: #212529;
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.2s ease;
+}
+
+.auth-link a:hover {
+  color: #495057;
+  text-decoration: underline;
+}
+
+/* ═══════════════════════════════════════════════════════════════ */
+/* 📊 DASHBOARD СТРАНИЦА                                          */
+/* ═══════════════════════════════════════════════════════════════ */
+
+.dashboard {
+  min-height: 100vh;
+  background-color: #f8f9fa;
+}
+
+.dashboard-header {
+  background: white;
+  padding: 16px 24px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+  border-bottom: 1px solid #e9ecef;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.dashboard-header h1 {
+  color: #1a1a1a;
+  font-size: 20px;
+  font-weight: 600;
+  margin: 0;
+}
+
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.header-right span {
+  color: #6c757d;
+  font-size: 13px;
+}
+
+.btn-logout {
+  padding: 8px 14px;
+  background-color: #dc3545;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 500;
+  font-size: 13px;
+  transition: all 0.2s ease;
+}
+
+.btn-logout:hover {
+  background-color: #c82333;
+  box-shadow: 0 2px 6px rgba(220, 53, 69, 0.2);
+}
+
+.btn-logout:active {
+  background-color: #bd2130;
+  transform: translateY(1px);
+}
+
+.dashboard-content {
+  max-width: 1200px;
+  margin: 24px auto;
+  padding: 0 20px;
+  background: white;
+  border-radius: 8px;
+  padding: 32px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+  border: 1px solid #e9ecef;
+}
+
+.dashboard-content h2 {
+  color: #1a1a1a;
+  font-size: 20px;
+  font-weight: 600;
+  margin-bottom: 16px;
+  margin-top: 0;
+}
+
+.dashboard-content p {
+  color: #495057;
+  margin: 8px 0;
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+/* ⏳ Loading состояние */
+.loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  font-size: 14px;
+  color: #6c757d;
+  background-color: #f8f9fa;
+}
+
+/* ═══════════════════════════════════════════════════════════════ */
+/*  RESPONSIVE ДИЗАЙН                                              */
+/* ═══════════════════════════════════════════════════════════════ */
+
+@media (max-width: 768px) {
+  .auth-box {
+    padding: 32px 24px;
+    max-width: 100%;
+  }
+
+  .auth-box h1 {
+    font-size: 20px;
+  }
+
+  .dashboard-header {
+    flex-direction: column;
+    gap: 12px;
+    align-items: flex-start;
+  }
+
+  .header-right {
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .dashboard-content {
+    padding: 24px 16px;
+  }
+
+  .form-group input {
+    font-size: 16px;  /* Предотвращает автозум на мобилях */
+  }
+}
+
+@media (max-width: 480px) {
+  .auth-box {
+    padding: 24px 16px;
+  }
+
+  .auth-box h1 {
+    font-size: 18px;
+    margin-bottom: 20px;
+  }
+
+  .dashboard-header h1 {
+    font-size: 18px;
+  }
+
+  .dashboard-content {
+    padding: 16px 12px;
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════════ */
+/* DARK MODE                                                       */
+/* ═══════════════════════════════════════════════════════════════ */
+
+@media (prefers-color-scheme: dark) {
+  body {
+    background-color: #1a1a1a;
+    color: #f0f0f0;
+  }
+
+  .auth-container {
+    background-color: #1a1a1a;
+  }
+
+  .auth-box {
+    background-color: #2d2d2d;
+    border-color: #404040;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+  }
+
+  .auth-box h1,
+  .auth-box h2 {
+    color: #f0f0f0;
+  }
+
+  .form-group label {
+    color: #b0b0b0;
+  }
+
+  .form-group input {
+    background-color: #3a3a3a;
+    border-color: #404040;
+    color: #f0f0f0;
+  }
+
+  .form-group input:focus {
+    border-color: #666;
+    box-shadow: 0 0 0 3px rgba(100, 100, 100, 0.2);
+  }
+
+  .form-group input::placeholder {
+    color: #808080;
+  }
+
+  .form-group input:disabled {
+    background-color: #262626;
+    color: #808080;
+  }
+
+  .btn-primary {
+    background-color: #f0f0f0;
+    color: #1a1a1a;
+  }
+
+  .btn-primary:hover:not(:disabled) {
+    background-color: #e0e0e0;
+  }
+
+  .auth-link {
+    color: #b0b0b0;
+  }
+
+  .auth-link a {
+    color: #f0f0f0;
+  }
+
+  .auth-link a:hover {
+    color: #b0b0b0;
+  }
+
+  .error-message {
+    background-color: rgba(201, 42, 42, 0.15);
+    color: #ff6b6b;
+    border-left-color: #ff6b6b;
+  }
+
+  .dashboard {
+    background-color: #1a1a1a;
+  }
+
+  .dashboard-header {
+    background-color: #2d2d2d;
+    border-bottom-color: #404040;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+  }
+
+  .dashboard-header h1 {
+    color: #f0f0f0;
+  }
+
+  .header-right span {
+    color: #b0b0b0;
+  }
+
+  .dashboard-content {
+    background-color: #2d2d2d;
+    border-color: #404040;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+  }
+
+  .dashboard-content h2 {
+    color: #f0f0f0;
+  }
+
+  .dashboard-content p {
+    color: #b0b0b0;
+  }
+
+  .loading {
+    background-color: #1a1a1a;
+    color: #b0b0b0;
+  }
+}
