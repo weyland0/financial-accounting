@@ -58,7 +58,7 @@ export const AuthProvider = ( { children } ) => {
       const data = await response.json();
 
       // Сохраняем данные в состояние
-      setToken(data.accessToken);
+      setToken(data.token);
       setUser(data.userDto);
       setIsAuthenticated(true);
 
@@ -99,7 +99,7 @@ export const AuthProvider = ( { children } ) => {
       const data = await response.json();
 
       // Сохраняем данные в состояние
-      setToken(data.accessToken);
+      setToken(data.token);
       setUser(data.userDto);
       setIsAuthenticated(true);
 
