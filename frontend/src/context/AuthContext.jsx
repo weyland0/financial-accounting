@@ -9,7 +9,7 @@
 // (что было бы очень неудобно), мы сохраняем её в одном месте 
 // и любой компонент может получить доступ.
 
-import React, { createContext, useState, useCallback } from 'react';
+import React, { createContext, useState, useEffect, useCallback } from 'react';
 
 // Создаем контекст (пока это пустой контейнер для данных).
 // Позже мы его наполним данными в Provider.
@@ -24,11 +24,38 @@ export const AuthContext = createContext();
 export const AuthProvider = ( { children } ) => {
 
   // Состояния контекста - его данные
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [user, setUser] = useState(null);
   const [token, setToken] = useState(null);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+
+  // Получаем acessToken и данные пользователя из localStorage при загрузке компонента
+  useEffect(() => {
+    const initializeAuth = async () => {
+      try {
+        // Получаем сохраненный token из localStorage
+        const savedToken = localStorage.getItem('accessToken');
+        const savedUser = localStorage.getItem('user');
+
+        // проверяем не null ли savedToken и savedUser
+        if (savedToken && savedUser) {
+          // Восстанавливаем данные
+          setToken(savedToken);
+          setUser(JSON.parse(savedUser));
+        }
+
+        // ================= ДОБАВИТЬ ПРОВРЕКУ accessToken =================
+
+      } catch (err) {
+        console.error('Ошибка инициализации:', err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    initializeAuth();
+
+  }, []);  // Запускается один раз при загрузке приложения
 
   // Функция входа
   const login = useCallback(async (email, password) => {
@@ -57,10 +84,13 @@ export const AuthProvider = ( { children } ) => {
       // Refresh Token автоматически в Cookie!
       const data = await response.json();
 
+      // Сохраняем данные в хранилище
+      localStorage.setItem('accessToken', data.token);
+      localStorage.setItem('user', JSON.stringify(data.userDto));
+
       // Сохраняем данные в состояние
       setToken(data.token);
       setUser(data.userDto);
-      setIsAuthenticated(true);
 
       return data;  // Возвращаем для использования в компоненте
 
@@ -98,10 +128,13 @@ export const AuthProvider = ( { children } ) => {
       // Refresh Token автоматически в Cookie!
       const data = await response.json();
 
+      // Сохраняем данные в хранилище
+      localStorage.setItem('accessToken', data.token);
+      localStorage.setItem('user', JSON.stringify(data.userDto));
+
       // Сохраняем данные в состояние
       setToken(data.token);
       setUser(data.userDto);
-      setIsAuthenticated(true);
 
       return data;
 
@@ -116,6 +149,11 @@ export const AuthProvider = ( { children } ) => {
 
   // Функция для логаута
   const logout = useCallback(() => {
+
+    // Очищаем localStorage
+    localStorage.removeItem('accessToken');
+    localStorage.removeItem('user');
+    
     setToken(null);
     setUser(null);
     setIsAuthenticated(false);
@@ -125,13 +163,12 @@ export const AuthProvider = ( { children } ) => {
   // Возвращаем Provider с контекстом
   return (
     <AuthContext.Provider value={{
-      isAuthenticated, setIsAuthenticated,
       user, setUser,
       token, setToken,
       loading, setLoading,
       error, setError,
-      login, register,
-      logout,
+      login, register, logout,
+      isAuthenticated: !!token && !loading
     }}>
       {children}
     </AuthContext.Provider>
