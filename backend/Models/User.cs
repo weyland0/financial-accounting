@@ -26,8 +26,8 @@ public class User
     [Column("role_id")]
     public int? RoleId { get; set; }
 
-    [Column("company_id")]
-    public int? CompanyId { get; set; }
+    [Column("organization_id")]
+    public int? OrganizationId { get; set; }
 
     [Column("created_at")]
     public DateTime? CreatedAt { get; set; }
