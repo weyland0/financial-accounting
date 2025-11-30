@@ -17,72 +17,16 @@ public class AuthController : ControllerBase
     }
 
     [HttpPost("register")]
-    public async Task<ActionResult<RegisterResponse>> Register(RegisterRequest request)
+    public async Task<IActionResult> Register(RegisterRequest request)
     {
-        try
-        {
-            RegisterResponse response = await _authService.Register(request);
-            return Ok(response);
-        }
-        catch (ArgumentException e)
-        {
-            RegisterResponse response = new()
-            {
-                Success = false,
-                Message = e.Message,
-                UserDto = null
-            };
-            return BadRequest(response);
-        }
-        catch (UnauthorizedAccessException e)
-        {
-            RegisterResponse response = new()
-            {
-                Success = false,
-                Message = e.Message,
-                UserDto = null
-            };
-            return Unauthorized(response);
-        }
+        var result = await _authService.Register(request);
+        return result.ToActionResult();
     }
 
     [HttpPost("login")]
-    public async Task<ActionResult> Login(LoginRequest request)
+    public async Task<IActionResult> Login(LoginRequest request)
     {
-        try
-        {
-            LoginResponse response = await _authService.Login(request);
-            return Ok(response);
-        }
-        catch (ArgumentException e)
-        {
-            return BadRequest(e.Message);
-        }
-        catch (InvalidOperationException e)
-        {
-            return Conflict(e.Message);
-        }
-    }
-
-    [HttpPost("registerandlogin")]
-    public async Task<ActionResult> RegisterAndLogin(RegisterRequest request)
-    {
-        try
-        {
-            LoginResponse response = await _authService.RegisterAndLogin(request);
-            return Ok(response);
-        }
-        catch (ArgumentException e)
-        {
-            return BadRequest(e.Message);
-        }
-        catch (InvalidOperationException e)
-        {
-            return Conflict(e.Message);
-        }
-        catch (UnauthorizedAccessException e)
-        {
-            return Conflict(e.Message);
-        }
+        var result = await _authService.Login(request);
+        return result.ToActionResult();
     }
 }
