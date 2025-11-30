@@ -10,6 +10,7 @@
 // и любой компонент может получить доступ.
 
 import React, { createContext, useState, useEffect, useCallback } from 'react';
+import { login as loginApi, register as registerApi } from '../services/authService';
 
 // Создаем контекст (пока это пустой контейнер для данных).
 // Позже мы его наполним данными в Provider.
@@ -64,27 +65,15 @@ export const AuthProvider = ( { children } ) => {
     setError(null);  // Очищаем ошибки перед новым запросом
 
     try {
-
-      // Отправляем POST запрос на backend
-      const response = await fetch('http://localhost:5034/auth/login', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, password }),
-        credentials: 'include',  // Отправляем cookies вместе с запросом
-      });
-
-      // Проверяем был ли успех
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.message || 'Ошибка при входе');
+      const response = await loginApi({email, password});
+      if (!response.isSuccess)
+      {
+        const errorMessage = response.errorMessage;
+        throw new Error(errorMessage || 'Ошибка при входе');
       }
-
-      // Получаем данные из ответа
-      // data содержит: { accessToken, user }
-      // Refresh Token автоматически в Cookie!
-      const data = await response.json();
-
+      
       // Сохраняем данные в хранилище
+      const data = response.data;
       localStorage.setItem('accessToken', data.token);
       localStorage.setItem('user', JSON.stringify(data.userDto));
 
@@ -97,6 +86,7 @@ export const AuthProvider = ( { children } ) => {
     } catch (err) {
         setError(err.message);
         throw err;  // Выбрасываем ошибку чтобы компонент её обработал
+
     } finally {
       setLoading(false);  // Всегда выключаем loading
     }
@@ -110,25 +100,15 @@ export const AuthProvider = ( { children } ) => {
 
     try {
 
-      const response = await fetch('http://localhost:5034/auth/registerandlogin',
+      const response = await registerApi({ email, fullName, password });
+      if (!response.isSuccess)
       {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ email, fullName, password }),
-          credentials: 'include'
-      });
-
-      if (!response.ok) {
-          const errorData = await response.json();
-          throw new Error(errorData.message || 'Ошибка при регистрации');
+        const errorMessage = response.errorMessage;
+        throw new Error(errorMessage || 'Ошибка при входе');
       }
-
-      // Получаем данные из ответа
-      // data содержит: { accessToken, user }
-      // Refresh Token автоматически в Cookie!
-      const data = await response.json();
-
+      
       // Сохраняем данные в хранилище
+      const data = response.data;
       localStorage.setItem('accessToken', data.token);
       localStorage.setItem('user', JSON.stringify(data.userDto));
 
@@ -136,11 +116,12 @@ export const AuthProvider = ( { children } ) => {
       setToken(data.token);
       setUser(data.userDto);
 
-      return data;
+      return data;  // Возвращаем для использования в компоненте
 
     } catch (err) {
-        setError(err.message || 'Ошибка при входе');
-        throw err;
+        setError(err.message);
+        throw err;  // Выбрасываем ошибку чтобы компонент её обработал
+
     } finally {
       setLoading(false);  // Всегда выключаем loading
     }
@@ -156,19 +137,27 @@ export const AuthProvider = ( { children } ) => {
     
     setToken(null);
     setUser(null);
-    setIsAuthenticated(false);
     setError(null);
   }, []);
+
+  const updateUserOrganization = (organizationId) => {
+    if (user) {
+      user.organizationId = organizationId;
+      setUser(user);
+      localStorage.setItem('user', JSON.stringify(user));
+    }
+  };
 
   // Возвращаем Provider с контекстом
   return (
     <AuthContext.Provider value={{
-      user, setUser,
-      token, setToken,
+      user,
+      token,
       loading, setLoading,
       error, setError,
       login, register, logout,
-      isAuthenticated: !!token && !loading
+      isAuthenticated: !!token && !loading,
+      updateUserOrganization
     }}>
       {children}
     </AuthContext.Provider>
