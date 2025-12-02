@@ -142,9 +142,10 @@ export const AuthProvider = ( { children } ) => {
 
   const updateUserOrganization = (organizationId) => {
     if (user) {
-      user.organizationId = organizationId;
-      setUser(user);
-      localStorage.setItem('user', JSON.stringify(user));
+      // Создаем новый объект, чтобы корректно сработал ререндер
+      const updatedUser = { ...user, organizationId };
+      setUser(updatedUser);
+      localStorage.setItem('user', JSON.stringify(updatedUser));
     }
   };
 
