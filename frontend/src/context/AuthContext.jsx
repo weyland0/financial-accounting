@@ -61,19 +61,18 @@ export const AuthProvider = ( { children } ) => {
   // Функция входа
   const login = useCallback(async (email, password) => {
 
-    setLoading(true); // Устнавливаем переменную загрузки в true
+    setLoading(true); // Устанавливаем переменную загрузки в true
     setError(null);  // Очищаем ошибки перед новым запросом
 
     try {
-      const response = await loginApi({email, password});
-      if (!response.isSuccess)
-      {
-        const errorMessage = response.errorMessage;
-        throw new Error(errorMessage || 'Ошибка при входе');
+      // После рефакторинга loginApi возвращает чистый DTO { token, userDto }
+      const data = await loginApi({email, password});
+
+      if (!data?.token || !data?.userDto) {
+        throw new Error('Некорректный ответ сервера');
       }
       
-      // Сохраняем данные в хранилище
-      const data = response.data;
+      // Сохраняем данные в localStorage
       localStorage.setItem('accessToken', data.token);
       localStorage.setItem('user', JSON.stringify(data.userDto));
 
@@ -84,9 +83,9 @@ export const AuthProvider = ( { children } ) => {
       return data;  // Возвращаем для использования в компоненте
 
     } catch (err) {
-        setError(err.message);
-        throw err;  // Выбрасываем ошибку чтобы компонент её обработал
-
+      const message = err instanceof Error ? err.message : String(err);
+      setError(message);
+      throw new Error(message);  // Выбрасываем ошибку чтобы компонент её обработал
     } finally {
       setLoading(false);  // Всегда выключаем loading
     }
@@ -95,20 +94,17 @@ export const AuthProvider = ( { children } ) => {
   // Функция регистрации
   const register = useCallback(async (email, fullName, password) => {
 
-    setLoading(true); // Устнавливаем переменную загрузки в true
+    setLoading(true); // Устанавливаем переменную загрузки в true
     setError(null);  // Очищаем ошибки перед новым запросом
 
     try {
+      const data = await registerApi({ email, fullName, password });
 
-      const response = await registerApi({ email, fullName, password });
-      if (!response.isSuccess)
-      {
-        const errorMessage = response.errorMessage;
-        throw new Error(errorMessage || 'Ошибка при входе');
+      if (!data?.token || !data?.userDto) {
+        throw new Error('Некорректный ответ сервера');
       }
       
-      // Сохраняем данные в хранилище
-      const data = response.data;
+      // Сохраняем данные в localStorage
       localStorage.setItem('accessToken', data.token);
       localStorage.setItem('user', JSON.stringify(data.userDto));
 
@@ -119,9 +115,9 @@ export const AuthProvider = ( { children } ) => {
       return data;  // Возвращаем для использования в компоненте
 
     } catch (err) {
-        setError(err.message);
-        throw err;  // Выбрасываем ошибку чтобы компонент её обработал
-
+      const message = err instanceof Error ? err.message : String(err);
+      setError(message);
+      throw new Error(message);  // Выбрасываем ошибку чтобы компонент её обработал
     } finally {
       setLoading(false);  // Всегда выключаем loading
     }
