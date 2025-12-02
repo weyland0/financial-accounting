@@ -6,6 +6,7 @@ namespace finacc.DataAccess;
 
 public class ApplicationDbContext : DbContext
 {
+    public DbSet<Organization> Organizations { get; set; }
     public DbSet<User> Users { get; set; }
 
 
