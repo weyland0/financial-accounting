@@ -1,10 +1,13 @@
 import { useState, useEffect } from 'react';
+import { useNavigate } from "react-router-dom";
 import { useAuth } from '../context/AuthContext';
 import { getOrganization } from '../services/organizationService';
 import { CreateOrganizationModal } from '../components/CreateOrganizationModal';
 import '../styles/Dashboard.css';
 
 export function Dashboard() {
+
+  const navigate = useNavigate();
 
   const { user, loading, token, logout } = useAuth();
   const [showModal, setShowModal] = useState(false);
@@ -162,10 +165,9 @@ export function Dashboard() {
         <h2>Основной функционал</h2>
 
         <div className="features-grid">
-          <div className="feature-card">
-            <div className="feature-icon">📊</div>
-            <h3>Отчеты</h3>
-            <p>{user?.organizationId ? 'Просмотр реальных финансовых отчетов' : 'Демо‑просмотр отчетов'}</p>
+          <div className="feature-card" onClick={() => {navigate('/accounts')}}>
+            <h3>Счета</h3>
+            <p>{user?.organizationId ? 'Просмотр банковских счетов вашей организации' : 'Демо‑просмотр отчетов'}</p>
             {!user?.organizationId && <div className="disabled-overlay" />}
           </div>
 
