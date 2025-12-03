@@ -4,6 +4,7 @@ import { ProtectedRoute } from './components/ProtectedRoute';
 import { Login } from './pages/Login';
 import { Register } from './pages/Register';
 import { Dashboard } from './pages/Dashboard';
+import { Accounts } from './pages/Accounts';
 import './App.css';
 
 function App() {
@@ -25,6 +26,16 @@ function App() {
             element={
               <ProtectedRoute>
                 <Dashboard />
+              </ProtectedRoute>
+            }
+          />
+
+          {/* Защищенный маршрут - accounts */}
+          <Route
+            path="/accounts"
+            element={
+              <ProtectedRoute>
+                <Accounts />
               </ProtectedRoute>
             }
           />
