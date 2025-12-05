@@ -165,32 +165,46 @@ export function Dashboard() {
         <h2>Основной функционал</h2>
 
         <div className="features-grid">
-          <div className="feature-card" onClick={() => {navigate('/accounts')}}>
+          <div 
+            className="feature-card clickable" 
+            onClick={() => navigate('/accounts')}
+          >
+            {/* <div className="feature-icon">🏦</div> */}
             <h3>Счета</h3>
-            <p>{user?.organizationId ? 'Просмотр банковских счетов вашей организации' : 'Демо‑просмотр отчетов'}</p>
+            <p>{user?.organizationId ? 'Просмотр банковских счетов вашей организации' : 'Демо‑просмотр счетов'}</p>
             {!user?.organizationId && <div className="disabled-overlay" />}
           </div>
 
-          <div className="feature-card">
+          <div 
+            className="feature-card clickable" 
+            onClick={() => navigate('/categories')}
+          >
+            {/* <div className="feature-icon">🗂️</div> */}
+            <h3>Статьи учета</h3>
+            <p>{user?.organizationId ? 'Управление поступлениями и расходами' : 'Демо‑режим категорий'}</p>
+            {!user?.organizationId && <div className="disabled-overlay" />}
+          </div>
+
+          {/* <div className="feature-card">
             <div className="feature-icon">👥</div>
             <h3>Сотрудники</h3>
             <p>{user?.organizationId ? 'Управление сотрудниками вашей организации' : 'Демо‑режим управления сотрудниками'}</p>
             {!user?.organizationId && <div className="disabled-overlay" />}
-          </div>
+          </div> */}
 
-          <div className="feature-card">
+          {/* <div className="feature-card">
             <div className="feature-icon">💰</div>
             <h3>Финансы</h3>
             <p>{user?.organizationId ? 'Учет реальных доходов и расходов' : 'Демо‑учет доходов и расходов'}</p>
             {!user?.organizationId && <div className="disabled-overlay" />}
-          </div>
+          </div> */}
 
-          <div className="feature-card">
+          {/* <div className="feature-card">
             <div className="feature-icon">⚙️</div>
             <h3>Настройки</h3>
             <p>{user?.organizationId ? 'Настройка параметров организации' : 'Демо‑настройки (реальные будут после создания организации)'}</p>
             {!user?.organizationId && <div className="disabled-overlay" />}
-          </div>
+          </div> */}
         </div>
       </div>
 
