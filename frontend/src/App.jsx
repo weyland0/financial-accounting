@@ -5,6 +5,7 @@ import { Login } from './pages/Login';
 import { Register } from './pages/Register';
 import { Dashboard } from './pages/Dashboard';
 import { Accounts } from './pages/Accounts';
+import { Categories } from './pages/Categories';
 import './App.css';
 
 function App() {
@@ -36,6 +37,16 @@ function App() {
             element={
               <ProtectedRoute>
                 <Accounts />
+              </ProtectedRoute>
+            }
+          />
+
+          {/* Защищенный маршрут - categories */}
+          <Route
+            path="/categories"
+            element={
+              <ProtectedRoute>
+                <Categories />
               </ProtectedRoute>
             }
           />
