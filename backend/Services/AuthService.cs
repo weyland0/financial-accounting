@@ -11,6 +11,7 @@ public interface IAuthService
 {
     Task<Result<AuthResponse>> Login(LoginRequest request);
     Task<Result<AuthResponse>> Register(RegisterRequest request);
+    Task<Result<AuthResponse>> RefreshToken(string refreshToken);
 }
 
 
@@ -53,7 +54,7 @@ public class AuthService : IAuthService
 
         // Генерируем и создаем всю нужную информацию для ответа
         var accessToken = _jwtTokenService.GenerateAccessToken(user);
-        var refreshToken = _jwtTokenService.GenerateRefreshToken();
+        var refreshToken = _jwtTokenService.GenerateRefreshToken(user);
         var userDto = new UserDto
         {
             Id = user.Id,
@@ -105,7 +106,7 @@ public class AuthService : IAuthService
 
         // Генерируем и создаем всю нужную информацию для ответа
         var accessToken = _jwtTokenService.GenerateAccessToken(user);
-        var refreshToken = _jwtTokenService.GenerateRefreshToken();
+        var refreshToken = _jwtTokenService.GenerateRefreshToken(user);
         var userDto = new UserDto
         {
             Id = user.Id,
@@ -119,6 +120,45 @@ public class AuthService : IAuthService
         {
             Token = accessToken,
             RefreshToken = refreshToken,
+            UserDto = userDto
+        };
+
+        return Result<AuthResponse>.Success(response);
+    }
+
+    public async Task<Result<AuthResponse>> RefreshToken(string refreshToken)
+    {
+        // Валидируем refresh token и получаем userId
+        var userId = _jwtTokenService.ValidateRefreshToken(refreshToken);
+        
+        if (userId == null)
+        {
+            return Result<AuthResponse>.Failure("Недействительный refresh token", 401);
+        }
+
+        // Находим пользователя в БД
+        var user = await _context.Users.FindAsync(userId.Value);
+        if (user == null)
+        {
+            return Result<AuthResponse>.Failure("Пользователь не найден", 404);
+        }
+
+        // Генерируем новые токены
+        var accessToken = _jwtTokenService.GenerateAccessToken(user);
+        var newRefreshToken = _jwtTokenService.GenerateRefreshToken(user);
+        var userDto = new UserDto
+        {
+            Id = user.Id,
+            Email = user.Email,
+            FullName = user.FullName,
+            RoleId = user.RoleId,
+            OrganizationId = user.OrganizationId
+        };
+
+        var response = new AuthResponse
+        {
+            Token = accessToken,
+            RefreshToken = newRefreshToken,
             UserDto = userDto
         };
 
