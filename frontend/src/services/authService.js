@@ -1,6 +1,4 @@
-import axios from "axios";
-
-const API_BASE_URL = "http://localhost:5034";
+import api from './api';
 
 /**
  * Вход пользователя
@@ -10,16 +8,7 @@ const API_BASE_URL = "http://localhost:5034";
  */
 export async function login(userData) {
   try {
-    const response = await axios.post(
-      `${API_BASE_URL}/auth/login`,
-      userData,
-      {
-        headers: {
-          "Content-Type": "application/json",
-        },
-      }
-    );
-
+    const response = await api.post('/auth/login', userData);
     return response.data;
   } catch (error) {
     
@@ -41,16 +30,7 @@ export async function login(userData) {
  */
 export async function register(userData) {
   try {
-    const response = await axios.post(
-      `${API_BASE_URL}/auth/register`,
-      userData,
-      {
-        headers: {
-          "Content-Type": "application/json",
-        },
-      }
-    );
-
+    const response = await api.post('/auth/register', userData);
     return response.data;
   } catch (error) {
     console.error(error);

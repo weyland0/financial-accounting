@@ -1,20 +1,8 @@
-import axios from "axios";
-
-const API_BASE_URL = "http://localhost:5034";
+import api from './api';
 
 export async function createAccount(accountData, token) {
   try {
-    const response = await axios.post(
-      `${API_BASE_URL}/account/create`,
-      accountData,
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-          "Content-Type": "application/json",
-        },
-      }
-    );
-
+    const response = await api.post('/account/create', accountData);
     return response.data;
   } catch (error) {
     const errorMessage =
@@ -29,12 +17,7 @@ export async function createAccount(accountData, token) {
 
 export async function getAccount(id, token) {
   try {
-    const response = await axios.get(`${API_BASE_URL}/account/${id}`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
-
+    const response = await api.get(`/account/${id}`);
     return response.data;
   } catch (error) {
     const errorMessage =
@@ -49,12 +32,7 @@ export async function getAccount(id, token) {
 
 export async function getAllAccountsByOrganization(orgId, token) {
   try {
-    const response = await axios.get(`${API_BASE_URL}/account/get-by-organization/${orgId}`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
-
+    const response = await api.get(`/account/get-by-organization/${orgId}`);
     return response.data;
   } catch (error) {
     const errorMessage =
