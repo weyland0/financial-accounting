@@ -69,7 +69,7 @@ public class CategoryService : ICategoryService
     {
         return new CategoryResponse
         {
-            CategoryId = category.CategoryId,
+            Id = category.Id,
             Name = category.Name,
             CategoryType = category.CategoryType,
             ActivityType = category.ActivityType,

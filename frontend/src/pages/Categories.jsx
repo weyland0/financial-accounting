@@ -40,7 +40,7 @@ export function Categories() {
     const roots = [];
 
     items.forEach(item => {
-      map.set(item.categoryId, { ...item, children: [] });
+      map.set(item.id, { ...item, children: [] });
     });
 
     map.forEach(item => {
@@ -63,7 +63,7 @@ export function Categories() {
   const renderRows = (nodes, level = 0) => {
     return nodes.flatMap(node => ([
       (
-        <tr key={node.categoryId}>
+        <tr key={node.id}>
           <td>
             <div
               className="category-name-cell"
