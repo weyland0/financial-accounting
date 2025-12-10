@@ -95,6 +95,10 @@
   line-height: 1.5;
 }
 
+.detail-row .value.balance {
+  font-weight: 600;
+}
+
 .description-row .value {
   color: #495057;
   font-style: italic;

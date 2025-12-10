@@ -37,6 +37,13 @@ export function AccountCard({ account }) {
       </div>
       
       <div className="account-details">
+        <div className="detail-row">
+          <span className="label">Баланс:</span>
+          <span className="value balance">
+            {account.balance !== undefined ? account.balance.toFixed(2) : '—'} {account.currency || ''}
+          </span>
+        </div>
+
         {account.currency && (
           <div className="detail-row">
             <span className="label">Валюта:</span>
