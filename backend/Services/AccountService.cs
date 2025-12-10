@@ -45,19 +45,7 @@ public class AccountService : IAccountService
         await _context.SaveChangesAsync();
 
         // Возвращаем ответ
-        var response = new AccountResponse
-        {
-            Id = account.Id,
-            OrganizationId = account.OrganizationId,
-            Name = account.Name,
-            AccountType = account.AccountType,
-            AccountNumber = account.AccountNumber,
-            IsActive = account.IsActive,
-            CreatedAt = account.CreatedAt,
-            UpdatedAt = account.UpdatedAt,
-            Description = account.Description,
-            Currency = account.Currency
-        };
+        var response = await MapWithBalance(account);
 
         return Result<AccountResponse>.Success(response);
     }
@@ -70,20 +58,7 @@ public class AccountService : IAccountService
             return Result<AccountResponse>.Failure("Счет не найден", 404);
         }
 
-        // Возвращаем ответ
-        var response = new AccountResponse
-        {
-            Id = account.Id,
-            OrganizationId = account.OrganizationId,
-            Name = account.Name,
-            AccountType = account.AccountType,
-            AccountNumber = account.AccountNumber,
-            IsActive = account.IsActive,
-            CreatedAt = account.CreatedAt,
-            UpdatedAt = account.UpdatedAt,
-            Description = account.Description,
-            Currency = account.Currency
-        };
+        var response = await MapWithBalance(account);
 
         return Result<AccountResponse>.Success(response);
     }
@@ -103,23 +78,41 @@ public class AccountService : IAccountService
             return Result<List<AccountResponse>>.Failure("Счета не найдены", 404);
         }
 
-        List<AccountResponse> responses = [];
+        var responses = new List<AccountResponse>();
         foreach (var account in accounts)
         {
-            responses.Add(new AccountResponse {
-                Id = account.Id,
-                OrganizationId = account.OrganizationId,
-                Name = account.Name,
-                AccountType = account.AccountType,
-                AccountNumber = account.AccountNumber,
-                IsActive = account.IsActive,
-                CreatedAt = account.CreatedAt,
-                UpdatedAt = account.UpdatedAt,
-                Description = account.Description,
-                Currency = account.Currency
-            });
+            responses.Add(await MapWithBalance(account));
         }
 
         return Result<List<AccountResponse>>.Success(responses);
+    }
+
+    private async Task<AccountResponse> MapWithBalance(Account account)
+    {
+        // Считаем баланс как сумма INCOME - EXPENSE по счету
+        var incomes = await _context.Transactions
+            .Where(tr => tr.AccountId == account.Id && tr.TransactionType == "INCOME")
+            .SumAsync(tr => (decimal?)tr.Amount) ?? 0m;
+
+        var expenses = await _context.Transactions
+            .Where(t => t.AccountId == account.Id && t.TransactionType == "EXPENSE")
+            .SumAsync(t => (decimal?)t.Amount) ?? 0m;
+
+        var balance = incomes - expenses;
+
+        return new AccountResponse
+        {
+            Id = account.Id,
+            OrganizationId = account.OrganizationId,
+            Name = account.Name,
+            AccountType = account.AccountType,
+            AccountNumber = account.AccountNumber,
+            IsActive = account.IsActive,
+            CreatedAt = account.CreatedAt,
+            UpdatedAt = account.UpdatedAt,
+            Description = account.Description,
+            Currency = account.Currency,
+            Balance = balance
+        };
     }
 }
