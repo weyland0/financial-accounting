@@ -13,4 +13,5 @@ public class AccountResponse
     public DateTime? UpdatedAt { get; set; } = null;
     public string? Description { get; set; } = null;
     public string? Currency { get; set; } = null;
+    public decimal Balance { get; set; } = 0m;
 }
