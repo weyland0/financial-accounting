@@ -169,7 +169,6 @@ export function Dashboard() {
             className="feature-card clickable" 
             onClick={() => navigate('/accounts')}
           >
-            {/* <div className="feature-icon">🏦</div> */}
             <h3>Счета</h3>
             <p>{user?.organizationId ? 'Просмотр банковских счетов вашей организации' : 'Демо‑просмотр счетов'}</p>
             {!user?.organizationId && <div className="disabled-overlay" />}
@@ -177,9 +176,17 @@ export function Dashboard() {
 
           <div 
             className="feature-card clickable" 
+            onClick={() => navigate('/transactions')}
+          >
+            <h3>Операции</h3>
+            <p>{user?.organizationId ? 'Доходы и расходы, поиск и фильтры' : 'Демо‑режим операций'}</p>
+            {!user?.organizationId && <div className="disabled-overlay" />}
+          </div>
+
+          <div 
+            className="feature-card clickable" 
             onClick={() => navigate('/categories')}
           >
-            {/* <div className="feature-icon">🗂️</div> */}
             <h3>Статьи учета</h3>
             <p>{user?.organizationId ? 'Управление поступлениями и расходами' : 'Демо‑режим категорий'}</p>
             {!user?.organizationId && <div className="disabled-overlay" />}
