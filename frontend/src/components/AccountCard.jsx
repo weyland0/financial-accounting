@@ -1,22 +1,10 @@
+import { accountTypeLabels, accountTypeColors, currencies } from '../../config/enums';
 import '../styles/AccountCard.css';
 
-const accountTypeLabels = {
-  cash: { label: 'Наличные', color: '#2f8f3f' },
-  currency: { label: 'Валютный счет', color: '#0ca678' },
-  payment: { label: 'Расчетный счет', color: '#1976d2' },
-  individual: { label: 'Индивидуальный счет', color: '#d63384' }
-};
-
-const currencyLabels = {
-  RUB: 'RUB',
-  USD: 'USD',
-  EUR: 'EUR'
-};
-
 export function AccountCard({ account }) {
-  const typeInfo = accountTypeLabels[account.accountType] || { 
-    label: account.accountType, 
-    color: '#6c757d' 
+  const typeInfo = {
+    label: accountTypeLabels[account.accountType] ?? account.accountType,
+    color: accountTypeColors[account.accountType] ?? '#6c757d'
   };
 
   return (
@@ -48,7 +36,7 @@ export function AccountCard({ account }) {
           <div className="detail-row">
             <span className="label">Валюта:</span>
             <span className="value">
-              {currencyLabels[account.currency] || account.currency}
+              {currencies[account.currency] || account.currency}
             </span>
           </div>
         )}
