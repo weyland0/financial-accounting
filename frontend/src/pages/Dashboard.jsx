@@ -40,7 +40,7 @@ export function Dashboard() {
         try {
           // После рефакторинга: response содержит чистый DTO (OrganizationResponse)
           const response = await getOrganization(user.organizationId, token);
-          setOrganization({
+            setOrganization({
             name: response.name,
             legalEnityName: response.legalEnityName,
             registrationNumber: response.registrationNumber,
@@ -48,7 +48,7 @@ export function Dashboard() {
             fullAddress: response.fullAddress,
             email: response.email,
             phone: response.phone,
-          });
+            });
         } catch (e) {
           console.error('Ошибка при загрузке организации:', e.message);
         }
@@ -189,6 +189,15 @@ export function Dashboard() {
           >
             <h3>Статьи учета</h3>
             <p>{user?.organizationId ? 'Управление поступлениями и расходами' : 'Демо‑режим категорий'}</p>
+            {!user?.organizationId && <div className="disabled-overlay" />}
+          </div>
+
+          <div 
+            className="feature-card clickable" 
+            onClick={() => navigate('/counterparties')}
+          >
+            <h3>Клиенты/Партнеры</h3>
+            <p>{user?.organizationId ? 'Справочник контрагентов' : 'Демо‑режим контрагентов'}</p>
             {!user?.organizationId && <div className="disabled-overlay" />}
           </div>
 
