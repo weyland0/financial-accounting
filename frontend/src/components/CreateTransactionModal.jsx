@@ -9,6 +9,7 @@ export function CreateTransactionModal({
   transactionType = 'INCOME',
   accounts = [],
   categories = [],
+  counterparties = [],
   organizationId
 }) {
   const [formData, setFormData] = useState({
@@ -309,16 +310,21 @@ export function CreateTransactionModal({
 
               <div className="form-group">
                 <label htmlFor="counterparty">Контрагент</label>
-                <input
+                <select
                   id="counterparty"
-                  type="text"
                   name="counterparty"
                   value={formData.counterparty}
                   onChange={handleChange}
                   disabled={loading}
-                  maxLength="255"
-                  placeholder="Например: ООО «Поставщик»"
-                />
+                  className="form-select"
+                >
+                  <option value="">Без контрагента</option>
+                  {counterparties.map(cp => (
+                    <option key={cp.id} value={cp.name}>
+                      {cp.name}
+                    </option>
+                  ))}
+                </select>
               </div>
 
               <div className="form-group">

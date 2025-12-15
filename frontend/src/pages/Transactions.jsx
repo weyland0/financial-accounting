@@ -3,6 +3,7 @@ import { useAuth } from '../context/AuthContext';
 import { getTransactionsByOrganization } from '../services/transactionService';
 import { getAllAccountsByOrganization } from '../services/accountService';
 import { getCategoriesByOrganization } from '../services/categoryService';
+import { getCounterpartiesByOrganization } from '../services/counterpartyService';
 import { CreateTransactionModal } from '../components/CreateTransactionModal';
 import '../styles/Transactions.css';
 
@@ -11,6 +12,7 @@ export function Transactions() {
   const [transactions, setTransactions] = useState([]);
   const [accounts, setAccounts] = useState([]);
   const [categories, setCategories] = useState([]);
+  const [counterparties, setCounterparties] = useState([]);
   const [error, setError] = useState(null);
   const [filterType, setFilterType] = useState('ALL');
   const [search, setSearch] = useState('');
@@ -28,14 +30,16 @@ export function Transactions() {
         return;
       try {
         setError(null);
-        const [txs, accs, cats] = await Promise.all([
+          const [txs, accs, cats, cps] = await Promise.all([
           getTransactionsByOrganization(user.organizationId),
           getAllAccountsByOrganization(user.organizationId),
-          getCategoriesByOrganization(user.organizationId)
+          getCategoriesByOrganization(user.organizationId),
+          getCounterpartiesByOrganization(user.organizationId)
         ]);
         setTransactions(txs);
         setAccounts(accs);
         setCategories(cats);
+        setCounterparties(cps);
       } catch (err) {
         setError(err.message || 'Ошибка загрузки данных');
       }
@@ -207,6 +211,7 @@ export function Transactions() {
         transactionType="INCOME"
         accounts={accounts}
         categories={categories}
+        counterparties={counterparties}
         organizationId={user?.organizationId}
       />
       <CreateTransactionModal
@@ -216,6 +221,7 @@ export function Transactions() {
         transactionType="EXPENSE"
         accounts={accounts}
         categories={categories}
+        counterparties={counterparties}
         organizationId={user?.organizationId}
       />
     </div>
