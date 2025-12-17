@@ -12,6 +12,7 @@ public class ApplicationDbContext : DbContext
     public DbSet<Categories> Categories { get; set; }
     public DbSet<Transaction> Transactions { get; set; }
     public DbSet<Counterparty> Counterparties { get; set; }
+    public DbSet<Invoice> Invoices { get; set; }
 
 
     public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
