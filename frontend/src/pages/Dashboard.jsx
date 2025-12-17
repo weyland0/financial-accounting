@@ -201,6 +201,15 @@ export function Dashboard() {
             {!user?.organizationId && <div className="disabled-overlay" />}
           </div>
 
+          <div 
+            className="feature-card clickable" 
+            onClick={() => navigate('/invoices')}
+          >
+            <h3>Счета на оплату</h3>
+            <p>{user?.organizationId ? 'Обазательва вашей компании' : 'Демо‑режим просмотра счетов на оплату'}</p>
+            {!user?.organizationId && <div className="disabled-overlay" />}
+          </div>
+
           {/* <div className="feature-card">
             <div className="feature-icon">👥</div>
             <h3>Сотрудники</h3>
