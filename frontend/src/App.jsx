@@ -8,6 +8,7 @@ import { Accounts } from './pages/Accounts';
 import { Categories } from './pages/Categories';
 import { Transactions } from './pages/Transactions';
 import { Counterparties } from './pages/Counterparties';
+import { Invoices } from './pages/Invoices';
 import './App.css';
 
 function App() {
@@ -59,6 +60,16 @@ function App() {
             element={
               <ProtectedRoute>
                 <Transactions />
+              </ProtectedRoute>
+            }
+          />
+
+          {/* Защищенный маршрут - invoices */}
+          <Route
+            path="/invoices"
+            element={
+              <ProtectedRoute>
+                <Invoices />
               </ProtectedRoute>
             }
           />
