@@ -8,6 +8,7 @@ namespace finacc.Services;
 public interface ICounterpartyService
 {
     Task<Result<CounterpartyResponse>> Create(CounterpartyRequest request);
+    Task<Result<CounterpartyResponse>> Update(int id, CounterpartyRequest request);
     Task<Result<List<CounterpartyResponse>>> GetAllByOrganization(int organizationId);
 }
 
@@ -61,6 +62,34 @@ public class CounterpartyService : ICounterpartyService
 
         var responses = items.Select(Map).ToList();
         return Result<List<CounterpartyResponse>>.Success(responses);
+    }
+
+    public async Task<Result<CounterpartyResponse>> Update(int id, CounterpartyRequest request)
+    {
+        // проверка существует ли организация
+        // var orgExists = await _context.Organizations.AnyAsync(o => o.Id == request.OrganizationId);
+        // if (!orgExists)
+        // {
+        //     return Result<CounterpartyResponse>.Failure("Организация не найдена", 404);
+        // }
+
+        // получить контрагента
+        var counterparty = await _context.Counterparties.FirstOrDefaultAsync(crp => crp.Id == id && crp.OrganizationId == request.OrganizationId);
+        if (counterparty is null)
+        {
+           return Result<CounterpartyResponse>.Failure("Не удалось найти контрагента в вашей организации", 404); 
+        }
+
+        counterparty.Name = request.Name ?? counterparty.Name;
+        counterparty.Type = request.Type ?? counterparty.Type;
+        counterparty.Category = request.Category ?? counterparty.Category;
+        counterparty.Phone = request.Phone ?? counterparty.Phone;
+        counterparty.Email = request.Email ?? counterparty.Email;
+        counterparty.UpdatedAt = DateTime.UtcNow;
+
+        await _context.SaveChangesAsync();
+
+        return Result<CounterpartyResponse>.Success(Map(counterparty));
     }
 
     private CounterpartyResponse Map(Counterparty c) => new()

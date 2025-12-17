@@ -29,10 +29,17 @@ public class CounterpartyController : ControllerBase
         return result.ToActionResult();
     }
 
-    [HttpGet("organization/{orgId}")]
-    public async Task<IActionResult> GetAll(int orgId)
+    [HttpGet("get-by-organization/{orgId}")]
+    public async Task<IActionResult> GetAllByOrganization(int orgId)
     {
         var result = await _counterpartyService.GetAllByOrganization(orgId);
+        return result.ToActionResult();
+    }
+
+    [HttpPost("update/{id}")]
+    public async Task<IActionResult> Update(int id, [FromBody] CounterpartyRequest request)
+    {
+        var result = await _counterpartyService.Update(id, request);
         return result.ToActionResult();
     }
 }
