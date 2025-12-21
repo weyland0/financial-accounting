@@ -1,7 +1,7 @@
 import { useMemo, useState } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { createCategory } from '../services/categoryService';
-import { activityTypeLabels, activityTypeValues } from '../../config/enums';
+import { activityTypeLabels, activityTypeValues } from '../config/enums';
 import '../styles/CreateCategoryModal.css';
 
 export function CreateCategoryModal({ isOpen, onClose, onCategoryCreated, categories = [] }) {

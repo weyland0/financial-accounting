@@ -1,4 +1,4 @@
-import { accountTypeLabels, accountTypeColors, currencies } from '../../config/enums';
+import { accountTypeLabels, accountTypeColors, currencies } from '../config/enums';
 import '../styles/AccountCard.css';
 
 export function AccountCard({ account }) {
