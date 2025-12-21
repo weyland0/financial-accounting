@@ -210,6 +210,15 @@ export function Dashboard() {
             {!user?.organizationId && <div className="disabled-overlay" />}
           </div>
 
+          <div 
+            className="feature-card clickable" 
+            onClick={() => navigate('/reports/pnl')}
+          >
+            <h3>P&amp;L (Прибыли и убытки)</h3>
+            <p>{user?.organizationId ? 'Отчёт о прибылях и убытках по периодам' : 'Демо‑режим отчётов'}</p>
+            {!user?.organizationId && <div className="disabled-overlay" />}
+          </div>
+          
           {/* <div className="feature-card">
             <div className="feature-icon">👥</div>
             <h3>Сотрудники</h3>

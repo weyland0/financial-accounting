@@ -9,6 +9,7 @@ import { Categories } from './pages/Categories';
 import { Transactions } from './pages/Transactions';
 import { Counterparties } from './pages/Counterparties';
 import { Invoices } from './pages/Invoices';
+import { ProfitAndLoss } from './pages/ProfitAndLoss';
 import './App.css';
 
 function App() {
@@ -70,6 +71,16 @@ function App() {
             element={
               <ProtectedRoute>
                 <Invoices />
+              </ProtectedRoute>
+            }
+          />
+
+          {/* Защищенный маршрут - reports pnl */}
+          <Route
+            path="/reports/pnl"
+            element={
+              <ProtectedRoute>
+                <ProfitAndLoss />
               </ProtectedRoute>
             }
           />
