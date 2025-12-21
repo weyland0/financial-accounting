@@ -1,6 +1,7 @@
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { AuthProvider } from './context/AuthContext';
 import { ProtectedRoute } from './components/ProtectedRoute';
+import { Layout } from './components/Layout';
 import { Login } from './pages/Login';
 import { Register } from './pages/Register';
 import { Dashboard } from './pages/Dashboard';
@@ -31,7 +32,9 @@ function App() {
             path="/dashboard"
             element={
               <ProtectedRoute>
-                <Dashboard />
+                <Layout>
+                  <Dashboard />
+                </Layout>
               </ProtectedRoute>
             }
           />
@@ -41,7 +44,9 @@ function App() {
             path="/accounts"
             element={
               <ProtectedRoute>
-                <Accounts />
+                <Layout>
+                  <Accounts />
+                </Layout>
               </ProtectedRoute>
             }
           />
@@ -51,7 +56,9 @@ function App() {
             path="/categories"
             element={
               <ProtectedRoute>
-                <Categories />
+                <Layout>
+                  <Categories />
+                </Layout>
               </ProtectedRoute>
             }
           />
@@ -61,7 +68,9 @@ function App() {
             path="/transactions"
             element={
               <ProtectedRoute>
-                <Transactions />
+                <Layout>
+                  <Transactions />
+                </Layout>
               </ProtectedRoute>
             }
           />
@@ -71,7 +80,9 @@ function App() {
             path="/invoices"
             element={
               <ProtectedRoute>
-                <Invoices />
+                <Layout>
+                  <Invoices />
+                </Layout>
               </ProtectedRoute>
             }
           />
@@ -81,7 +92,9 @@ function App() {
             path="/reports/pnl"
             element={
               <ProtectedRoute>
-                <ProfitAndLoss />
+                <Layout>
+                  <ProfitAndLoss />
+                </Layout>
               </ProtectedRoute>
             }
           />
@@ -91,7 +104,9 @@ function App() {
             path="/reports/cashflow"
             element={
               <ProtectedRoute>
-                <CashFlow />
+                <Layout>
+                  <CashFlow />
+                </Layout>
               </ProtectedRoute>
             }
           />
@@ -101,7 +116,9 @@ function App() {
             path="/counterparties"
             element={
               <ProtectedRoute>
-                <Counterparties />
+                <Layout>
+                  <Counterparties />
+                </Layout>
               </ProtectedRoute>
             }
           />
