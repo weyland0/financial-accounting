@@ -9,7 +9,7 @@ export function Dashboard() {
 
   const navigate = useNavigate();
 
-  const { user, loading, token, logout } = useAuth();
+  const { user, loading, token } = useAuth();
   const [showModal, setShowModal] = useState(false);
 
   // Демо-данные организации, если пользователь еще не состоит ни в одной
@@ -250,8 +250,6 @@ export function Dashboard() {
           </div> */}
         </div>
       </div>
-
-      <button onClick={logout}>Выход</button>
 
       {/* Модальное окно */}
       <CreateOrganizationModal 
