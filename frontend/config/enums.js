@@ -28,3 +28,24 @@ export const categoryTypeLabels = {
     income: 'Доход',
     expense: 'Расход'
 }
+
+// Предопределенные значения для Category.ActivityType (используется в отчетах)
+export const activityTypeValues = {
+    operating: 'OPERATING',
+    cogs: 'COGS',
+    administrative: 'ADMINISTRATIVE',
+    marketing: 'MARKETING',
+    financial: 'FINANCIAL',
+    investing: 'INVESTING',
+    other: 'OTHER'
+}
+
+export const activityTypeLabels = {
+    operating: 'Операционная',
+    cogs: 'Себестоимость (COGS)',
+    administrative: 'Административная',
+    marketing: 'Маркетинг',
+    financial: 'Финансовая',
+    investing: 'Инвестиционная',
+    other: 'Прочее'
+}

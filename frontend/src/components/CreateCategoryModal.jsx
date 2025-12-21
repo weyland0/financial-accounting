@@ -1,6 +1,7 @@
 import { useMemo, useState } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { createCategory } from '../services/categoryService';
+import { activityTypeLabels, activityTypeValues } from '../../config/enums';
 import '../styles/CreateCategoryModal.css';
 
 export function CreateCategoryModal({ isOpen, onClose, onCategoryCreated, categories = [] }) {
@@ -22,6 +23,16 @@ export function CreateCategoryModal({ isOpen, onClose, onCategoryCreated, catego
   const categoryTypeOptions = [
     { value: 'INCOME', label: 'Доход' },
     { value: 'EXPENSE', label: 'Расход' }
+  ];
+
+  const activityTypeOptions = [
+    { value: activityTypeValues.operating, label: activityTypeLabels.operating },
+    { value: activityTypeValues.cogs, label: activityTypeLabels.cogs },
+    { value: activityTypeValues.administrative, label: activityTypeLabels.administrative },
+    { value: activityTypeValues.marketing, label: activityTypeLabels.marketing },
+    { value: activityTypeValues.financial, label: activityTypeLabels.financial },
+    { value: activityTypeValues.investing, label: activityTypeLabels.investing },
+    { value: activityTypeValues.other, label: activityTypeLabels.other }
   ];
 
   const parentOptions = useMemo(() => {
@@ -188,18 +199,23 @@ export function CreateCategoryModal({ isOpen, onClose, onCategoryCreated, catego
                 <label htmlFor="activityType">
                   Вид деятельности <span className="required">*</span>
                 </label>
-                <input
+                <select
                   id="activityType"
-                  type="text"
                   name="activityType"
                   value={formData.activityType}
                   onChange={handleChange}
-                  placeholder="Например: Операционная"
                   disabled={loading}
                   required
-                  maxLength="255"
-                />
-                <small>Например, операционная, инвестиционная и т.д.</small>
+                  className="form-select"
+                >
+                  <option value="">Выберите вид деятельности</option>
+                  {activityTypeOptions.map(opt => (
+                    <option key={opt.value} value={opt.value}>
+                      {opt.label}
+                    </option>
+                  ))}
+                </select>
+                <small>Используется в отчетности (P&amp;L)</small>
               </div>
 
               <div className="form-group">
