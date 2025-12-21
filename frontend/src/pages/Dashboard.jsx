@@ -218,6 +218,15 @@ export function Dashboard() {
             <p>{user?.organizationId ? 'Отчёт о прибылях и убытках по периодам' : 'Демо‑режим отчётов'}</p>
             {!user?.organizationId && <div className="disabled-overlay" />}
           </div>
+
+          <div 
+            className="feature-card clickable" 
+            onClick={() => navigate('/reports/cashflow')}
+          >
+            <h3>Cash Flow (Движение денежных средств)</h3>
+            <p>{user?.organizationId ? 'Отчёт о движении денежных средств по периодам' : 'Демо‑режим отчётов'}</p>
+            {!user?.organizationId && <div className="disabled-overlay" />}
+          </div>
           
           {/* <div className="feature-card">
             <div className="feature-icon">👥</div>

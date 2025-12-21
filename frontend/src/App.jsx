@@ -10,6 +10,7 @@ import { Transactions } from './pages/Transactions';
 import { Counterparties } from './pages/Counterparties';
 import { Invoices } from './pages/Invoices';
 import { ProfitAndLoss } from './pages/ProfitAndLoss';
+import { CashFlow } from './pages/CashFlow';
 import './App.css';
 
 function App() {
@@ -81,6 +82,16 @@ function App() {
             element={
               <ProtectedRoute>
                 <ProfitAndLoss />
+              </ProtectedRoute>
+            }
+          />
+
+          {/* Защищенный маршрут - reports cashflow */}
+          <Route
+            path="/reports/cashflow"
+            element={
+              <ProtectedRoute>
+                <CashFlow />
               </ProtectedRoute>
             }
           />
