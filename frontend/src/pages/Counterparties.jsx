@@ -2,6 +2,7 @@ import { useEffect, useMemo, useState } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { getCounterpartiesByOrganization } from '../services/counterpartyService';
 import { CreateCounterpartyModal } from '../components/CreateCounterpartyModal';
+import { UpdateCounterpartyModal } from '../components/UpdateCounterpartyModal';
 import '../styles/Counterparties.css';
 
 export function Counterparties() {
@@ -11,6 +12,9 @@ export function Counterparties() {
   const [search, setSearch] = useState('');
   const [typeFilter, setTypeFilter] = useState('ALL');
   const [modalOpen, setModalOpen] = useState(false);
+  const [updateModalOpen, setUpdateModalOpen] = useState(false);
+  const [currentCounterparty, setCurrentCounterparty] = useState(null);
+
 
   useEffect(() => {
     const load = async () => {
@@ -29,6 +33,14 @@ export function Counterparties() {
   const handleCreated = (cp) => {
     setCounterparties(prev => [...prev, cp].sort((a, b) => a.name.localeCompare(b.name)));
   };
+
+  const handleUpdated = (cp) => {
+    setCounterparties(prev =>
+      prev.map(item => item.id === cp.id ? cp : item)
+         .sort((a, b) => a.name.localeCompare(b.name))
+    );
+  };
+  
 
   const filtered = useMemo(() => {
     let list = [...counterparties];
@@ -110,6 +122,7 @@ export function Counterparties() {
               <th>Категория</th>
               <th>Телефон</th>
               <th>Email</th>
+              <th>Действия</th>
             </tr>
           </thead>
           <tbody>
@@ -124,6 +137,10 @@ export function Counterparties() {
                 <td>{cp.category || '—'}</td>
                 <td>{cp.phone || '—'}</td>
                 <td>{cp.email || '—'}</td>
+                <td> <button className="btn-updated-counterparty" onClick={ () => { 
+                  setCurrentCounterparty(cp); setUpdateModalOpen(true); 
+                  }}> </button>
+                </td>
               </tr>
             ))}
           </tbody>
@@ -135,6 +152,13 @@ export function Counterparties() {
         onClose={() => setModalOpen(false)}
         onCreated={handleCreated}
         organizationId={user.organizationId}
+      />
+
+      <UpdateCounterpartyModal
+        isOpen={updateModalOpen}
+        onClose={() => setUpdateModalOpen(false)}
+        onUpdated={handleUpdated}
+        oldFormData={currentCounterparty}
       />
     </div>
   );
