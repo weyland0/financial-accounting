@@ -49,3 +49,9 @@ export const activityTypeLabels = {
     investing: 'Инвестиционная',
     other: 'Прочее'
 }
+
+export const trasnactionStatusLabels = [
+    { value: 'paid', label: 'Оплачен' },
+    { value: 'unpaid', label: 'Не оплачен' },
+    { value: 'partiallyPaid', label: 'Оплачен частично' }
+]

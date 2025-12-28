@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from 'react';
 import { createTransaction } from '../services/transactionService';
+import { trasnactionStatusLabels } from '../config/enums';
 import '../styles/CreateTransactionModal.css';
 
 export function CreateTransactionModal({
@@ -329,16 +330,22 @@ export function CreateTransactionModal({
 
               <div className="form-group">
                 <label htmlFor="status">Статус</label>
-                <input
-                  id="status"
-                  type="text"
+                <select
+                  id="staus"
                   name="status"
                   value={formData.status}
                   onChange={handleChange}
                   disabled={loading}
-                  maxLength="100"
-                  placeholder="Например: Оплачено"
-                />
+                  className="form-select">
+
+                  <option value="">Выберите статус</option>
+                  {trasnactionStatusLabels.map(trsl => (
+                    <option key={trsl.value} value={trsl.label}>
+                      {trsl.label}
+                    </option>
+                  ))}
+
+                </select>
               </div>
 
               <div className="form-actions">
