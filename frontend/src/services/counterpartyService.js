@@ -30,7 +30,7 @@ export async function getCounterpartiesByOrganization(orgId) {
 
 export async function updateCounterparty(id, data) {
   try {
-    const response = await api.post(`/counterparty/update/${orgId}`, data);
+    const response = await api.put(`/counterparty/update/${id}`, data);
     return response.data;
   } catch (error) {
     const errorMessage =
