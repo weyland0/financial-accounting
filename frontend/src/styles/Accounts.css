@@ -102,31 +102,19 @@
   flex-shrink: 0;
 }
 
-.accounts-empty-state {
-  background: white;
-  padding: 60px 40px;
-  border-radius: 8px;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
-  border: 1px solid #e9ecef;
-  text-align: center;
+.accounts-empty {
+  min-height: 60vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  color: #6c757d;
 }
 
 .empty-icon {
   font-size: 64px;
   margin-bottom: 16px;
-}
-
-.accounts-empty-state h2 {
-  margin: 0 0 8px 0;
-  font-size: 20px;
-  font-weight: 600;
-  color: #1a1a1a;
-}
-
-.accounts-empty-state p {
-  margin: 0 0 24px 0;
-  color: #6c757d;
-  font-size: 14px;
 }
 
 .btn-create-account-empty {

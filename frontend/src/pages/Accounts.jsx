@@ -48,9 +48,8 @@ export function Accounts() {
   if (!user?.organizationId) {
     return (
       <div className="accounts-container">
-        <div className="accounts-empty-state">
-          <div className="empty-icon">📋</div>
-          <h2>Организация не создана</h2>
+        <div className="accounts-empty">
+          <h2>Организация не выбрана</h2>
           <p>Для работы со счетами необходимо создать организацию</p>
         </div>
       </div>

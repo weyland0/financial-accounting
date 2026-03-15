@@ -104,7 +104,6 @@ export function Categories() {
     return (
       <div className="categories-container">
         <div className="categories-empty-state">
-          <div className="empty-icon">🏢</div>
           <h2>Организация не выбрана</h2>
           <p>Создайте или выберите организацию чтобы управлять статьями учета.</p>
         </div>
