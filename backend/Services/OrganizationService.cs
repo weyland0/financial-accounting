@@ -116,6 +116,8 @@ public class OrganizationService : IOrganizationService
         // Обновляем поля
         org.Name = request.Name ?? org.Name;
         org.LegalEntityName = request.LegalEntityName ?? org.LegalEntityName;
+        org.RegistrationNumber = request.RegistrationNumber ?? org.RegistrationNumber;
+        org.TaxId = request.TaxId ?? org.TaxId;
         org.FullAddress = request.FullAddress ?? org.FullAddress;
         org.Email = request.Email ?? org.Email;
         org.Phone = request.Phone ?? org.Phone;
