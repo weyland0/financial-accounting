@@ -13,6 +13,7 @@ public class ApplicationDbContext : DbContext
     public DbSet<Transaction> Transactions { get; set; }
     public DbSet<Counterparty> Counterparties { get; set; }
     public DbSet<Invoice> Invoices { get; set; }
+    public DbSet<Invite> Invites { get; set; }
 
 
     public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
