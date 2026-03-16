@@ -14,6 +14,7 @@ export function Navigation({ onClose }) {
 
   const navItems = [
     { path: '/dashboard', label: 'Главная', icon: '' },
+    { path: '/organizationinfo', label: 'Ваша организация', icon: '' },
     { path: '/accounts', label: 'Счета', icon: '' },
     { path: '/transactions', label: 'Операции', icon: '' },
     { path: '/invoices', label: 'Счета на оплату', icon: '' },

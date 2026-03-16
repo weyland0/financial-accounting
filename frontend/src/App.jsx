@@ -12,6 +12,7 @@ import { Counterparties } from './pages/Counterparties';
 import { Invoices } from './pages/Invoices';
 import { ProfitAndLoss } from './pages/ProfitAndLoss';
 import { CashFlow } from './pages/CashFlow';
+import { OrganizationInfo } from './pages/OrganizationInfo'
 import './App.css';
 
 function App() {
@@ -118,6 +119,18 @@ function App() {
               <ProtectedRoute>
                 <Layout>
                   <Counterparties />
+                </Layout>
+              </ProtectedRoute>
+            }
+          />
+
+          {/* Защищенный маршрут - organizationinfo */}
+          <Route
+            path="/organizationinfo"
+            element={
+              <ProtectedRoute>
+                <Layout>
+                  <OrganizationInfo />
                 </Layout>
               </ProtectedRoute>
             }
