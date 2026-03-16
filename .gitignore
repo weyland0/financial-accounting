@@ -55,3 +55,4 @@ nunit-*.xml
 
 #other 
 *.DS_Store
+/learning
