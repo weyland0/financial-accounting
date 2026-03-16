@@ -14,6 +14,7 @@ public class ApplicationDbContext : DbContext
     public DbSet<Counterparty> Counterparties { get; set; }
     public DbSet<Invoice> Invoices { get; set; }
     public DbSet<Invite> Invites { get; set; }
+    public DbSet<Role> Roles { get; set; }
 
 
     public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
