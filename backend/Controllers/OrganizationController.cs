@@ -41,6 +41,13 @@ public class OrganizationController : ControllerBase
         return result.ToActionResult();
     }
 
+    [HttpPut("update/{id}")]
+    public async Task<IActionResult> Update(int id, OrganizationRequest request) 
+    {
+        var result = await _organizationService.Update(id, request);
+        return result.ToActionResult();
+    }
+
     [HttpGet("{id}")]
     public async Task<IActionResult> Get(int id)
     {
