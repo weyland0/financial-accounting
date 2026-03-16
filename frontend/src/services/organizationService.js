@@ -39,3 +39,16 @@ export async function getOrganization(id, token) {
     throw new Error(errorMessage);
   }
 }
+
+export async function updateOrganization(id, data) {
+  try {
+    const response = await api.put(`/organization/update/${id}`, data);
+    return response.data;
+  } catch (error) {
+    const errorMessage = error.response?.data?.detail || 
+                        error.response?.data?.title || 
+                        error.message || 
+                        'Ошибка при получении организации';
+    throw new Error(errorMessage);
+  }
+}
