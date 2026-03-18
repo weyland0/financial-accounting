@@ -13,6 +13,7 @@ import { Invoices } from './pages/Invoices';
 import { ProfitAndLoss } from './pages/ProfitAndLoss';
 import { CashFlow } from './pages/CashFlow';
 import { OrganizationInfo } from './pages/OrganizationInfo'
+import { Invite } from './pages/Invite'
 import './App.css';
 
 function App() {
@@ -131,6 +132,18 @@ function App() {
               <ProtectedRoute>
                 <Layout>
                   <OrganizationInfo />
+                </Layout>
+              </ProtectedRoute>
+            }
+          />
+
+          {/* Защищенный маршрут - organizationinfo */}
+          <Route
+            path="/invite/:invite_token"
+            element={
+              <ProtectedRoute>
+                <Layout>
+                  <Invite />
                 </Layout>
               </ProtectedRoute>
             }
