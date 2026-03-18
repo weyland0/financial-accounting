@@ -145,6 +145,15 @@ export const AuthProvider = ( { children } ) => {
     }
   };
 
+  const updateUserRole = (roleId) => {
+    if (user) {
+      // Создаем новый объект, чтобы корректно сработал ререндер
+      const updatedUser = { ...user, roleId };
+      setUser(updatedUser);
+      localStorage.setItem('user', JSON.stringify(updatedUser));
+    }
+  };
+
   // Возвращаем Provider с контекстом
   return (
     <AuthContext.Provider value={{
@@ -154,7 +163,7 @@ export const AuthProvider = ( { children } ) => {
       error, setError,
       login, register, logout,
       isAuthenticated: !!token && !loading,
-      updateUserOrganization
+      updateUserOrganization, updateUserRole
     }}>
       {children}
     </AuthContext.Provider>
