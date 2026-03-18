@@ -231,7 +231,12 @@ export function OrganizationInfo() {
             </div>
 
             <div className="employees-section">
-                <h2>Сотрудники организации</h2>
+                <div className="organization-header">
+                <h1>Сотрудники организации</h1>
+                <button onClick={handleInviteCreation} className="btn btn-primary">Добавить</button>
+                <p1>link: {inviteLink}</p1>
+            </div>
+
                 {loadingEmployees ? (
                     <p>Загрузка сотрудников...</p>
                 ) : employees.length === 0 ? (
