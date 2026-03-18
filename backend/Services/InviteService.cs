@@ -10,7 +10,8 @@ namespace finacc.Services;
 public interface IInviteService
 {
     Task<Result<InviteResponse>> Create(InviteRequest request);
-    Task<Result<InviteResponse>> Accept(string token, int userId);
+    Task<Result<InviteResponse>> Get(string invite_token);
+    Task<Result<InviteAcceptResponse>> Accept(string token, InviteAcceptRequest request);
 }
 
 
@@ -22,8 +23,8 @@ public class InviteService : IInviteService
     {
         _context = context;
     }
- 
-    public async Task<Result<InviteResponse>> Create(InviteRequest request) 
+
+    public async Task<Result<InviteResponse>> Create(InviteRequest request)
     {
         var organization = await _context.Organizations.FindAsync(request.OrganizationId);
         if (organization is null)
@@ -50,37 +51,87 @@ public class InviteService : IInviteService
         _context.Invites.Add(invite);
         await _context.SaveChangesAsync();
 
-        return Result<InviteResponse>.Success(InviteMapper.ToResponse(invite));
+        var response = new InviteResponse 
+        {
+            Id = invite.Id,
+            Token = invite.Token,
+            OrganizationName = organization.Name,
+            RoleName = role.Name,
+            IsRevoked = invite.IsRevoked,
+            CreatedAt = invite.CreatedAt
+        };
+
+        return Result<InviteResponse>.Success(response);
     }
 
-    public async Task<Result<InviteResponse>> Accept(string token, int userId)
+    public async Task<Result<InviteResponse>> Get(string invite_token)
     {
-        var user = await _context.Users.FindAsync(userId);
-        if (user is null) 
-        {
-            return Result<InviteResponse>.Failure("Ну удалось найти пользователя");
-        }
-
-        var invite = await _context.Invites.FirstOrDefaultAsync(inv => inv.Token.Equals(token));
+        var invite = await _context.Invites.FirstOrDefaultAsync(inv => inv.Token.Equals(invite_token));
         if (invite is null)
         {
             return Result<InviteResponse>.Failure("Ну удалось найти приглашение по данной ссылке");
         }
 
-        if (invite.IsRevoked) 
+        var organization = await _context.Organizations.FindAsync(invite.OrganizationId);
+        if (organization is null)
         {
-            return Result<InviteResponse>.Failure("Приглашение было отозвано");
+            return Result<InviteResponse>.Failure("Организация с таким ID не найдена");
+        }
+
+        var role = await _context.Roles.FindAsync(invite.RoleId);
+        if (role is null)
+        {
+            return Result<InviteResponse>.Failure("Роль с таким ID не найдена");
+        }
+
+        var response = new InviteResponse 
+        {
+            Id = invite.Id,
+            Token = invite.Token,
+            OrganizationName = organization.Name,
+            RoleName = role.Name,
+            IsRevoked = invite.IsRevoked,
+            CreatedAt = invite.CreatedAt
+        };
+
+        return Result<InviteResponse>.Success(response);
+    }
+
+    public async Task<Result<InviteAcceptResponse>> Accept(string token, InviteAcceptRequest request)
+    {
+        var user = await _context.Users.FindAsync(request.UserId);
+        if (user is null)
+        {
+            return Result<InviteAcceptResponse>.Failure("Ну удалось найти пользователя");
+        }
+
+        var invite = await _context.Invites.FirstOrDefaultAsync(inv => inv.Token.Equals(token));
+        if (invite is null)
+        {
+            return Result<InviteAcceptResponse>.Failure("Ну удалось найти приглашение по данной ссылке");
+        }
+
+        if (invite.IsRevoked)
+        {
+            return Result<InviteAcceptResponse>.Failure("Приглашение было отозвано");
         }
 
         if (DateTime.UtcNow > invite.ExpireTime)
         {
-            return Result<InviteResponse>.Failure("Срок приглашения истек");
+            return Result<InviteAcceptResponse>.Failure("Срок приглашения истек");
         }
 
         user.OrganizationId = invite.OrganizationId;
         user.RoleId = invite.RoleId;
         user.UpdatedAt = DateTime.UtcNow;
+        await _context.SaveChangesAsync();
 
-        return Result<InviteResponse>.Success(InviteMapper.ToResponse(invite));
+        var response = new InviteAcceptResponse
+        {
+            OrganizationId = invite.OrganizationId,
+            RoleId = invite.RoleId,
+        };
+
+        return Result<InviteAcceptResponse>.Success(response);
     }
 }
