@@ -7,21 +7,6 @@ using Microsoft.EntityFrameworkCore;
 
 namespace finacc.Services;
 
-public class InviteMapper 
-{
-    public static InviteResponse ToResponse(Invite model)
-    {
-        return new InviteResponse {
-            Id = model.Id,
-            Token = model.Token,
-            OrganizationId = model.OrganizationId,
-            RoleId = model.RoleId,
-            IsRevoked = model.IsRevoked,
-            CreatedAt = model.CreatedAt
-        };
-    }
-}
-
 public interface IInviteService
 {
     Task<Result<InviteResponse>> Create(InviteRequest request);
