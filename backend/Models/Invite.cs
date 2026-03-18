@@ -1,6 +1,5 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using Microsoft.EntityFrameworkCore.Storage.ValueConversion.Internal;
 
 namespace finacc.Models;
 
@@ -27,7 +26,7 @@ public class Invite
     [Column("is_revoked")]
     public bool IsRevoked { get; set; } = false;
 
-    [Column("expire_time")]
+    [Column("expires_at")]
     public DateTime ExpireTime { get; set; }
 
     [Column("created_at")]
