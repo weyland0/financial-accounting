@@ -33,9 +33,9 @@ public class InviteController : ControllerBase
     }
 
     [HttpPut("accept/{token}")]
-    public async Task<IActionResult> Accept(string token, int userId)
+    public async Task<IActionResult> Accept(string token, [FromBody] InviteAcceptRequest request)
     {
-        var result = await _service.Accept(token, userId);
+        var result = await _service.Accept(token, request);
         return result.ToActionResult();
     }
 }
