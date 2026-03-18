@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { getOrganization, updateOrganization } from '../services/organizationService';
 import { getUsersByOrganization } from '../services/userService';
+import { createInvite } from '../services/inviteService'
 import '../styles/OrganizationInfo.css';
 
 export function OrganizationInfo() {
@@ -21,6 +22,7 @@ export function OrganizationInfo() {
     const [employees, setEmployees] = useState([]);
     const [saving, setSaving] = useState(false);
     const [loadingEmployees, setLoadingEmployees] = useState(false);
+    const [inviteLink, setInviteLink] = useState('');
 
     // Загрузка организации
     useEffect(() => {
@@ -82,6 +84,21 @@ export function OrganizationInfo() {
             setSaving(false);
         }
     };
+
+    const handleInviteCreation = async () => {
+        const inviteRequest = {
+            organizationId: user.organizationId,
+            roleId: 2,
+            isRevoked: false
+        }
+
+        try {
+            const response = await createInvite(inviteRequest, token);
+            setInviteLink(`http://localhost:5173/invite/${response.token}`);
+        } catch (e) {
+            console.error('Ошибка при создании ссылки на приглашение: ', e.message);
+        }
+    }
 
     if (loading) {
         return (
