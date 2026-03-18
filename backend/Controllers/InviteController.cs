@@ -5,7 +5,6 @@ using finacc.DTOs;
 
 namespace FinanceApp.Controllers;
 
-
 [ApiController]
 [Route("[controller]")]
 [Authorize]
@@ -23,6 +22,13 @@ public class InviteController : ControllerBase
     public async Task<IActionResult> Create(InviteRequest request)
     {
         var result = await _service.Create(request);
+        return result.ToActionResult();
+    }
+
+    [HttpGet("{invite_token}")]
+    public async Task<IActionResult> Get(string invite_token)
+    {
+        var result = await _service.Get(invite_token);
         return result.ToActionResult();
     }
 
