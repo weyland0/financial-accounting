@@ -31,13 +31,23 @@ public class UserService : IUserService
         }
 
         var organization = _context.Organizations.Find(user.OrganizationId);
+        if (organization is null)
+        {
+            return Result<UserResponse>.Failure("Организация не найдена или пользователь не состоит ни в одной");
+        }
+
+        var role = _context.Roles.Find(user.RoleId);
+        if (role is null)
+        {
+            return Result<UserResponse>.Failure("Роль не найдена или пользователь не имеет роли");
+        }
 
         var response = new UserResponse {
             Id = user.Id,
             FullName = user.FullName,
             Email = user.Email,
-            RoleName = "Onwer",
-            OrganizationName = organization?.Name ?? null
+            RoleName = role.Name,
+            OrganizationName = organization.Name
         };
 
         return Result<UserResponse>.Success(response);
@@ -52,6 +62,12 @@ public class UserService : IUserService
             return Result<List<UserResponse>>.Failure("Организация не найдена", 404);
         }
 
+        var roles = await _context.Roles.ToListAsync();
+        if (roles is null)
+        {
+            return Result<List<UserResponse>>.Failure($"В системе отсутствуют роли");
+        }
+
         List<User> users = await _context.Users.Where(u => u.OrganizationId == orgId).ToListAsync();
         if (users.Count == 0)
         {
@@ -61,13 +77,18 @@ public class UserService : IUserService
         var responses = new List<UserResponse>();
         foreach (var user in users)
         {
+            string roleName = "null";
+            if (user.RoleId is not null){
+                roleName = roles.Find(r => r.Id == user.RoleId).Name;
+            }
+
             var response = new UserResponse {
                 Id = user.Id,
                 FullName = user.FullName,
                 Email = user.Email,
-                RoleName = "Onwer",
+                RoleName = roleName,
                 OrganizationName = org.Name
-        };
+            };
             responses.Add(response);
         }
 
