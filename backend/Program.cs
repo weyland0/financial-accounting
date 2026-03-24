@@ -30,6 +30,7 @@ builder.Services.AddScoped<ICounterpartyService, CounterpartyService>();
 builder.Services.AddScoped<IInvoiceService, InvoiceService>();
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IInviteService, InviteService>();
+builder.Services.AddScoped<IRoleService, RoleService>();
 
 var jwtSettings = builder.Configuration.GetSection("Jwt");
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
