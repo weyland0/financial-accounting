@@ -1,15 +1,13 @@
 import { useState, useEffect } from "react";
 import { useAuth } from "../context/AuthContext";
-import {
-  getOrganization,
-  updateOrganization,
-} from "../services/organizationService";
+import { getOrganization, updateOrganization } from "../services/organizationService";
 import { getUsersByOrganization } from "../services/userService";
-import { createInvite } from "../services/inviteService";
+import { CreateInviteModal } from "../components/CreateInviteModal";
 import "../styles/OrganizationInfo.css";
 
 export function OrganizationInfo() {
   const { user, loading, token } = useAuth();
+
   const [hasOrganization, setHasOrganization] = useState(false);
   const [error, setError] = useState(null);
   const [organization, setOrganization] = useState({
@@ -27,6 +25,7 @@ export function OrganizationInfo() {
   const [saving, setSaving] = useState(false);
   const [loadingEmployees, setLoadingEmployees] = useState(false);
   const [inviteLink, setInviteLink] = useState("");
+  const [showModal, setShowModal] = useState(false);
 
   // Загрузка организации
   useEffect(() => {
@@ -58,7 +57,6 @@ export function OrganizationInfo() {
             token,
           );
           setEmployees(response);
-          console.log(employees.length);
         } catch (e) {
           setError(e.message || "Ошибка при загрузке сотрудников");
         } finally {
@@ -92,22 +90,6 @@ export function OrganizationInfo() {
       setError(e.message || "Ошибка при сохранении");
     } finally {
       setSaving(false);
-    }
-  };
-
-  const handleInviteCreation = async () => {
-    const inviteRequest = {
-      organizationId: user.organizationId,
-      roleId: 2,
-      isRevoked: false,
-    };
-
-    try {
-      setError(null);
-      const response = await createInvite(inviteRequest, token);
-      setInviteLink(`http://localhost:5173/invite/${response.token}`);
-    } catch (e) {
-      setError(e.message || "Ошибка при создании ссылки на приглашение");
     }
   };
 
@@ -260,10 +242,9 @@ export function OrganizationInfo() {
       <div className="employees-section">
         <div className="organization-header">
           <h1>Сотрудники организации</h1>
-          <button onClick={handleInviteCreation} className="btn btn-primary">
+          <button onClick={() => setShowModal(true)} className="btn btn-primary">
             Добавить
           </button>
-          <p1>link: {inviteLink}</p1>
         </div>
 
         {loadingEmployees ? (
@@ -286,6 +267,14 @@ export function OrganizationInfo() {
           </div>
         )}
       </div>
+
+      <CreateInviteModal 
+        isOpen={showModal}
+        onClose={() => setShowModal(false)}
+        organizationId={user.organizationId}
+        token={token}
+      ></CreateInviteModal>
+
     </div>
   );
 }
