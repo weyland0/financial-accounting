@@ -43,8 +43,8 @@ public class InviteService : IInviteService
             OrganizationId = request.OrganizationId,
             Token = System.Guid.NewGuid().ToString(),
             RoleId = request.RoleId,
-            IsRevoked = request.IsRevoked,
-            ExpireTime = DateTime.UtcNow.AddDays(7),
+            IsRevoked = false,
+            ExpireTime = DateTime.UtcNow.AddDays(request.DaysToExpired),
             CreatedAt = DateTime.UtcNow
         };
 
