@@ -20,6 +20,7 @@ public class AccountController : ControllerBase
     }
 
     [HttpPost("create")]
+    [Authorize(Roles = "owner,admin")]
     public async Task<IActionResult> Create([FromBody] AccountRequest request)
     {
         // Проверка валидации модели

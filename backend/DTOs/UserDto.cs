@@ -8,4 +8,5 @@ public class UserDto
     public required string FullName { get; set; }
     public int? RoleId { get; set; } = null;
     public int? OrganizationId { get; set; } = null;
+    public string? RoleName { get; set; }
 }

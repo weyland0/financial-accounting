@@ -18,6 +18,7 @@ public class CounterpartyController : ControllerBase
     }
 
     [HttpPost("create")]
+    [Authorize(Roles ="owner,admin,accountant")]
     public async Task<IActionResult> Create([FromBody] CounterpartyRequest request)
     {
         if (!ModelState.IsValid)
@@ -37,6 +38,7 @@ public class CounterpartyController : ControllerBase
     }
 
     [HttpPut("update/{id}")]
+    [Authorize(Roles ="owner,admin,accountant")]
     public async Task<IActionResult> Update(int id, [FromBody] CounterpartyRequest request)
     {
         var result = await _counterpartyService.Update(id, request);

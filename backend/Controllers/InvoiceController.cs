@@ -18,6 +18,7 @@ public class InvoiceController : ControllerBase
     }
 
     [HttpPost("create")]
+    [Authorize(Roles ="owner,admin,accountant")]
     public async Task<IActionResult> Create([FromBody] InvoiceRequest request)
     {
         if (!ModelState.IsValid)
@@ -37,6 +38,7 @@ public class InvoiceController : ControllerBase
     }
 
     [HttpPost("pay")]
+    [Authorize(Roles ="owner,admin,accountant")]
     public async Task<IActionResult> Pay([FromBody] InvoicePaymentRequest request)
     {
         if (!ModelState.IsValid)

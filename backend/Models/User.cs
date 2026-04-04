@@ -34,4 +34,7 @@ public class User
 
     [Column("updated_at")]
     public DateTime? UpdatedAt { get; set; }
+
+    [ForeignKey("RoleId")]
+    public Role? Role { get; set; }
 }

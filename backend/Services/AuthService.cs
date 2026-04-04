@@ -43,8 +43,7 @@ public class AuthService : IAuthService
         }
 
         // Ищем пользователя в БД
-        var user = await _context.Users
-            .FirstOrDefaultAsync(u => u.Email == request.Email);
+        var user = await _context.Users.Include(u => u.Role).FirstOrDefaultAsync(u => u.Email == request.Email);
 
         // Проверяем совпадения пароля
         if (user == null || !_passwordHasher.Verify(request.Password, user.PasswordHash))
@@ -61,7 +60,8 @@ public class AuthService : IAuthService
             Email = user.Email,
             FullName = user.FullName,
             RoleId = user.RoleId,
-            OrganizationId = user.OrganizationId
+            OrganizationId = user.OrganizationId,
+            RoleName = user.Role?.Name
         };
 
         var response = new AuthResponse
@@ -113,7 +113,8 @@ public class AuthService : IAuthService
             Email = user.Email,
             FullName = user.FullName,
             RoleId = user.RoleId,
-            OrganizationId = user.OrganizationId
+            OrganizationId = user.OrganizationId,
+            RoleName = null
         };
 
         var response = new AuthResponse
@@ -137,7 +138,7 @@ public class AuthService : IAuthService
         }
 
         // Находим пользователя в БД
-        var user = await _context.Users.FindAsync(userId.Value);
+        var user = await _context.Users.Include(u => u.Role).FirstOrDefaultAsync(u => u.Id == userId.Value);
         if (user == null)
         {
             return Result<AuthResponse>.Failure("Пользователь не найден", 404);
@@ -152,7 +153,8 @@ public class AuthService : IAuthService
             Email = user.Email,
             FullName = user.FullName,
             RoleId = user.RoleId,
-            OrganizationId = user.OrganizationId
+            OrganizationId = user.OrganizationId,
+            RoleName = user.Role?.Name
         };
 
         var response = new AuthResponse

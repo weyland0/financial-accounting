@@ -3,6 +3,8 @@ using System.Security.Claims;
 using System.Text;
 using Microsoft.IdentityModel.Tokens;
 using finacc.Models;
+using Microsoft.EntityFrameworkCore;
+using finacc.DataAccess;
 
 namespace finacc.Services;
 
@@ -32,10 +34,12 @@ public class JwtTokenService : IJwtTokenService
 
     public string GenerateAccessToken(User user)
     {
+        var roleName = user.Role?.Name ?? "Employee";
         var claims = new List<Claim>
         {
             new(ClaimTypes.NameIdentifier, user.Id.ToString()),
-            new(ClaimTypes.Email, user.Email)
+            new(ClaimTypes.Email, user.Email),
+            new(ClaimTypes.Role, roleName)
         };
 
         // Получаем секретный ключ из конфигурации

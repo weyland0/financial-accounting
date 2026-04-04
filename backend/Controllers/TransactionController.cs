@@ -19,6 +19,7 @@ public class TransactionController : ControllerBase
     }
 
     [HttpPost("create")]
+    [Authorize(Roles ="owner,admin,accountant")]
     public async Task<IActionResult> Create([FromBody] TransactionRequest request)
     {
         if (!ModelState.IsValid)

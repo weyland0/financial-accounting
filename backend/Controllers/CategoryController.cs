@@ -19,6 +19,7 @@ public class CategoryController : ControllerBase
     }
 
     [HttpPost("create")]
+    [Authorize(Roles ="owner,admin,accountant")]
     public async Task<IActionResult> Create([FromBody] CategoryRequest request)
     {
         if (!ModelState.IsValid)
