@@ -32,7 +32,6 @@
   padding: 24px;
   border-radius: var(--radius-md);
   box-shadow: var(--shadow-card);
-  max-width: 1200px;
   margin: 0 auto;
 }
 
