@@ -1,8 +1,9 @@
-import { useEffect, useMemo, useState } from 'react';
-import { useAuth } from '../context/AuthContext';
-import { getCategoriesByOrganization } from '../services/categoryService';
-import { CreateCategoryModal } from '../components/CreateCategoryModal';
 import '../styles/Categories.css';
+import { useEffect, useMemo, useState } from "react";
+import { useAuth } from "../context/AuthContext";
+import { getCategoriesByOrganization } from "../services/categoryService";
+import { CreateCategoryModal } from "../components/CreateCategoryModal";
+import { canCreate } from "../config/roles";
 
 export function Categories() {
   const { user, token, loading } = useAuth();
@@ -18,10 +19,13 @@ export function Categories() {
 
       try {
         setError(null);
-        const data = await getCategoriesByOrganization(user.organizationId, token);
+        const data = await getCategoriesByOrganization(
+          user.organizationId,
+          token,
+        );
         setCategories(data);
       } catch (err) {
-        setError(err.message || 'Не удалось загрузить категории');
+        setError(err.message || "Не удалось загрузить категории");
       }
     };
 
@@ -29,21 +33,27 @@ export function Categories() {
   }, [user?.organizationId, token]);
 
   const handleCategoryCreated = (category) => {
-    setCategories(prev => [...prev, category]);
+    setCategories((prev) => [...prev, category]);
   };
 
-  const incomeCategories = useMemo(() => categories.filter(c => c.categoryType === 'INCOME'), [categories]);
-  const expenseCategories = useMemo(() => categories.filter(c => c.categoryType === 'EXPENSE'), [categories]);
+  const incomeCategories = useMemo(
+    () => categories.filter((c) => c.categoryType === "INCOME"),
+    [categories],
+  );
+  const expenseCategories = useMemo(
+    () => categories.filter((c) => c.categoryType === "EXPENSE"),
+    [categories],
+  );
 
   const buildHierarchy = (items) => {
     const map = new Map();
     const roots = [];
 
-    items.forEach(item => {
+    items.forEach((item) => {
       map.set(item.id, { ...item, children: [] });
     });
 
-    map.forEach(item => {
+    map.forEach((item) => {
       if (item.parentId && map.has(item.parentId)) {
         map.get(item.parentId).children.push(item);
       } else {
@@ -53,7 +63,7 @@ export function Categories() {
 
     const sortTree = (nodes) => {
       nodes.sort((a, b) => a.name.localeCompare(b.name));
-      nodes.forEach(node => sortTree(node.children));
+      nodes.forEach((node) => sortTree(node.children));
     };
 
     sortTree(roots);
@@ -61,34 +71,32 @@ export function Categories() {
   };
 
   const renderRows = (nodes, level = 0) => {
-    return nodes.flatMap(node => ([
-      (
-        <tr key={node.id}>
-          <td>
-            <div
-              className="category-name-cell"
-              style={{ paddingLeft: `${level * 24}px` }}
+    return nodes.flatMap((node) => [
+      <tr key={node.id}>
+        <td>
+          <div
+            className="category-name-cell"
+            style={{ paddingLeft: `${level * 24}px` }}
+          >
+            {level > 0 && <span className="category-branch">↳</span>}
+            <span>{node.name}</span>
+            <span
+              className={`category-scope ${
+                node.organizationId
+                  ? "category-scope-private"
+                  : "category-scope-shared"
+              }`}
             >
-              {level > 0 && (
-                <span className="category-branch">↳</span>
-              )}
-              <span>{node.name}</span>
-              <span
-                className={`category-scope ${
-                  node.organizationId ? 'category-scope-private' : 'category-scope-shared'
-                }`}
-              >
-                {node.organizationId ? 'Организации' : 'Общая'}
-              </span>
-            </div>
-          </td>
-          <td>{node.categoryType === 'INCOME' ? 'Доход' : 'Расход'}</td>
-          <td>{node.activityType || '—'}</td>
-          <td>{node.description || '—'}</td>
-        </tr>
-      ),
-      ...renderRows(node.children, level + 1)
-    ]));
+              {node.organizationId ? "Организации" : "Общая"}
+            </span>
+          </div>
+        </td>
+        <td>{node.categoryType === "INCOME" ? "Доход" : "Расход"}</td>
+        <td>{node.activityType || "—"}</td>
+        <td>{node.description || "—"}</td>
+      </tr>,
+      ...renderRows(node.children, level + 1),
+    ]);
   };
 
   if (loading) {
@@ -105,7 +113,9 @@ export function Categories() {
       <div className="categories-container">
         <div className="categories-empty-state">
           <h2>Организация не выбрана</h2>
-          <p>Создайте или выберите организацию чтобы управлять статьями учета.</p>
+          <p>
+            Создайте или выберите организацию чтобы управлять статьями учета.
+          </p>
         </div>
       </div>
     );
@@ -118,9 +128,15 @@ export function Categories() {
           <h1>Статьи учета</h1>
           <p>Управление поступлениями и расходами вашей организации</p>
         </div>
-        <button className="btn-create-category" onClick={() => setModalOpen(true)}>
-          ➕ Создать
-        </button>
+
+        {canCreate(user.roleName, "/categories") && (
+          <button
+            className="btn-create-category"
+            onClick={() => setModalOpen(true)}
+          >
+            ➕ Создать
+          </button>
+        )}
       </div>
 
       {error && (
@@ -201,4 +217,3 @@ export function Categories() {
     </div>
   );
 }
-

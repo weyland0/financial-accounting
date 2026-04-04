@@ -1,9 +1,13 @@
 import { useState, useEffect } from "react";
 import { useAuth } from "../context/AuthContext";
-import { getOrganization, updateOrganization } from "../services/organizationService";
+import {
+  getOrganization,
+  updateOrganization,
+} from "../services/organizationService";
 import { getUsersByOrganization } from "../services/userService";
 import { CreateInviteModal } from "../components/CreateInviteModal";
 import "../styles/OrganizationInfo.css";
+import { canEdit } from "../config/roles";
 
 export function OrganizationInfo() {
   const { user, loading, token } = useAuth();
@@ -116,23 +120,29 @@ export function OrganizationInfo() {
     <div className="organization-info">
       <div className="organization-header">
         <h1>Информация об организации</h1>
-        {!editMode ? (
-          <button onClick={handleEditToggle} className="btn btn-primary">
-            Редактировать
-          </button>
-        ) : (
+        {canEdit(user.roleName, "/organizationinfo") && (
           <div>
-            <button
-              onClick={handleSave}
-              disabled={saving}
-              className="btn btn-success"
-              style={{ marginRight: "10px" }}
-            >
-              {saving ? "Сохранение..." : "Сохранить"}
-            </button>
-            <button onClick={handleEditToggle} className="btn btn-secondary">
-              Отмена
-            </button>
+            {!editMode ? (
+              <button onClick={handleEditToggle} className="btn btn-primary">
+                Редактировать
+              </button>
+            ) : (
+              <div className="organization-actions">
+                <button
+                  onClick={handleSave}
+                  disabled={saving}
+                  className="btn btn-success"
+                >
+                  {saving ? "Сохранение..." : "Сохранить"}
+                </button>
+                <button
+                  onClick={handleEditToggle}
+                  className="btn btn-secondary"
+                >
+                  Отмена
+                </button>
+              </div>
+            )}
           </div>
         )}
       </div>
@@ -242,9 +252,15 @@ export function OrganizationInfo() {
       <div className="employees-section">
         <div className="organization-header">
           <h1>Сотрудники организации</h1>
-          <button onClick={() => setShowModal(true)} className="btn btn-primary">
-            Добавить
-          </button>
+
+          {canEdit(user.roleName, "/organizationinfo") && (
+            <button
+              onClick={() => setShowModal(true)}
+              className="btn btn-primary"
+            >
+              Добавить
+            </button>
+          )}
         </div>
 
         {loadingEmployees ? (
@@ -268,13 +284,12 @@ export function OrganizationInfo() {
         )}
       </div>
 
-      <CreateInviteModal 
+      <CreateInviteModal
         isOpen={showModal}
         onClose={() => setShowModal(false)}
         organizationId={user.organizationId}
         token={token}
       ></CreateInviteModal>
-
     </div>
   );
 }

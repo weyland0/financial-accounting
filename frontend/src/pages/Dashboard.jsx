@@ -98,12 +98,22 @@ export function Dashboard() {
         <div className="features-grid">
           <div 
             className="feature-card clickable" 
+            onClick={() => handleNavigate('/organizationinfo')}
+          >
+            <div className="feature-icon">ℹ️</div>
+            <h3>Ваша организация</h3>
+            <p>Просмотр информации об организации</p>
+          </div>
+
+          <div 
+            className="feature-card clickable" 
             onClick={() => handleNavigate('/accounts')}
           >
             <div className="feature-icon">🏦</div>
             <h3>Счета</h3>
             <p>Просмотр банковских счетов</p>
           </div>
+
           <div 
             className="feature-card clickable" 
             onClick={() => handleNavigate('/transactions')}
@@ -112,6 +122,7 @@ export function Dashboard() {
             <h3>Операции</h3>
             <p>Доходы, расходы, поиск и фильтры</p>
           </div>
+
           <div 
             className="feature-card clickable" 
             onClick={() => handleNavigate('/categories')}
@@ -120,6 +131,7 @@ export function Dashboard() {
             <h3>Статьи учета</h3>
             <p>Управление поступлениями и расходами</p>
           </div>
+
           <div 
             className="feature-card clickable" 
             onClick={() => handleNavigate('/counterparties')}
@@ -128,6 +140,7 @@ export function Dashboard() {
             <h3>Клиенты/Партнеры</h3>
             <p>Справочник контрагентов</p>
           </div>
+
           <div 
             className="feature-card clickable" 
             onClick={() => handleNavigate('/invoices')}
@@ -136,6 +149,7 @@ export function Dashboard() {
             <h3>Счета на оплату</h3>
             <p>Обязательства вашей компании</p>
           </div>
+
           <div 
             className="feature-card clickable" 
             onClick={() => handleNavigate('/reports/pnl')}
@@ -144,6 +158,7 @@ export function Dashboard() {
             <h3>P&L</h3>
             <p>Отчёт о прибылях и убытках</p>
           </div>
+
           <div 
             className="feature-card clickable" 
             onClick={() => handleNavigate('/reports/cashflow')}
@@ -152,6 +167,7 @@ export function Dashboard() {
             <h3>Cash Flow</h3>
             <p>Движение денежных средств</p>
           </div>
+
         </div>
       </div>
     </div>

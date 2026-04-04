@@ -7,6 +7,7 @@ import { getCounterpartiesByOrganization } from '../services/counterpartyService
 import { CreateInvoiceModal } from '../components/CreateInvoiceModal';
 import { PayInvoiceModal } from '../components/PayInvoiceModal';
 import '../styles/Invoices.css';
+import { canCreate } from "../config/roles";
 
 export function Invoices() {
   const { user, loading } = useAuth();
@@ -120,9 +121,11 @@ export function Invoices() {
           <h1>Счета на оплату</h1>
           <p>Выставленные вашей организацией и для вашей организации</p>
         </div>
-        <button className="btn-create-invoice" onClick={() => setShowCreateModal(true)}>
+
+        { canCreate(user.roleName, '/invoices') && (<button className="btn-create-invoice" onClick={() => setShowCreateModal(true)}>
           ➕ Выставить счет
-        </button>
+        </button>)}
+
       </div>
 
       {error && (

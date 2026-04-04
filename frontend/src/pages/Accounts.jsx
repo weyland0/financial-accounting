@@ -4,9 +4,10 @@ import { getAllAccountsByOrganization } from "../services/accountService";
 import { AccountCard } from "../components/AccountCard";
 import { CreateAccountModal } from "../components/CreateAccountModal";
 import "../styles/Accounts.css";
+import { canCreate } from "../config/roles";
 
 export function Accounts() {
-  const { user, loading, token } = useAuth();
+  const { user, loading, token, hasRole } = useAuth();
   const [accounts, setAccounts] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const [error, setError] = useState(null);
@@ -65,13 +66,16 @@ export function Accounts() {
             Управление счетами вашей организации
           </p>
         </div>
-        <button 
-          className="btn-create-account"
-          onClick={() => setShowModal(true)}
-          title="Создать новый счет"
-        >
-          ➕ Создать счет
-        </button>
+
+        {canCreate(user.roleName, "/accounts") && (
+          <button
+            className="btn btn-primary"
+            onClick={() => setShowModal(true)}
+            title="Создать новый счет"
+          >
+            ➕ Создать счет
+          </button>
+        )}
       </div>
 
       {error && (
@@ -86,8 +90,8 @@ export function Accounts() {
           <div className="empty-icon">💳</div>
           <h2>Счетов пока нет</h2>
           <p>Создайте первый счет для начала работы</p>
-          <button 
-            className="btn-create-account-empty"
+          <button
+            className="btn btn-primary"
             onClick={() => setShowModal(true)}
           >
             Создать счет
@@ -101,7 +105,7 @@ export function Accounts() {
         </div>
       )}
 
-      <CreateAccountModal 
+      <CreateAccountModal
         isOpen={showModal}
         onClose={() => setShowModal(false)}
         onAccountCreated={handleAccountCreated}

@@ -154,16 +154,27 @@ export const AuthProvider = ( { children } ) => {
     }
   };
 
+  const hasRole = useCallback((roles) => {
+    if (!user?.roleName) {
+      return false;
+    } 
+    if (Array.isArray(roles)) { 
+      return roles.includes(user?.roleName);
+    }
+    return user?.roleName === roles;
+}, [user?.roleName]);
+
   // Возвращаем Provider с контекстом
   return (
     <AuthContext.Provider value={{
-      user,
+      user, setUser,
       token,
       loading, setLoading,
       error, setError,
       login, register, logout,
       isAuthenticated: !!token && !loading,
-      updateUserOrganization, updateUserRole
+      updateUserOrganization, updateUserRole,
+      hasRole
     }}>
       {children}
     </AuthContext.Provider>

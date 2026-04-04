@@ -14,7 +14,7 @@ import { ProfitAndLoss } from './pages/ProfitAndLoss';
 import { CashFlow } from './pages/CashFlow';
 import { OrganizationInfo } from './pages/OrganizationInfo'
 import { Invite } from './pages/Invite'
-import './App.css';
+import { Forbidden } from './pages/Forbidden'
 
 function App() {
   return (
@@ -148,6 +148,9 @@ function App() {
               </ProtectedRoute>
             }
           />
+
+          {/* 403 - доступ ограничен редирект на эту страницу */}
+          <Route path="/forbidden" element={<Forbidden />} />
 
           {/* По умолчанию редирект на dashboard */}
           <Route path="/" element={<Navigate to="/dashboard" replace />} />
