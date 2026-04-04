@@ -1,0 +1,130 @@
+.transactions-container {
+  min-height: 100vh;
+  background-color: var(--color-bg-app);
+  padding: 24px;
+}
+
+.transactions-header {
+  background: var(--color-surface);
+  padding: 24px 28px;
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-sm);
+  border: 1px solid var(--color-border-subtle);
+  margin-bottom: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+}
+
+.transactions-header h1 {
+  margin: 0 0 6px 0;
+  font-size: 24px;
+  color: var(--color-text-primary);
+}
+
+.transactions-header p {
+  margin: 0;
+  color: var(--color-text-secondary);
+  font-size: 13px;
+}
+
+.transactions-header .actions {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.btn-income,
+.btn-expense {
+  padding: 11px 16px;
+  border: none;
+  border-radius: var(--radius-sm);
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  color: var(--color-on-primary);
+}
+
+.btn-income {
+  background-color: var(--color-success-strong);
+}
+
+.btn-income:hover {
+  background-color: var(--color-success-hover);
+  box-shadow: 0 2px 6px rgba(47, 158, 68, 0.2);
+}
+
+.btn-expense {
+  background-color: var(--color-expense);
+}
+
+.btn-expense:hover {
+  background-color: var(--color-expense-hover);
+  box-shadow: 0 2px 6px rgba(214, 51, 108, 0.2);
+}
+
+.transactions-error {
+  margin-bottom: 16px;
+}
+
+.transactions-stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.stat-card {
+  padding: 16px;
+}
+
+.stat-card p {
+  margin: 0 0 6px 0;
+  color: var(--color-text-secondary);
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+}
+
+.stat-card h3 {
+  margin: 0;
+  font-size: 20px;
+  font-weight: 600;
+}
+
+.stat-card.income h3 {
+  color: var(--color-success-strong);
+}
+
+.stat-card.expense h3 {
+  color: var(--color-expense);
+}
+
+.stat-card.balance h3 {
+  color: var(--color-primary);
+}
+
+.transactions-filters {
+  margin-bottom: 12px;
+}
+
+@media (max-width: 768px) {
+  .transactions-container {
+    padding: 16px;
+  }
+
+  .transactions-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .transactions-header .actions {
+    width: 100%;
+  }
+
+  .transactions-header .actions button {
+    width: 100%;
+  }
+}

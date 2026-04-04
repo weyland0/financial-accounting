@@ -1,4 +1,3 @@
-import '../styles/Transactions.css';
 import { useEffect, useMemo, useState } from "react";
 import { useAuth } from "../context/AuthContext";
 import { getTransactionsByOrganization } from "../services/transactionService";
@@ -7,6 +6,7 @@ import { getCategoriesByOrganization } from "../services/categoryService";
 import { getCounterpartiesByOrganization } from "../services/counterpartyService";
 import { CreateTransactionModal } from "../components/CreateTransactionModal";
 import { canCreate } from "../config/roles";
+import "../styles/pages/transactions.css";
 
 export function Transactions() {
   const { user, loading } = useAuth();
@@ -135,7 +135,7 @@ export function Transactions() {
       </div>
 
       {error && (
-        <div className="transactions-error">
+        <div className="transactions-error alert alert-error">
           <span className="error-icon">⚠️</span>
           <span>{error}</span>
         </div>
@@ -156,8 +156,11 @@ export function Transactions() {
         </div>
       </div>
 
-      <div className="transactions-filters">
-        <select value={filterType} onChange={e => setFilterType(e.target.value)}>
+      <div className="transactions-filters filters-panel">
+        <select
+          value={filterType}
+          onChange={(e) => setFilterType(e.target.value)}
+        >
           <option value="ALL">Все</option>
           <option value="INCOME">Доходы</option>
           <option value="EXPENSE">Расходы</option>
@@ -185,8 +188,8 @@ export function Transactions() {
         />
       </div>
 
-      <div className="transactions-table-wrapper">
-        <table className="transactions-table">
+      <div className="data-table-card">
+        <table className="data-table">
           <thead>
             <tr>
               <th>Дата</th>
@@ -203,6 +206,26 @@ export function Transactions() {
                   Нет операций
                 </td>
               </tr>
+            ) : (
+              filtered.map((tx) => (
+                <tr key={tx.id}>
+                  <td>{tx.transactionDate}</td>
+                  <td>{tx.status || "—"}</td>
+                  <td
+                    className={
+                      tx.transactionType === "INCOME"
+                        ? "amount income"
+                        : "amount expense"
+                    }
+                  >
+                    {tx.transactionType === "INCOME" ? "+" : "-"}
+                    {Number(tx.amount).toFixed(2)}
+                  </td>
+                  <td>{tx.counterparty || "—"}</td>
+                  <td>{tx.categoryName || "—"}</td>
+                </tr>
+              ))
+            )}
           </tbody>
         </table>
       </div>

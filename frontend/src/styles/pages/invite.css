@@ -1,0 +1,71 @@
+.invite-page {
+  min-height: 100vh;
+  background: var(--color-bg-app-soft);
+  padding: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.invite-container {
+  width: 100%;
+  max-width: 560px;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border-subtle);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-card);
+  padding: 28px;
+}
+
+.invite-header {
+  margin-bottom: 20px;
+}
+
+.invite-header h2 {
+  font-size: 24px;
+  color: var(--color-text-primary);
+}
+
+.invite-subtitle {
+  color: var(--color-text-secondary);
+  margin-top: 8px;
+}
+
+.invite-details {
+  display: grid;
+  gap: 16px;
+}
+
+.invite-card {
+  background: var(--color-surface-muted);
+  border: 1px solid var(--color-border-subtle);
+  border-radius: var(--radius-md);
+  padding: 16px;
+}
+
+.btn-invite-accept,
+.btn-invite-reject {
+  width: 100%;
+  padding: 12px 16px;
+  border: none;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+}
+
+.btn-invite-accept {
+  background: var(--color-success-strong);
+  color: var(--color-on-primary);
+}
+
+.btn-invite-accept:hover {
+  background: var(--color-success-hover);
+}
+
+.btn-invite-reject {
+  background: var(--color-surface-pill);
+  color: var(--color-primary);
+}
+
+.btn-invite-reject:hover {
+  background: var(--color-border-subtle);
+}

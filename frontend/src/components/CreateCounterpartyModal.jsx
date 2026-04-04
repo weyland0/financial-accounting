@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { createCounterparty } from '../services/counterpartyService';
-import '../styles/CreateCounterpartyModal.css';
+import '../styles/components/modals/create-counterparty-modal.css';
 
 export function CreateCounterpartyModal({ isOpen, onClose, onCreated, organizationId }) {
   const [formData, setFormData] = useState({
@@ -188,4 +188,3 @@ export function CreateCounterpartyModal({ isOpen, onClose, onCreated, organizati
     </div>
   );
 }
-

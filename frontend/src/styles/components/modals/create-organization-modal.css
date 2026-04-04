@@ -1,0 +1,12 @@
+.modal-content.organization-modal {
+  max-width: 720px;
+  border-radius: var(--radius-lg);
+}
+
+.organization-modal .modal-header {
+  padding: 18px 24px;
+}
+
+.organization-modal .modal-body {
+  padding: 24px;
+}

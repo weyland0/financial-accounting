@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { getAllRoles } from "../services/roleService";
 import { createInvite } from "../services/inviteService";
-import "../styles/CreateInviteModal.css"
+import "../styles/components/modals/create-invite-modal.css";
 
 export function CreateInviteModal({
   isOpen,

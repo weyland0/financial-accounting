@@ -1,0 +1,105 @@
+.organization-info {
+  min-height: 100vh;
+  background-color: var(--color-bg-app);
+  padding: 24px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.organization-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 20px;
+}
+
+.organization-header h1 {
+  font-size: 24px;
+  color: var(--color-text-primary);
+}
+
+.organization-actions {
+  display: flex;
+  gap: 10px;
+}
+
+.org-info-error {
+  margin-bottom: 20px;
+}
+
+.organization-details,
+.employees-section {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border-subtle);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-sm);
+  padding: 20px;
+}
+
+.organization-details {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 16px;
+  margin-bottom: 20px;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.field label {
+  font-size: 12px;
+  text-transform: uppercase;
+  color: var(--color-text-secondary);
+  letter-spacing: 0.4px;
+}
+
+.field span {
+  color: var(--color-text-primary);
+}
+
+.employees-section {
+  margin-top: 20px;
+}
+
+.employees-list {
+  display: grid;
+  gap: 12px;
+}
+
+.employee-card {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  padding: 16px;
+}
+
+.employee-name {
+  color: var(--color-text-primary);
+}
+
+.employee-email {
+  color: var(--color-text-secondary);
+}
+
+.employee-role {
+  color: var(--color-text-secondary);
+  font-size: 13px;
+}
+
+@media (max-width: 768px) {
+  .organization-info {
+    padding: 16px;
+  }
+
+  .organization-header,
+  .organization-actions,
+  .employee-card {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}

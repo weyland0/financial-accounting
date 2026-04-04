@@ -2,12 +2,10 @@ import { useAuth } from "../context/AuthContext";
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { acceptInvite, getInvite } from "../services/inviteService";
-import '../styles/Invite.css';
-
-// http://localhost:5173/invite/5d0f5367-678a-461f-876f-a7b45daffb9e
+import '../styles/pages/invite.css';
 
 export function Invite() {
-  const { user, updateUserOrganization, updateUserRole } = useAuth();
+  const { user, updateUserOrganization, updateUserRole, setUser } = useAuth();
   const { invite_token } = useParams();
   const [loading, setLoading] = useState(false);
   const [accepting, setAccepting] = useState(false);
@@ -41,8 +39,16 @@ export function Invite() {
     try {
       setAccepting(true);
       const response = await acceptInvite(invite_token, user.id);
-      updateUserOrganization(response.organizationId);
-      updateUserRole(response.roleId);
+      const newUser = {
+        id: user.id,
+        email: user.email,
+        fullName: user.fullName,
+        roleId: response.roleId,
+        organizationId: response.organizationId
+      };
+
+      setUser(newUser);
+
     } catch (e) {
       console.log(e);
     } finally {

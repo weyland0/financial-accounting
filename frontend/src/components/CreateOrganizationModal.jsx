@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { createOrganization } from '../services/organizationService';
-import '../styles/CreateOrganizationModal.css';
+import '../styles/components/modals/create-organization-modal.css';
 
 export function CreateOrganizationModal({ isOpen, onClose }) {
   
@@ -86,7 +86,7 @@ export function CreateOrganizationModal({ isOpen, onClose }) {
 
   return (
     <div className="modal-overlay">
-      <div className="modal-content">
+      <div className="modal-content organization-modal">
         <div className="modal-header">
           <h2>Создание организации</h2>
           <button 

@@ -2,7 +2,7 @@ import { useMemo, useState } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { createCategory } from '../services/categoryService';
 import { activityTypeLabels, activityTypeValues } from '../config/enums';
-import '../styles/CreateCategoryModal.css';
+import '../styles/components/modals/create-category-modal.css';
 
 export function CreateCategoryModal({ isOpen, onClose, onCategoryCreated, categories = [] }) {
 
@@ -278,4 +278,3 @@ export function CreateCategoryModal({ isOpen, onClose, onCategoryCreated, catego
     </div>
   );
 }
-

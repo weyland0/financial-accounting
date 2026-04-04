@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from 'react';
 import { payInvoice } from '../services/invoiceService';
-import '../styles/CreateTransactionModal.css'; // используем те же базовые стили модалки/форм
+import '../styles/components/modals/pay-invoice-modal.css';
 
 export function PayInvoiceModal({
   isOpen,
@@ -189,5 +189,4 @@ export function PayInvoiceModal({
     </div>
   );
 }
-
 

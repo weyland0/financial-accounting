@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { createAccount } from '../services/accountService';
-import '../styles/CreateAccountModal.css';
+import '../styles/components/modals/create-account-modal.css';
 
 export function CreateAccountModal({ isOpen, onClose, onAccountCreated }) {
   
@@ -262,4 +262,3 @@ export function CreateAccountModal({ isOpen, onClose, onAccountCreated }) {
     </div>
   );
 }
-

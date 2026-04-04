@@ -1,5 +1,5 @@
 import { accountTypeLabels, accountTypeColors, currencies } from '../config/enums';
-import '../styles/AccountCard.css';
+import '../styles/components/account-card.css';
 
 export function AccountCard({ account }) {
   const typeInfo = {

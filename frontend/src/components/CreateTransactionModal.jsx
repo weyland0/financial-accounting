@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from 'react';
 import { createTransaction } from '../services/transactionService';
 import { trasnactionStatusLabels } from '../config/enums';
-import '../styles/CreateTransactionModal.css';
+import '../styles/components/modals/create-transaction-modal.css';
 
 export function CreateTransactionModal({
   isOpen,
@@ -372,4 +372,3 @@ export function CreateTransactionModal({
     </div>
   );
 }
-

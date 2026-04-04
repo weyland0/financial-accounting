@@ -1,9 +1,9 @@
-import { NavLink, useLocation } from 'react-router-dom';
-import { useAuth } from '../context/AuthContext';
-import '../styles/Navigation.css';
+import { NavLink, useLocation } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
+import "../styles/layout/navigation.css";
 
 export function Navigation({ onClose }) {
-  const { logout, user } = useAuth();
+  const { logout, user, hasRole } = useAuth();
   const location = useLocation();
 
   const handleNavClick = () => {
@@ -13,27 +13,62 @@ export function Navigation({ onClose }) {
   };
 
   const navItems = [
-    { path: '/dashboard', label: 'Главная', icon: '' },
-    { path: '/organizationinfo', label: 'Ваша организация', icon: '' },
-    { path: '/accounts', label: 'Счета', icon: '' },
-    { path: '/transactions', label: 'Операции', icon: '' },
-    { path: '/invoices', label: 'Счета на оплату', icon: '' },
-    { path: '/counterparties', label: 'Контрагенты', icon: '' },
-    { path: '/categories', label: 'Статьи учета', icon: '' },
-    { 
-      path: '/reports/pnl', 
-      label: 'Отчёты', 
-      icon: '',
+    {
+      path: "/dashboard",
+      label: "Главная",
+      icon: "",
+    },
+    {
+      path: "/organizationinfo",
+      label: "Ваша организация",
+      icon: "",
+      allowedRoles: ["owner"],
+    },
+    {
+      path: "/accounts",
+      label: "Счета",
+      icon: "",
+    },
+    {
+      path: "/transactions",
+      label: "Операции",
+      icon: "",
+    },
+    {
+      path: "/invoices",
+      label: "Счета на оплату",
+      icon: "",
+    },
+    {
+      path: "/counterparties",
+      label: "Контрагенты",
+      icon: "",
+    },
+    {
+      path: "/categories",
+      label: "Статьи учета",
+      icon: "",
+    },
+    {
+      path: "/reports/pnl",
+      label: "Отчёты",
+      icon: "",
       children: [
-        { path: '/reports/pnl', label: 'P&L (Прибыли и убытки)' },
-        { path: '/reports/cashflow', label: 'Cash Flow (Движение денег)' }
-      ]
-    }
+        {
+          path: "/reports/pnl",
+          label: "P&L (Прибыли и убытки)",
+        },
+        {
+          path: "/reports/cashflow",
+          label: "Cash Flow (Движение денег)",
+        },
+      ],
+    },
   ];
 
   const isActive = (path) => {
-    if (path === '/reports/pnl') {
-      return location.pathname.startsWith('/reports');
+    if (path === "/reports/pnl") {
+      return location.pathname.startsWith("/reports");
     }
     return location.pathname === path;
   };
@@ -45,27 +80,29 @@ export function Navigation({ onClose }) {
       </div>
 
       <div className="nav-menu">
-        {navItems.map(item => (
+        {navItems.map((item) => (
           <div key={item.path} className="nav-item-wrapper">
             <NavLink
               to={item.path}
-              className={({ isActive: active }) => 
-                `nav-item ${active || isActive(item.path) ? 'active' : ''}`
+              className={({ isActive: active }) =>
+                `nav-item ${active || isActive(item.path) ? "active" : ""}`
               }
               onClick={handleNavClick}
             >
               <span className="nav-icon">{item.icon}</span>
               <span className="nav-label">{item.label}</span>
             </NavLink>
-            
+
             {item.children && (
-              <div className={`nav-submenu ${isActive(item.path) ? 'open' : ''}`}>
-                {item.children.map(child => (
+              <div
+                className={`nav-submenu ${isActive(item.path) ? "open" : ""}`}
+              >
+                {item.children.map((child) => (
                   <NavLink
                     key={child.path}
                     to={child.path}
-                    className={({ isActive: active }) => 
-                      `nav-subitem ${active ? 'active' : ''}`
+                    className={({ isActive: active }) =>
+                      `nav-subitem ${active ? "active" : ""}`
                     }
                     onClick={handleNavClick}
                   >
@@ -84,11 +121,10 @@ export function Navigation({ onClose }) {
             <span className="user-email">{user.email}</span>
           </div>
         )}
-        <button className="nav-logout" onClick={logout}>
+        <button className="btn btn-danger btn-block" onClick={logout}>
           Выход
         </button>
       </div>
     </nav>
   );
 }
-

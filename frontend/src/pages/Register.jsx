@@ -3,7 +3,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
-import "../styles/Auth.css";
+import "../styles/pages/auth.css";
 
 export function Register() {
   // описание состояний

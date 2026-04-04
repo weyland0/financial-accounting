@@ -3,7 +3,7 @@ import { useAuth } from '../context/AuthContext';
 import { getTransactionsByOrganization } from '../services/transactionService';
 import { getInvoicesByOrganization } from '../services/invoiceService';
 import { getCategoriesByOrganization } from '../services/categoryService';
-import '../styles/ProfitAndLoss.css';
+import '../styles/pages/profit-and-loss.css';
 
 function toDateOnlyString(d) {
   return d.toISOString().split('T')[0];
@@ -380,5 +380,4 @@ export function ProfitAndLoss() {
     </div>
   );
 }
-
 

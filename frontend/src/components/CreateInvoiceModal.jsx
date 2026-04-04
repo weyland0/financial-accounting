@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from 'react';
 import { createInvoice } from '../services/invoiceService';
-import '../styles/CreateInvoiceModal.css';
+import '../styles/components/modals/create-invoice-modal.css';
 
 export function CreateInvoiceModal({
   isOpen,
@@ -375,5 +375,4 @@ export function CreateInvoiceModal({
     </div>
   );
 }
-
 

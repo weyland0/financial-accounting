@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { updateCounterparty } from "../services/counterpartyService";
 import { useAuth } from "../context/AuthContext"
+import "../styles/components/modals/update-counterparty-modal.css";
 
 export function UpdateCounterpartyModal({ isOpen, onClose, onUpdated, oldFormData }) {
   

@@ -1,0 +1,78 @@
+:root {
+  --font-sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto',
+    'Helvetica Neue', sans-serif;
+
+  --color-text-primary: #1a1a1a;
+  --color-text-secondary: #6c757d;
+  --color-text-muted: #adb5bd;
+  --color-text-tertiary: #495057;
+
+  --color-bg-app: #f8f9fa;
+  --color-bg-app-soft: #f5f7fa;
+  --color-surface: #ffffff;
+  --color-surface-muted: #f8f9fa;
+  --color-surface-subtle: #f9f9f9;
+  --color-surface-row-hover: #fdfdfd;
+  --color-surface-raised: #fcfcfd;
+  --color-surface-pill: #f1f3f5;
+
+  --color-border-subtle: #e9ecef;
+  --color-border-default: #dee2e6;
+  --color-border-strong: #adb5bd;
+  --color-border-table: #f1f3f5;
+  --color-border-focus: var(--color-text-tertiary);
+
+  --color-primary: #212529;
+  --color-primary-hover: #343a40;
+  --color-primary-active: #1a1e22;
+
+  --color-on-primary: #ffffff;
+
+  --color-success: #2f8f3f;
+  --color-success-strong: #2f9e44;
+  --color-success-hover: #2b8a3e;
+  --color-success-surface: #f1fdf4;
+
+  --color-danger: #c92a2a;
+  --color-danger-hover: #a61e1e;
+  --color-danger-surface: #fff5f5;
+  --color-danger-border-soft: #ffe3e3;
+  --color-danger-border-mid: #ffc9c9;
+
+  --color-expense: #d6336c;
+  --color-expense-hover: #bf2f62;
+  --color-amount-income: var(--color-success-strong);
+  --color-amount-expense: var(--color-expense);
+
+  --color-info: #1976d2;
+  --color-info-strong: #2196f3;
+  --color-info-hover: #1565c0;
+  --color-info-surface: #e3f2fd;
+  --color-text-on-info: var(--color-info-hover);
+
+  --color-category-income: #51cf66;
+  --color-category-expense: #ff6b6b;
+
+  --color-badge-shared-bg: #e7f5ff;
+  --color-badge-shared-text: #1971c2;
+
+  --color-accent-nav: var(--color-badge-shared-bg);
+  --color-accent-nav-text: var(--color-badge-shared-text);
+  --color-badge-private-bg: #fff3bf;
+  --color-badge-private-text: #ad6800;
+
+  --color-branch-indent: #ced4da;
+
+  --color-accent-feature: #667eea;
+
+  --shadow-focus: 0 0 0 3px rgba(73, 80, 87, 0.1);
+  --shadow-focus-muted: 0 0 0 3px rgba(173, 181, 189, 0.15);
+
+  --radius-sm: 6px;
+  --radius-md: 8px;
+  --radius-lg: 10px;
+
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.08);
+  --shadow-card: 0 2px 8px rgba(0, 0, 0, 0.08);
+  --shadow-hover: 0 12px 24px rgba(0, 0, 0, 0.12);
+}

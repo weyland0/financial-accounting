@@ -1,0 +1,31 @@
+.data-table-card {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border-subtle);
+  border-radius: var(--radius-md);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+  overflow-x: auto;
+}
+
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.data-table th,
+.data-table td {
+  padding: 12px 14px;
+  border-bottom: 1px solid var(--color-border-table);
+  text-align: left;
+  font-size: 13px;
+}
+
+.data-table th {
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--color-text-secondary);
+  font-size: 12px;
+}
+
+.data-table tbody tr:hover {
+  background-color: var(--color-surface-muted);
+}

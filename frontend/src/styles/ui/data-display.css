@@ -1,0 +1,18 @@
+.amount {
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+
+.amount.income {
+  color: var(--color-amount-income);
+}
+
+.amount.expense {
+  color: var(--color-amount-expense);
+}
+
+.empty-row {
+  text-align: center;
+  color: var(--color-text-muted);
+  padding: 18px 0;
+}

@@ -1,0 +1,27 @@
+.filters-panel {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border-subtle);
+  border-radius: var(--radius-md);
+  padding: 12px;
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-bottom: 12px;
+}
+
+.filters-panel input,
+.filters-panel select {
+  padding: 10px 12px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--color-border-default);
+  font-size: 13px;
+  background: var(--color-surface);
+  color: var(--color-text-primary);
+}
+
+.filters-panel input:focus,
+.filters-panel select:focus {
+  outline: none;
+  border-color: var(--color-border-strong);
+  box-shadow: var(--shadow-focus-muted);
+}

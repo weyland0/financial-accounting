@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Navigation } from './Navigation';
-import '../styles/Layout.css';
+import '../styles/layout/layout.css';
 
 export function Layout({ children }) {
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -41,4 +41,3 @@ export function Layout({ children }) {
     </div>
   );
 }
-

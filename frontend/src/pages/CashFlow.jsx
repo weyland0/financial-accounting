@@ -3,7 +3,7 @@ import { useAuth } from '../context/AuthContext';
 import { getTransactionsByOrganization } from '../services/transactionService';
 import { getCategoriesByOrganization } from '../services/categoryService';
 import { activityTypeLabels } from '../config/enums'
-import '../styles/CashFlow.css';
+import '../styles/pages/cash-flow.css';
 
 function toDateOnlyString(d) {
   return d.toISOString().split('T')[0];
@@ -358,4 +358,3 @@ export function CashFlow() {
     </div>
   );
 }
-

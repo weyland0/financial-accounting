@@ -1,9 +1,9 @@
-import '../styles/Categories.css';
 import { useEffect, useMemo, useState } from "react";
 import { useAuth } from "../context/AuthContext";
 import { getCategoriesByOrganization } from "../services/categoryService";
 import { CreateCategoryModal } from "../components/CreateCategoryModal";
 import { canCreate } from "../config/roles";
+import "../styles/pages/categories.css";
 
 export function Categories() {
   const { user, token, loading } = useAuth();

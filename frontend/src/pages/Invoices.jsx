@@ -6,8 +6,8 @@ import { getCategoriesByOrganization } from '../services/categoryService';
 import { getCounterpartiesByOrganization } from '../services/counterpartyService';
 import { CreateInvoiceModal } from '../components/CreateInvoiceModal';
 import { PayInvoiceModal } from '../components/PayInvoiceModal';
-import '../styles/Invoices.css';
 import { canCreate } from "../config/roles";
+import '../styles/pages/invoices.css';
 
 export function Invoices() {
   const { user, loading } = useAuth();
@@ -135,7 +135,7 @@ export function Invoices() {
         </div>
       )}
 
-      <div className="invoices-filters">
+      <div className="invoices-filters filters-panel">
         <input
           type="text"
           placeholder="Поиск по контрагенту, категории, статусу"
@@ -242,5 +242,3 @@ export function Invoices() {
     </div>
   );
 }
-
-

@@ -1,0 +1,73 @@
+/* Карточка счета */
+
+.account-card {
+  padding: 20px;
+}
+
+.account-header {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.account-title-section {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.account-name {
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--color-text-primary);
+}
+
+.account-status-inactive {
+  display: inline-flex;
+  align-items: center;
+  width: fit-content;
+  padding: 4px 8px;
+  border-radius: 999px;
+  background: var(--color-danger-surface);
+  color: var(--color-danger);
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.account-type {
+  align-self: flex-start;
+  padding: 6px 10px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.account-details {
+  display: grid;
+  gap: 10px;
+}
+
+.detail-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.detail-row .label {
+  color: var(--color-text-secondary);
+}
+
+.detail-row .value {
+  text-align: right;
+  color: var(--color-text-primary);
+}
+
+.detail-row .value.balance {
+  font-weight: 600;
+}
+
+.description-row,
+.meta-row {
+  align-items: flex-start;
+}

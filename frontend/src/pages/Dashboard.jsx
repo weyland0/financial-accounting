@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { useAuth } from '../context/AuthContext';
 import { getOrganization } from '../services/organizationService';
 import { CreateOrganizationModal } from '../components/CreateOrganizationModal';
-import '../styles/Dashboard.css';
+import '../styles/pages/dashboard.css';
 
 export function Dashboard() {
   const navigate = useNavigate();
@@ -48,10 +48,10 @@ export function Dashboard() {
   if (!hasOrganization) {
     return (
       <div className="main-dashboard">
-        <div className="dashboard-header">
-          <div className="header-left">
+        <div className="dashboard-page-header">
+          <div className="dashboard-header-left">
             <h1>Главная панель</h1>
-            <p className="header-subtitle">
+            <p className="dashboard-header-subtitle">
               Выберите действие для начала работы
             </p>
           </div>
@@ -84,10 +84,10 @@ export function Dashboard() {
   // Если есть организация - показываем быстрый доступ к функциям
   return (
     <div className="main-dashboard">
-      <div className="dashboard-header">
-        <div className="header-left">
+      <div className="dashboard-page-header">
+        <div className="dashboard-header-left">
           <h1>Главная панель</h1>
-          <p className="header-subtitle">
+          <p className="dashboard-header-subtitle">
             Организация: {organizationName || 'Загрузка...'}
           </p>
         </div>

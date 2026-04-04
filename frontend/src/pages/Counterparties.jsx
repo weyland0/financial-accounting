@@ -1,10 +1,10 @@
-import '../styles/Counterparties.css';
 import { useEffect, useMemo, useState } from "react";
 import { useAuth } from "../context/AuthContext";
 import { getCounterpartiesByOrganization } from "../services/counterpartyService";
 import { CreateCounterpartyModal } from "../components/CreateCounterpartyModal";
 import { UpdateCounterpartyModal } from "../components/UpdateCounterpartyModal";
 import { canCreate } from "../config/roles";
+import "../styles/pages/counterparties.css";
 
 export function Counterparties() {
   const { user, loading } = useAuth();
@@ -105,13 +105,13 @@ export function Counterparties() {
       </div>
 
       {error && (
-        <div className="counterparties-error">
+        <div className="counterparties-error alert alert-error">
           <span className="error-icon">⚠️</span>
           <span>{error}</span>
         </div>
       )}
 
-      <div className="counterparties-filters">
+      <div className="counterparties-filters filters-panel">
         <input
           type="text"
           placeholder="Поиск по имени, категории, email..."
@@ -129,8 +129,8 @@ export function Counterparties() {
         </select>
       </div>
 
-      <div className="counterparties-table-wrapper">
-        <table className="counterparties-table">
+      <div className="data-table-card">
+        <table className="data-table">
           <thead>
             <tr>
               <th>Имя</th>

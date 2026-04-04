@@ -6,8 +6,8 @@ import {
 } from "../services/organizationService";
 import { getUsersByOrganization } from "../services/userService";
 import { CreateInviteModal } from "../components/CreateInviteModal";
-import "../styles/OrganizationInfo.css";
 import { canEdit } from "../config/roles";
+import "../styles/pages/organization-info.css";
 
 export function OrganizationInfo() {
   const { user, loading, token } = useAuth();
@@ -98,15 +98,13 @@ export function OrganizationInfo() {
   };
 
   if (loading) {
-    return (
-      <div style={{ textAlign: "center", padding: "50px" }}>Загрузка...</div>
-    );
+    return <div className="loading-state">Загрузка...</div>;
   }
 
   if (!user?.organizationId) {
     return (
-      <div className="categories-container">
-        <div className="categories-empty-state">
+      <div className="organization-info">
+        <div className="empty-state">
           <h2>Организация не выбрана</h2>
           <p>
             Создайте или выберите организацию чтобы управлять статьями учета.
@@ -148,7 +146,7 @@ export function OrganizationInfo() {
       </div>
 
       {error && (
-        <div className="org-info-error">
+        <div className="org-info-error alert alert-error">
           <span className="error-icon">⚠️</span>
           <span>{error}</span>
         </div>
@@ -159,10 +157,10 @@ export function OrganizationInfo() {
           <label>Название:</label>
           {editMode ? (
             <input
+              className="form-control"
               name="name"
               value={editData.name}
               onChange={handleFieldChange}
-              style={{ width: "100%", padding: "8px" }}
             />
           ) : (
             <span>{organization.name}</span>
@@ -172,10 +170,10 @@ export function OrganizationInfo() {
           <label>Юр. название:</label>
           {editMode ? (
             <input
+              className="form-control"
               name="legalEntityName"
               value={editData.legalEntityName}
               onChange={handleFieldChange}
-              style={{ width: "100%", padding: "8px" }}
             />
           ) : (
             <span>{organization.legalEntityName}</span>
@@ -185,10 +183,10 @@ export function OrganizationInfo() {
           <label>Рег. номер:</label>
           {editMode ? (
             <input
+              className="form-control"
               name="registrationNumber"
               value={editData.registrationNumber}
               onChange={handleFieldChange}
-              style={{ width: "100%", padding: "8px" }}
             />
           ) : (
             <span>{organization.registrationNumber}</span>
@@ -198,10 +196,10 @@ export function OrganizationInfo() {
           <label>ИНН:</label>
           {editMode ? (
             <input
+              className="form-control"
               name="taxId"
               value={editData.taxId}
               onChange={handleFieldChange}
-              style={{ width: "100%", padding: "8px" }}
             />
           ) : (
             <span>{organization.taxId}</span>
@@ -211,10 +209,10 @@ export function OrganizationInfo() {
           <label>Адрес:</label>
           {editMode ? (
             <input
+              className="form-control"
               name="fullAddress"
               value={editData.fullAddress}
               onChange={handleFieldChange}
-              style={{ width: "100%", padding: "8px" }}
             />
           ) : (
             <span>{organization.fullAddress}</span>
@@ -224,10 +222,10 @@ export function OrganizationInfo() {
           <label>Телефон:</label>
           {editMode ? (
             <input
+              className="form-control"
               name="phone"
               value={editData.phone}
               onChange={handleFieldChange}
-              style={{ width: "100%", padding: "8px" }}
             />
           ) : (
             <span>{organization.phone}</span>
@@ -237,10 +235,10 @@ export function OrganizationInfo() {
           <label>Email:</label>
           {editMode ? (
             <input
+              className="form-control"
               name="email"
               value={editData.email}
               onChange={handleFieldChange}
-              style={{ width: "100%", padding: "8px" }}
               type="email"
             />
           ) : (

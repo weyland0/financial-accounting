@@ -3,8 +3,8 @@ import { useAuth } from "../context/AuthContext";
 import { getAllAccountsByOrganization } from "../services/accountService";
 import { AccountCard } from "../components/AccountCard";
 import { CreateAccountModal } from "../components/CreateAccountModal";
-import "../styles/Accounts.css";
 import { canCreate } from "../config/roles";
+import "../styles/pages/accounts.css";
 
 export function Accounts() {
   const { user, loading, token, hasRole } = useAuth();
@@ -79,7 +79,7 @@ export function Accounts() {
       </div>
 
       {error && (
-        <div className="accounts-error">
+        <div className="accounts-error alert alert-error">
           <span className="error-icon">⚠️</span>
           <span>{error}</span>
         </div>
