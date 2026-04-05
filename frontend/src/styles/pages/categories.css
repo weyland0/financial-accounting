@@ -1,13 +1,7 @@
 .btn-create-category {
-  padding: 11px 24px;
   background-color: var(--color-primary);
   color: var(--color-on-primary);
   border: none;
-  border-radius: var(--radius-sm);
-  font-size: 14px;
-  font-weight: 500;
-  cursor: pointer;
-  transition: all 0.2s ease;
 }
 
 .btn-create-category:hover {

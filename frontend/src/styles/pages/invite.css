@@ -43,15 +43,6 @@
   padding: 16px;
 }
 
-.btn-invite-accept,
-.btn-invite-reject {
-  width: 100%;
-  padding: 12px 16px;
-  border: none;
-  border-radius: var(--radius-sm);
-  cursor: pointer;
-}
-
 .btn-invite-accept {
   background: var(--color-success-strong);
   color: var(--color-on-primary);

@@ -110,7 +110,7 @@ export function Register() {
           {/* Submit кнопка */}
           <button
             type="submit"
-            className="btn-primary"
+            className="btn btn-primary"
             disabled={loading} // Отключаем во время загрузки
           >
             {loading ? "Загрузка..." : "Зарегестрироваться"}

@@ -81,8 +81,7 @@
   opacity: 0.65;
 }
 
-.auth-box .btn-primary {
-  padding: 11px 16px;
+.auth-box .btn.btn-primary {
   margin-top: 4px;
 }
 

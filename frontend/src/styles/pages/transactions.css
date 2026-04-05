@@ -1,17 +1,6 @@
-.btn-income,
-.btn-expense {
-  padding: 11px 16px;
-  border: none;
-  border-radius: var(--radius-sm);
-  font-size: 14px;
-  font-weight: 500;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  color: var(--color-on-primary);
-}
-
 .btn-income {
   background-color: var(--color-success-strong);
+  color: var(--color-on-primary);
 }
 
 .btn-income:hover {
@@ -21,6 +10,7 @@
 
 .btn-expense {
   background-color: var(--color-expense);
+  color: var(--color-on-primary);
 }
 
 .btn-expense:hover {

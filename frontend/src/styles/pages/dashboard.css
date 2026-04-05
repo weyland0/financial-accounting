@@ -93,17 +93,8 @@
 }
 
 .btn-notification {
-  padding: 12px 20px;
   background: var(--color-info-strong);
   color: var(--color-on-primary);
-  border: none;
-  border-radius: var(--radius-sm);
-  font-size: 14px;
-  font-weight: 500;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  white-space: nowrap;
-  flex-shrink: 0;
 }
 
 .btn-notification:hover {

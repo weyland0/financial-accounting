@@ -3,11 +3,12 @@
   align-items: center;
   justify-content: center;
   gap: 8px;
-  padding: 11px 16px;
+  padding: var(--btn-pad-y) var(--btn-pad-x);
   border: none;
   border-radius: var(--radius-sm);
-  font-size: 14px;
-  font-weight: 500;
+  font-size: var(--btn-font-size);
+  font-weight: var(--btn-font-weight);
+  line-height: 1.25;
   cursor: pointer;
   transition: all 0.2s ease;
 }
@@ -53,14 +54,18 @@
 }
 
 .btn-danger {
+  display: inline-flex;
   width: 100%;
-  padding: 10px 16px;
+  align-items: center;
+  justify-content: center;
+  padding: var(--btn-pad-y) var(--btn-pad-x);
   background-color: var(--color-danger-surface);
   color: var(--color-danger);
   border: 1px solid var(--color-danger-border-soft);
   border-radius: var(--radius-sm);
-  font-size: 14px;
-  font-weight: 500;
+  font-size: var(--btn-font-size);
+  font-weight: var(--btn-font-weight);
+  line-height: 1.25;
   cursor: pointer;
   transition: all 0.2s ease;
 }
@@ -72,4 +77,90 @@
 
 .btn-block {
   width: 100%;
+}
+
+/* Основные действия страниц без класса .btn (цвета задаются в page-стилях) */
+.btn-create-counterparty,
+.btn-create-category,
+.btn-create-invoice,
+.btn-income,
+.btn-expense {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: var(--btn-pad-y) var(--btn-pad-x);
+  border: none;
+  border-radius: var(--radius-sm);
+  font-size: var(--btn-font-size);
+  font-weight: var(--btn-font-weight);
+  line-height: 1.25;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn-row,
+.btn-pay,
+.btn-updated-counterparty {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: var(--btn-pad-y-sm) var(--btn-pad-x-sm);
+  border: none;
+  border-radius: var(--radius-sm);
+  font-size: var(--btn-font-size-sm);
+  font-weight: var(--btn-font-weight);
+  line-height: 1.25;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn-notification {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: var(--btn-pad-y) var(--btn-pad-x);
+  border: none;
+  border-radius: var(--radius-sm);
+  font-size: var(--btn-font-size);
+  font-weight: var(--btn-font-weight);
+  line-height: 1.25;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.btn-invite-accept,
+.btn-invite-reject {
+  width: 100%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--btn-pad-y) var(--btn-pad-x);
+  border: none;
+  border-radius: var(--radius-sm);
+  font-size: var(--btn-font-size);
+  font-weight: var(--btn-font-weight);
+  line-height: 1.25;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn-forbidden-home,
+.btn-forbidden-back {
+  width: 100%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 10px;
+  padding: var(--btn-pad-y) var(--btn-pad-x);
+  border-radius: var(--radius-sm);
+  font-size: var(--btn-font-size);
+  font-weight: var(--btn-font-weight);
+  line-height: 1.25;
+  cursor: pointer;
+  transition: all 0.2s ease;
 }

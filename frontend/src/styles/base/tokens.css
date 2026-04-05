@@ -75,4 +75,14 @@
   --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.08);
   --shadow-card: 0 2px 8px rgba(0, 0, 0, 0.08);
   --shadow-hover: 0 12px 24px rgba(0, 0, 0, 0.12);
+
+  /* Кнопки: основные действия на страницах и в формах */
+  --btn-pad-y: 11px;
+  --btn-pad-x: 16px;
+  --btn-font-size: 14px;
+  --btn-font-weight: 500;
+  /* Вторичные / в строках таблиц */
+  --btn-pad-y-sm: 8px;
+  --btn-pad-x-sm: 12px;
+  --btn-font-size-sm: 13px;
 }
