@@ -237,7 +237,7 @@ export function ProfitAndLoss() {
 
   if (!user?.organizationId) {
     return (
-      <div className="pnl-container">
+      <div className="page-shell">
         <div className="pnl-empty">
           <h2>Организация не выбрана</h2>
           <p>Создайте или выберите организацию, чтобы открыть отчёты.</p>
@@ -247,13 +247,15 @@ export function ProfitAndLoss() {
   }
 
   return (
-    <div className="pnl-container">
-      <div className="pnl-header">
-        <div>
+    <div className="page-shell">
+      <header className="page-header">
+        <div className="page-header__lead">
           <h1>Отчёт о прибылях и убытках (P&L)</h1>
-          <p>Начисление: учитываем счета (включая неоплаченные) + прочие операции</p>
+          <p className="page-header__subtitle">
+            Начисление: учитываем счета (включая неоплаченные) + прочие операции
+          </p>
         </div>
-      </div>
+      </header>
 
       {error && (
         <div className="pnl-error">

@@ -75,7 +75,7 @@ export function Counterparties() {
 
   if (!user?.organizationId) {
     return (
-      <div className="counterparties-container">
+      <div className="page-shell">
         <div className="counterparties-empty">
           <h2>Организация не выбрана</h2>
           <p>
@@ -87,22 +87,24 @@ export function Counterparties() {
   }
 
   return (
-    <div className="counterparties-container">
-      <div className="counterparties-header">
-        <div>
+    <div className="page-shell">
+      <header className="page-header">
+        <div className="page-header__lead">
           <h1>Клиенты / Партнеры</h1>
-          <p>Контрагенты вашей организации</p>
+          <p className="page-header__subtitle">Контрагенты вашей организации</p>
         </div>
 
         {canCreate(user.roleName, "/counterparties") && (
+          <div className="page-header__actions">
           <button
             className="btn-create-counterparty"
             onClick={() => setModalOpen(true)}
           >
             ➕ Добавить
           </button>
+          </div>
         )}
-      </div>
+      </header>
 
       {error && (
         <div className="counterparties-error alert alert-error">

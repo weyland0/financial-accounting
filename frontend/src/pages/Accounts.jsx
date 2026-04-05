@@ -48,7 +48,7 @@ export function Accounts() {
 
   if (!user?.organizationId) {
     return (
-      <div className="accounts-container">
+      <div className="page-shell">
         <div className="accounts-empty">
           <h2>Организация не выбрана</h2>
           <p>Для работы со счетами необходимо создать организацию</p>
@@ -58,16 +58,17 @@ export function Accounts() {
   }
 
   return (
-    <div className="accounts-container">
-      <div className="accounts-header">
-        <div className="header-content">
+    <div className="page-shell">
+      <header className="page-header">
+        <div className="page-header__lead">
           <h1>Счета организации</h1>
-          <p className="header-subtitle">
+          <p className="page-header__subtitle">
             Управление счетами вашей организации
           </p>
         </div>
 
         {canCreate(user.roleName, "/accounts") && (
+          <div className="page-header__actions">
           <button
             className="btn btn-primary"
             onClick={() => setShowModal(true)}
@@ -75,8 +76,9 @@ export function Accounts() {
           >
             ➕ Создать счет
           </button>
+          </div>
         )}
-      </div>
+      </header>
 
       {error && (
         <div className="accounts-error alert alert-error">

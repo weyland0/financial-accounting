@@ -105,7 +105,7 @@ export function Invoices() {
 
   if (!user?.organizationId) {
     return (
-      <div className="invoices-container">
+      <div className="page-shell">
         <div className="invoices-empty">
           <h2>Организация не выбрана</h2>
           <p>Создайте или выберите организацию, чтобы работать со счетами.</p>
@@ -115,18 +115,26 @@ export function Invoices() {
   }
 
   return (
-    <div className="invoices-container">
-      <div className="invoices-header">
-        <div>
+    <div className="page-shell">
+      <header className="page-header">
+        <div className="page-header__lead">
           <h1>Счета на оплату</h1>
-          <p>Выставленные вашей организацией и для вашей организации</p>
+          <p className="page-header__subtitle">
+            Выставленные вашей организацией и для вашей организации
+          </p>
         </div>
 
-        { canCreate(user.roleName, '/invoices') && (<button className="btn-create-invoice" onClick={() => setShowCreateModal(true)}>
-          ➕ Выставить счет
-        </button>)}
-
-      </div>
+        {canCreate(user.roleName, "/invoices") && (
+          <div className="page-header__actions">
+            <button
+              className="btn-create-invoice"
+              onClick={() => setShowCreateModal(true)}
+            >
+              ➕ Выставить счет
+            </button>
+          </div>
+        )}
+      </header>
 
       {error && (
         <div className="invoices-error">

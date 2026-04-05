@@ -1,28 +1,3 @@
-.organization-info {
-  min-height: 100vh;
-  background-color: var(--color-bg-app);
-  padding: 24px;
-  margin: 0 auto;
-}
-
-.organization-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 16px;
-  margin-bottom: 20px;
-}
-
-.organization-header h1 {
-  font-size: 24px;
-  color: var(--color-text-primary);
-}
-
-.organization-actions {
-  display: flex;
-  gap: 10px;
-}
-
 .org-info-error {
   margin-bottom: 20px;
 }
@@ -91,12 +66,6 @@
 }
 
 @media (max-width: 768px) {
-  .organization-info {
-    padding: 16px;
-  }
-
-  .organization-header,
-  .organization-actions,
   .employee-card {
     flex-direction: column;
     align-items: flex-start;

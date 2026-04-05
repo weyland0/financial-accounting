@@ -100,7 +100,7 @@ export function Transactions() {
 
   if (!user?.organizationId) {
     return (
-      <div className="transactions-container">
+      <div className="page-shell">
         <div className="transactions-empty">
           <h2>Организация не выбрана</h2>
           <p>Создайте или выберите организацию, чтобы работать с операциями.</p>
@@ -110,14 +110,14 @@ export function Transactions() {
   }
 
   return (
-    <div className="transactions-container">
-      <div className="transactions-header">
-        <div>
+    <div className="page-shell">
+      <header className="page-header">
+        <div className="page-header__lead">
           <h1>Операции</h1>
-          <p>Доходы и расходы вашей организации</p>
+          <p className="page-header__subtitle">Доходы и расходы вашей организации</p>
         </div>
         {canCreate(user.roleName, "/transactions") && (
-          <div className="actions">
+          <div className="page-header__actions">
             <button
               className="btn-income"
               onClick={() => setShowIncomeModal(true)}
@@ -132,7 +132,7 @@ export function Transactions() {
             </button>
           </div>
         )}
-      </div>
+      </header>
 
       {error && (
         <div className="transactions-error alert alert-error">

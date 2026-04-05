@@ -110,7 +110,7 @@ export function Categories() {
 
   if (!user?.organizationId) {
     return (
-      <div className="categories-container">
+      <div className="page-shell">
         <div className="categories-empty-state">
           <h2>Организация не выбрана</h2>
           <p>
@@ -122,22 +122,26 @@ export function Categories() {
   }
 
   return (
-    <div className="categories-container">
-      <div className="categories-header">
-        <div>
+    <div className="page-shell">
+      <header className="page-header page-header--spacious">
+        <div className="page-header__lead">
           <h1>Статьи учета</h1>
-          <p>Управление поступлениями и расходами вашей организации</p>
+          <p className="page-header__subtitle">
+            Управление поступлениями и расходами вашей организации
+          </p>
         </div>
 
         {canCreate(user.roleName, "/categories") && (
+          <div className="page-header__actions">
           <button
             className="btn-create-category"
             onClick={() => setModalOpen(true)}
           >
             ➕ Создать
           </button>
+          </div>
         )}
-      </div>
+      </header>
 
       {error && (
         <div className="categories-error">

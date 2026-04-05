@@ -217,7 +217,7 @@ export function CashFlow() {
 
   if (!user?.organizationId) {
     return (
-      <div className="cashflow-container">
+      <div className="page-shell">
         <div className="cashflow-empty">
           <h2>Организация не выбрана</h2>
           <p>Создайте или выберите организацию, чтобы открыть отчёты.</p>
@@ -227,13 +227,15 @@ export function CashFlow() {
   }
 
   return (
-    <div className="cashflow-container">
-      <div className="cashflow-header">
-        <div>
+    <div className="page-shell">
+      <header className="page-header">
+        <div className="page-header__lead">
           <h1>Отчёт о движении денежных средств (Cash Flow)</h1>
-          <p>Данные из операций (транзакций), исключая оплаты счетов</p>
+          <p className="page-header__subtitle">
+            Данные из операций (транзакций), исключая оплаты счетов
+          </p>
         </div>
-      </div>
+      </header>
 
       {error && (
         <div className="cashflow-error">

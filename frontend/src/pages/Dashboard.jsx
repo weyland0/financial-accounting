@@ -47,15 +47,15 @@ export function Dashboard() {
 
   if (!hasOrganization) {
     return (
-      <div className="main-dashboard">
-        <div className="dashboard-page-header">
-          <div className="dashboard-header-left">
+      <div className="page-shell page-shell--soft page-shell--dense">
+        <header className="page-header page-header--dashboard">
+          <div className="page-header__lead">
             <h1>Главная панель</h1>
-            <p className="dashboard-header-subtitle">
+            <p className="page-header__subtitle page-header__subtitle--prominent">
               Выберите действие для начала работы
             </p>
           </div>
-        </div>
+        </header>
 
         <div className="notification-banner">
           <div className="notification-icon">ℹ️</div>
@@ -83,15 +83,15 @@ export function Dashboard() {
 
   // Если есть организация - показываем быстрый доступ к функциям
   return (
-    <div className="main-dashboard">
-      <div className="dashboard-page-header">
-        <div className="dashboard-header-left">
+    <div className="page-shell page-shell--soft page-shell--dense">
+      <header className="page-header page-header--dashboard">
+        <div className="page-header__lead">
           <h1>Главная панель</h1>
-          <p className="dashboard-header-subtitle">
+          <p className="page-header__subtitle page-header__subtitle--prominent">
             Организация: {organizationName || 'Загрузка...'}
           </p>
         </div>
-      </div>
+      </header>
 
       <div className="features-section">
         <h2>Доступные инструменты</h2>

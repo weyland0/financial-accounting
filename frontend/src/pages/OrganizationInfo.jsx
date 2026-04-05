@@ -103,7 +103,7 @@ export function OrganizationInfo() {
 
   if (!user?.organizationId) {
     return (
-      <div className="organization-info">
+      <div className="page-shell page-shell--constrained">
         <div className="empty-state">
           <h2>Организация не выбрана</h2>
           <p>
@@ -115,17 +115,19 @@ export function OrganizationInfo() {
   }
 
   return (
-    <div className="organization-info">
-      <div className="organization-header">
-        <h1>Информация об организации</h1>
+    <div className="page-shell page-shell--constrained">
+      <header className="page-header">
+        <div className="page-header__lead">
+          <h1>Информация об организации</h1>
+        </div>
         {canEdit(user.roleName, "/organizationinfo") && (
-          <div>
+          <div className="page-header__actions">
             {!editMode ? (
               <button onClick={handleEditToggle} className="btn btn-primary">
                 Редактировать
               </button>
             ) : (
-              <div className="organization-actions">
+              <>
                 <button
                   onClick={handleSave}
                   disabled={saving}
@@ -139,11 +141,11 @@ export function OrganizationInfo() {
                 >
                   Отмена
                 </button>
-              </div>
+              </>
             )}
           </div>
         )}
-      </div>
+      </header>
 
       {error && (
         <div className="org-info-error alert alert-error">
@@ -248,16 +250,19 @@ export function OrganizationInfo() {
       </div>
 
       <div className="employees-section">
-        <div className="organization-header">
-          <h1>Сотрудники организации</h1>
-
+        <div className="page-header page-header--plain">
+          <div className="page-header__lead">
+            <h1>Сотрудники организации</h1>
+          </div>
           {canEdit(user.roleName, "/organizationinfo") && (
-            <button
-              onClick={() => setShowModal(true)}
-              className="btn btn-primary"
-            >
-              Добавить
-            </button>
+            <div className="page-header__actions">
+              <button
+                onClick={() => setShowModal(true)}
+                className="btn btn-primary"
+              >
+                Добавить
+              </button>
+            </div>
           )}
         </div>
 
