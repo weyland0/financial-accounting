@@ -136,23 +136,27 @@ export const AuthProvider = ( { children } ) => {
     setError(null);
   }, []);
 
-  const updateUserOrganization = (organizationId) => {
-    if (user) {
-      // Создаем новый объект, чтобы корректно сработал ререндер
-      const updatedUser = { ...user, organizationId };
-      setUser(updatedUser);
+  const updateUserOrganization = useCallback((organizationId) => {
+    setUser((prev) => {
+      if (!prev) return prev;
+      const updatedUser = { ...prev, organizationId };
       localStorage.setItem('user', JSON.stringify(updatedUser));
-    }
-  };
+      return updatedUser;
+    });
+  }, []);
 
-  const updateUserRole = (roleId) => {
-    if (user) {
-      // Создаем новый объект, чтобы корректно сработал ререндер
-      const updatedUser = { ...user, roleId };
-      setUser(updatedUser);
+  const updateUserRole = useCallback((roleId, roleName) => {
+    setUser((prev) => {
+      if (!prev) return prev;
+      const updatedUser = {
+        ...prev,
+        roleId,
+        ...(roleName !== undefined && { roleName }),
+      };
       localStorage.setItem('user', JSON.stringify(updatedUser));
-    }
-  };
+      return updatedUser;
+    });
+  }, []);
 
   const hasRole = useCallback((roles) => {
     if (!user?.roleName) {

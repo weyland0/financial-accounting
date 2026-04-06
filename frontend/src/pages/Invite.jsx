@@ -1,11 +1,12 @@
 import { useAuth } from "../context/AuthContext";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { acceptInvite, getInvite } from "../services/inviteService";
 import '../styles/pages/invite.css';
 
 export function Invite() {
-  const { user, updateUserOrganization, updateUserRole, setUser } = useAuth();
+  const navigate = useNavigate();
+  const { user, setUser } = useAuth();
   const { invite_token } = useParams();
   const [loading, setLoading] = useState(false);
   const [accepting, setAccepting] = useState(false);
@@ -39,15 +40,18 @@ export function Invite() {
     try {
       setAccepting(true);
       const response = await acceptInvite(invite_token, user.id);
-      const newUser = {
-        id: user.id,
-        email: user.email,
-        fullName: user.fullName,
+ 
+      const updatedUser = {
+        ...user,
+        organizationId: response.organizationId,
         roleId: response.roleId,
-        organizationId: response.organizationId
+        ...(invite.roleName != null && invite.roleName !== ''
+          ? { roleName: invite.roleName }
+          : {}),
       };
-
-      setUser(newUser);
+      setUser(updatedUser);
+      localStorage.setItem('user', JSON.stringify(updatedUser));
+      navigate('/dashboard');
 
     } catch (e) {
       console.log(e);
