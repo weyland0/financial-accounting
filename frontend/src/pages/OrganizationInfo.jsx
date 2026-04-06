@@ -148,7 +148,7 @@ export function OrganizationInfo() {
       </header>
 
       {error && (
-        <div className="org-info-error alert alert-error">
+        <div className="alert alert-error page-alert-error" role="alert">
           <span className="error-icon">⚠️</span>
           <span>{error}</span>
         </div>

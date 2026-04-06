@@ -18,6 +18,11 @@
   gap: 12px;
 }
 
+/* Отступ снизу под шапкой страницы — одинаковый на всех экранах */
+.page-alert-error {
+  margin-bottom: 20px;
+}
+
 .alert-success,
 .success-message {
   background-color: var(--color-success-surface);

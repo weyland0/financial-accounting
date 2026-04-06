@@ -81,7 +81,7 @@ export function Accounts() {
       </header>
 
       {error && (
-        <div className="accounts-error alert alert-error">
+        <div className="alert alert-error page-alert-error" role="alert">
           <span className="error-icon">⚠️</span>
           <span>{error}</span>
         </div>

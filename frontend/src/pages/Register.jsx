@@ -52,7 +52,12 @@ export function Register() {
         <h1>Регистрация в систему</h1>
 
         {/* Показываем ошибку если она есть */}
-        {localError && <div className="error-message">{localError}</div>}
+        {localError && (
+          <div className="alert alert-error page-alert-error" role="alert">
+            <span className="error-icon" aria-hidden="true">⚠️</span>
+            <span>{localError}</span>
+          </div>
+        )}
 
         {/* Форма логина */}
         <form onSubmit={handleSubmit}>

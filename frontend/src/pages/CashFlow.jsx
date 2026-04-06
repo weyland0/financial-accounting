@@ -238,7 +238,7 @@ export function CashFlow() {
       </header>
 
       {error && (
-        <div className="cashflow-error">
+        <div className="alert alert-error page-alert-error" role="alert">
           <span className="error-icon">⚠️</span>
           <span>{error}</span>
         </div>
