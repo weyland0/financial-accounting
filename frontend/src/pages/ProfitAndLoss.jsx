@@ -3,17 +3,13 @@ import { useAuth } from '../context/AuthContext';
 import { getTransactionsByOrganization } from '../services/transactionService';
 import { getInvoicesByOrganization } from '../services/invoiceService';
 import { getCategoriesByOrganization } from '../services/categoryService';
+import { parseDateOnly } from '../utils/dates';
+import { classifyExpenseCategory } from '../utils/expenseCategories';
+import { isInvoicePaymentTransaction } from '../utils/transactions';
 import '../styles/pages/profit-and-loss.css';
 
 function toDateOnlyString(d) {
   return d.toISOString().split('T')[0];
-}
-
-function parseDate(value) {
-  // value приходит как YYYY-MM-DD (DateOnly сериализован строкой)
-  if (!value) return null;
-  const d = new Date(value);
-  return isNaN(d) ? null : d;
 }
 
 function periodKey(date, granularity) {
@@ -28,23 +24,6 @@ function periodKey(date, granularity) {
 function periodLabel(key, granularity) {
   if (granularity === 'month') return key;
   return key;
-}
-
-function isInvoicePaymentTransaction(tx) {
-  // В InvoiceService мы создаем транзакцию со Status = "Оплата счета #<id>"
-  const s = (tx?.status || '').toLowerCase();
-  return s.startsWith('оплата счета #');
-}
-
-function classifyExpenseCategory(category) {
-  // ActivityType у вас сейчас свободным текстом. Делаем безопасную классификацию:
-  // - если явно похоже на себестоимость/COGS -> COGS
-  // - иначе расходы считаем OpEx
-  const t = (category?.activityType || '').toLowerCase();
-  if (t.includes('cogs') || t.includes('себестоим') || t.includes('сырь') || t.includes('материал')) {
-    return 'COGS';
-  }
-  return 'OPEX';
 }
 
 export function ProfitAndLoss() {
@@ -91,8 +70,8 @@ export function ProfitAndLoss() {
   }, [categories]);
 
   const periods = useMemo(() => {
-    const from = parseDate(fromDate);
-    const to = parseDate(toDate);
+    const from = parseDateOnly(fromDate);
+    const to = parseDateOnly(toDate);
     if (!from || !to) return [];
     // генерируем список периодов, чтобы таблица была стабильной
     const out = [];
@@ -114,8 +93,8 @@ export function ProfitAndLoss() {
   }, [fromDate, toDate, granularity]);
 
   const pnl = useMemo(() => {
-    const from = parseDate(fromDate);
-    const to = parseDate(toDate);
+    const from = parseDateOnly(fromDate);
+    const to = parseDateOnly(toDate);
     if (!from || !to) {
       return null;
     }
@@ -146,7 +125,7 @@ export function ProfitAndLoss() {
 
     // 1) Invoices — начисление: учитываем ВСЕ, даже неоплаченные
     for (const inv of invoices) {
-      const d = parseDate(inv.invoiceDate);
+      const d = parseDateOnly(inv.invoiceDate);
       if (!d || !inRange(d)) continue;
       const key = periodKey(d, granularity);
       const cat = categoryById.get(inv.categoryId);
@@ -165,7 +144,7 @@ export function ProfitAndLoss() {
     // 2) Transactions — добавляем “прочие” операции, исключая оплаты счетов (чтобы не задвоить начисление)
     for (const tx of transactions) {
       if (isInvoicePaymentTransaction(tx)) continue;
-      const d = parseDate(tx.transactionDate);
+      const d = parseDateOnly(tx.transactionDate);
       if (!d || !inRange(d)) continue;
       const key = periodKey(d, granularity);
       const cat = categoryById.get(tx.categoryId);

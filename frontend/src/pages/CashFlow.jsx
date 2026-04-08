@@ -3,16 +3,12 @@ import { useAuth } from '../context/AuthContext';
 import { getTransactionsByOrganization } from '../services/transactionService';
 import { getCategoriesByOrganization } from '../services/categoryService';
 import { activityTypeLabels } from '../config/enums'
+import { parseDateOnly } from '../utils/dates';
+import { isInvoicePaymentTransaction } from '../utils/transactions';
 import '../styles/pages/cash-flow.css';
 
 function toDateOnlyString(d) {
   return d.toISOString().split('T')[0];
-}
-
-function parseDate(value) {
-  if (!value) return null;
-  const d = new Date(value);
-  return isNaN(d) ? null : d;
 }
 
 function periodKey(date, granularity) {
@@ -27,11 +23,6 @@ function periodKey(date, granularity) {
 function periodLabel(key, granularity) {
   if (granularity === 'month') return key;
   return key;
-}
-
-function isInvoicePaymentTransaction(tx) {
-  const s = (tx?.status || '').toLowerCase();
-  return s.startsWith('оплата счета #');
 }
 
 function normalizeActivityType(activityType) {
@@ -86,8 +77,8 @@ export function CashFlow() {
   }, [categories]);
 
   const periods = useMemo(() => {
-    const from = parseDate(fromDate);
-    const to = parseDate(toDate);
+    const from = parseDateOnly(fromDate);
+    const to = parseDateOnly(toDate);
     if (!from || !to) return [];
     const out = [];
     const cursor = new Date(from.getFullYear(), from.getMonth(), 1);
@@ -106,8 +97,8 @@ export function CashFlow() {
   }, [fromDate, toDate, granularity]);
 
   const cashFlow = useMemo(() => {
-    const from = parseDate(fromDate);
-    const to = parseDate(toDate);
+    const from = parseDateOnly(fromDate);
+    const to = parseDateOnly(toDate);
     if (!from || !to) {
       return null;
     }
@@ -139,7 +130,7 @@ export function CashFlow() {
 
     // 1) Рассчитываем начальный баланс (все транзакции до начала периода)
     for (const tx of validTransactions) {
-      const d = parseDate(tx.transactionDate);
+      const d = parseDateOnly(tx.transactionDate);
       if (!d || !beforeRange(d)) continue;
       
       const amount = Number(tx.amount || 0);
@@ -158,7 +149,7 @@ export function CashFlow() {
 
     // 2) Рассчитываем движение по периодам и активностям
     for (const tx of validTransactions) {
-      const d = parseDate(tx.transactionDate);
+      const d = parseDateOnly(tx.transactionDate);
       if (!d || !inRange(d)) continue;
       
       const key = periodKey(d, granularity);
