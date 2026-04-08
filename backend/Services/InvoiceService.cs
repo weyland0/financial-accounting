@@ -179,9 +179,9 @@ public class InvoiceService : IInvoiceService
             CategoryId = invoice.CategoryId,
             TransactionType = invoice.InvoiceType,
             Counterparty = counterparty.Name,
-            TransactionDate = DateOnly.FromDateTime(DateTime.UtcNow),
+            TransactionDate = request.PaymentDate ?? DateOnly.FromDateTime(DateTime.UtcNow),
             Amount = request.Amount,
-            Status = $"Оплата счета #{invoice.Id}",
+            Status = TransactionStatuses.InvoicePayment(invoice.Id),
             CreatedAt = DateTime.UtcNow,
             UpdatedAt = DateTime.UtcNow
         };
@@ -193,14 +193,7 @@ public class InvoiceService : IInvoiceService
         invoice.UpdatedAt = DateTime.UtcNow;
 
         var newRemaining = invoice.Amount - invoice.PaidAmount;
-        if (newRemaining <= 0)
-        {
-            invoice.Status = "Оплачен";
-        }
-        else
-        {
-            invoice.Status = "Оплачен частично";
-        }
+        invoice.Status = newRemaining <= 0 ? InvoiceStatuses.Paid : InvoiceStatuses.PartiallyPaid;
 
         await _context.SaveChangesAsync();
 

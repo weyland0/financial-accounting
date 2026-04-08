@@ -73,16 +73,37 @@ public class AccountService : IAccountService
         }
 
         List<Account> accounts = await _context.Accounts.Where(acc => acc.OrganizationId == orgId).ToListAsync();
+
         if (accounts.Count == 0)
         {
-            return Result<List<AccountResponse>>.Failure("Счета не найдены", 404);
+            return Result<List<AccountResponse>>.Success([]);
         }
 
-        var responses = new List<AccountResponse>();
-        foreach (var account in accounts)
-        {
-            responses.Add(await MapWithBalance(account));
-        }
+        var accountIds = accounts.Select(a => a.Id).ToList();
+
+        // Загружаем суммы всех транзакций одним запросом, группируем в памяти
+        var totals = await _context.Transactions
+            .Where(t => accountIds.Contains(t.AccountId))
+            .GroupBy(t => new { t.AccountId, t.TransactionType })
+            .Select(g => new { g.Key.AccountId, g.Key.TransactionType, Total = g.Sum(t => (decimal?)t.Amount) ?? 0m })
+            .ToListAsync();
+
+        var incomeByAccount = totals
+            .Where(x => x.TransactionType == "INCOME")
+            .ToDictionary(x => x.AccountId, x => x.Total);
+
+        var expenseByAccount = totals
+            .Where(x => x.TransactionType == "EXPENSE")
+            .ToDictionary(x => x.AccountId, x => x.Total);
+
+        var responses = accounts
+            .Select(account =>
+            {
+                var income = incomeByAccount.GetValueOrDefault(account.Id, 0m);
+                var expense = expenseByAccount.GetValueOrDefault(account.Id, 0m);
+                return MapToResponse(account, income - expense);
+            })
+            .ToList();
 
         return Result<List<AccountResponse>>.Success(responses);
     }
@@ -98,8 +119,11 @@ public class AccountService : IAccountService
             .Where(t => t.AccountId == account.Id && t.TransactionType == "EXPENSE")
             .SumAsync(t => (decimal?)t.Amount) ?? 0m;
 
-        var balance = incomes - expenses;
+        return MapToResponse(account, incomes - expenses);
+    }
 
+    private static AccountResponse MapToResponse(Account account, decimal balance)
+    {
         return new AccountResponse
         {
             Id = account.Id,

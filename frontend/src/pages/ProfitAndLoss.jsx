@@ -162,24 +162,20 @@ export function ProfitAndLoss() {
 
     const grossProfit = initSeries();
     const operatingProfit = initSeries();
-    const netProfit = initSeries();
 
     for (const p of periods) {
       grossProfit[p] = revenueTotal[p] - cogsTotal[p];
       operatingProfit[p] = grossProfit[p] - opexTotal[p];
-      netProfit[p] = operatingProfit[p];
     }
 
     // Рентабельности (в %)
     const grossMargin = initSeries();
     const operatingMargin = initSeries();
-    const netMargin = initSeries();
 
     for (const p of periods) {
       const rev = revenueTotal[p] || 0;
       grossMargin[p] = rev ? (grossProfit[p] / rev) * 100 : 0;
       operatingMargin[p] = rev ? (operatingProfit[p] / rev) * 100 : 0;
-      netMargin[p] = rev ? (netProfit[p] / rev) * 100 : 0;
     }
 
     // Упорядочим категории выручки по сумме за выбранный период
@@ -197,8 +193,7 @@ export function ProfitAndLoss() {
       grossProfit,
       opexTotal,
       operatingProfit,
-      netProfit,
-      margins: { grossMargin, operatingMargin, netMargin }
+      margins: { grossMargin, operatingMargin }
     };
   }, [fromDate, toDate, granularity, periods, invoices, transactions, categoryById]);
 
@@ -311,10 +306,6 @@ export function ProfitAndLoss() {
                   {periods.map(p => <td key={p} className="amount">{formatMoney(pnl.operatingProfit[p])}</td>)}
                 </tr>
 
-                <tr className="row-main">
-                  <td>Чистая прибыль</td>
-                  {periods.map(p => <td key={p} className="amount">{formatMoney(pnl.netProfit[p])}</td>)}
-                </tr>
               </>
             )}
           </tbody>
@@ -341,17 +332,6 @@ export function ProfitAndLoss() {
                 <div key={p} className="margin-item">
                   <span className="k">{periodLabel(p, granularity)}</span>
                   <span className="v">{formatPct(pnl.margins.operatingMargin[p])}</span>
-                </div>
-              ))}
-            </div>
-          </div>
-          <div className="margin-card">
-            <h3>Чистая маржа</h3>
-            <div className="margin-grid">
-              {periods.map(p => (
-                <div key={p} className="margin-item">
-                  <span className="k">{periodLabel(p, granularity)}</span>
-                  <span className="v">{formatPct(pnl.margins.netMargin[p])}</span>
                 </div>
               ))}
             </div>

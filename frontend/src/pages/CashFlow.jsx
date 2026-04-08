@@ -4,7 +4,6 @@ import { getTransactionsByOrganization } from '../services/transactionService';
 import { getCategoriesByOrganization } from '../services/categoryService';
 import { activityTypeLabels } from '../config/enums'
 import { parseDateOnly } from '../utils/dates';
-import { isInvoicePaymentTransaction } from '../utils/transactions';
 import '../styles/pages/cash-flow.css';
 
 function toDateOnlyString(d) {
@@ -125,14 +124,11 @@ export function CashFlow() {
     const inRange = (d) => d >= from && d <= to;
     const beforeRange = (d) => d < from;
 
-    // Фильтруем транзакции (исключаем оплаты счетов)
-    const validTransactions = transactions.filter(tx => !isInvoicePaymentTransaction(tx));
-
     // 1) Рассчитываем начальный баланс (все транзакции до начала периода)
-    for (const tx of validTransactions) {
+    for (const tx of transactions) {
       const d = parseDateOnly(tx.transactionDate);
       if (!d || !beforeRange(d)) continue;
-      
+
       const amount = Number(tx.amount || 0);
       if (tx.transactionType === 'INCOME') {
         beginningBalanceValue += amount;
@@ -141,14 +137,12 @@ export function CashFlow() {
       }
     }
 
-    // Создаем серию с одинаковым начальным балансом для всех периодов
+    // Начальный баланс каждого периода = конечный баланс предыдущего
+    // Заполняем после расчёта periodChange (см. ниже)
     const beginningBalance = initSeries();
-    for (const p of periods) {
-      beginningBalance[p] = beginningBalanceValue;
-    }
 
     // 2) Рассчитываем движение по периодам и активностям
-    for (const tx of validTransactions) {
+    for (const tx of transactions) {
       const d = parseDateOnly(tx.transactionDate);
       if (!d || !inRange(d)) continue;
       
@@ -177,10 +171,12 @@ export function CashFlow() {
       periodChange[p] = operating + investing + financial;
     }
 
+    // Начальный баланс периода N = конечный баланс периода N-1
     // Конечный баланс = начальный + накопленные изменения
     const endingBalance = initSeries();
     let accumulated = beginningBalanceValue;
     for (const p of periods) {
+      beginningBalance[p] = accumulated;
       accumulated += periodChange[p];
       endingBalance[p] = accumulated;
     }
@@ -223,7 +219,7 @@ export function CashFlow() {
         <div className="page-header__lead">
           <h1>Отчёт о движении денежных средств (Cash Flow)</h1>
           <p className="page-header__subtitle">
-            Данные из операций (транзакций), исключая оплаты счетов
+            Данные из всех транзакций (фактическое движение денежных средств)
           </p>
         </div>
       </header>

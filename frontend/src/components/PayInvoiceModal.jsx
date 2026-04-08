@@ -13,6 +13,7 @@ export function PayInvoiceModal({
   organizationId
 }) {
   const [amount, setAmount] = useState('');
+  const [paymentDate, setPaymentDate] = useState('');
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
@@ -25,6 +26,7 @@ export function PayInvoiceModal({
   useEffect(() => {
     if (isOpen && invoice) {
       setAmount(remaining.toString());
+      setPaymentDate(new Date().toISOString().split('T')[0]);
       setError(null);
       setSuccess(false);
     }
@@ -53,8 +55,9 @@ export function PayInvoiceModal({
       const payload = {
         invoiceId: invoice.id,
         organizationId,
-        accountId: invoice.accountId, // оплачиваем с заранее заданного счета
-        amount: payAmount
+        accountId: invoice.accountId,
+        amount: payAmount,
+        paymentDate: paymentDate || undefined
       };
 
       const data = await payInvoice(payload);
@@ -148,6 +151,19 @@ export function PayInvoiceModal({
               <div className="form-group">
                 <label>Остаток к оплате</label>
                 <div className="form-readonly">{Number(remaining).toFixed(2)}</div>
+              </div>
+
+              <div className="form-group">
+                <label htmlFor="paymentDate">Дата оплаты *</label>
+                <input
+                  id="paymentDate"
+                  type="date"
+                  name="paymentDate"
+                  value={paymentDate}
+                  onChange={e => setPaymentDate(e.target.value)}
+                  disabled={loading}
+                  required
+                />
               </div>
 
               <div className="form-group">

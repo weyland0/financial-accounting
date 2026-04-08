@@ -22,6 +22,11 @@ public class TransactionService : ITransactionService
 
     public async Task<Result<TransactionResponse>> Create(TransactionRequest request)
     {
+        if (request.Amount <= 0)
+        {
+            return Result<TransactionResponse>.Failure("Сумма должна быть больше 0", 400);
+        }
+
         // Проверяем существование организации
         var orgExists = await _context.Organizations.AnyAsync(o => o.Id == request.OrganizationId);
         if (!orgExists)
