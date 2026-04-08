@@ -128,9 +128,19 @@
   font-weight: var(--btn-font-weight);
   line-height: 1.25;
   cursor: pointer;
-  transition: all 0.3s ease;
+  transition: background-color 0.2s ease, transform 0.2s ease;
   white-space: nowrap;
   flex-shrink: 0;
+  background: var(--color-info-strong);
+  color: var(--color-on-primary);
+}
+
+.btn-notification:hover:not(:disabled) {
+  background: var(--color-info);
+}
+
+.btn-notification:active:not(:disabled) {
+  transform: translateY(1px);
 }
 
 .btn-invite-accept,

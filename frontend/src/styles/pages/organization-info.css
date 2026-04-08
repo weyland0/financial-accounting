@@ -46,6 +46,20 @@
   align-items: center;
   gap: 16px;
   padding: 16px;
+  border: 1px solid var(--color-border-subtle);
+  border-radius: var(--radius-sm);
+  background: var(--color-surface);
+}
+
+.employee-card__main {
+  min-width: 0;
+}
+
+.employee-card__meta {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-shrink: 0;
 }
 
 .employee-name {
@@ -59,6 +73,51 @@
 .employee-role {
   color: var(--color-text-secondary);
   font-size: 13px;
+  white-space: nowrap;
+}
+
+.employee-menu-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  padding: 0;
+  border: 1px solid var(--color-border-default);
+  border-radius: var(--radius-sm);
+  background: var(--color-surface);
+  color: var(--color-text-secondary);
+  font-size: 18px;
+  line-height: 1;
+  letter-spacing: 1px;
+  cursor: pointer;
+  transition:
+    background 0.2s ease,
+    border-color 0.2s ease,
+    color 0.2s ease;
+}
+
+.employee-menu-btn:hover {
+  background: var(--color-surface-muted);
+  border-color: var(--color-border-strong);
+  color: var(--color-text-primary);
+}
+
+.update-role-employee-summary {
+  margin: 0 0 20px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.update-role-employee-summary strong {
+  color: var(--color-text-primary);
+  font-size: 15px;
+}
+
+.update-role-employee-email {
+  font-size: 13px;
+  color: var(--color-text-secondary);
 }
 
 @media (max-width: 768px) {

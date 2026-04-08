@@ -6,3 +6,59 @@
   border-radius: var(--radius-md);
   box-shadow: var(--shadow-sm);
 }
+
+/**
+ * Сетка карточек быстрых действий / навигации (дашборд и др.).
+ */
+.action-tile-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 20px;
+}
+
+.action-tile {
+  padding: 24px;
+  background: var(--color-surface-subtle);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--color-border-subtle);
+  text-align: center;
+  transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+  position: relative;
+  cursor: default;
+}
+
+.action-tile--clickable {
+  cursor: pointer;
+}
+
+.action-tile:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-hover);
+  border-color: var(--color-accent-feature);
+}
+
+.action-tile__icon {
+  font-size: 36px;
+  margin-bottom: 16px;
+}
+
+.action-tile h3 {
+  margin: 0 0 8px 0;
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--color-text-primary);
+}
+
+.action-tile p {
+  margin: 0;
+  color: var(--color-text-secondary);
+  font-size: 14px;
+  line-height: 1.4;
+}
+
+@media (max-width: 768px) {
+  .action-tile-grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+}

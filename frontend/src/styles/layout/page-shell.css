@@ -24,6 +24,26 @@
   box-shadow: var(--shadow-sm);
 }
 
+/* Модификаторы панели контента (секции под шапкой страницы) */
+.page-panel--padded {
+  padding: 24px;
+}
+
+.page-panel--elevated {
+  box-shadow: var(--shadow-card);
+}
+
+.page-panel--spacing {
+  margin-bottom: 24px;
+}
+
+.page-section-title {
+  margin: 0 0 20px 0;
+  font-size: 20px;
+  font-weight: 600;
+  color: var(--color-text-primary);
+}
+
 .page-header {
   background: var(--color-surface);
   padding: 24px 28px;
@@ -98,6 +118,10 @@
 
   .page-shell--dense {
     padding: 12px;
+  }
+
+  .page-panel--padded {
+    padding: 16px;
   }
 
   .page-header--dashboard {

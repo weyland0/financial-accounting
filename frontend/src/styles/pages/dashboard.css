@@ -1,125 +1,96 @@
-.features-section {
-  background: var(--color-surface);
-  padding: 24px;
-  border-radius: var(--radius-md);
-  box-shadow: var(--shadow-card);
-  margin: 0 auto;
-}
-
-.features-section h2 {
-  margin: 0 0 20px 0;
-  font-size: 20px;
-  color: var(--color-text-primary);
-}
-
-.features-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 20px;
-}
-
-.feature-card {
-  padding: 24px;
-  background: var(--color-surface-subtle);
-  border-radius: var(--radius-md);
-  border: 1px solid var(--color-border-subtle);
+/* Короткие сообщения без полноэкранного empty-state */
+.dashboard-fallback-msg {
   text-align: center;
-  transition: all 0.3s ease;
-  position: relative;
-  cursor: default;
+  padding: 48px 20px;
+  color: var(--color-text-secondary);
+  font-size: 15px;
 }
 
-.feature-card.clickable {
-  cursor: pointer;
-}
-
-.feature-card:hover {
-  transform: translateY(-4px);
-  box-shadow: var(--shadow-hover);
-  border-color: var(--color-accent-feature);
-}
-
-.feature-icon {
-  font-size: 36px;
+/* Блок «Сводка»: заголовок можно переиспользовать, отступ снизу у сетки */
+.dashboard-summary__title.page-section-title {
   margin-bottom: 16px;
 }
 
-.feature-card h3 {
-  margin: 0 0 8px 0;
-  font-size: 18px;
-  color: var(--color-text-primary);
-}
-
-.feature-card p {
+.dashboard-summary__loading {
   margin: 0;
   color: var(--color-text-secondary);
   font-size: 14px;
-  line-height: 1.4;
 }
 
-.notification-banner {
-  display: flex;
-  align-items: center;
+.dashboard-summary__grid {
+  display: grid;
+  align-items: stretch;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
   gap: 16px;
-  padding: 24px;
-  background: var(--color-info-surface);
-  border-left: 4px solid var(--color-info-strong);
-  border-radius: var(--radius-md);
-  margin-bottom: 30px;
-  max-width: 1200px;
-  margin-left: auto;
-  margin-right: auto;
 }
 
-.notification-icon {
-  font-size: 24px;
+/**
+ * KPI: базовый «поднос» из .stat-card, дальше — только раскладка и типографика.
+ */
+.dashboard-stat-card {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 6px;
+  box-sizing: border-box;
+  padding: 20px;
+  text-align: left;
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease,
+    border-color 0.2s ease;
+}
+
+.dashboard-stat-card--clickable {
+  cursor: pointer;
+  font: inherit;
+  width: 100%;
+  color: inherit;
+}
+
+.dashboard-stat-card--clickable:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-hover);
+  border-color: var(--color-border-strong);
+}
+
+.dashboard-stat-card__label {
   flex-shrink: 0;
+  width: 100%;
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--color-text-tertiary);
 }
 
-.notification-content {
-  flex: 1;
+/* Прижимает сумму и подсказку к нижнему краю карточки: в ряду сетки строки выравниваются */
+.dashboard-stat-card__value {
+  margin-top: auto;
+  width: 100%;
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--color-text-primary);
+  font-variant-numeric: tabular-nums;
 }
 
-.notification-content h3 {
-  margin: 0 0 8px 0;
-  font-size: 18px;
-  color: var(--color-info);
+.dashboard-stat-card__value--positive {
+  color: var(--color-amount-income);
 }
 
-.notification-content p {
-  margin: 0;
-  color: var(--color-text-on-info);
-  font-size: 14px;
+.dashboard-stat-card__value--negative {
+  color: var(--color-amount-expense);
 }
 
-.btn-notification {
-  background: var(--color-info-strong);
-  color: var(--color-on-primary);
-}
-
-.btn-notification:hover {
-  background: var(--color-info);
-  transform: translateY(-1px);
+.dashboard-stat-card__hint {
+  width: 100%;
+  font-size: 12px;
+  color: var(--color-text-secondary);
+  line-height: 1.35;
 }
 
 @media (max-width: 768px) {
-  .features-section {
-    padding: 16px;
-  }
-
-  .features-grid {
+  .dashboard-summary__grid {
     grid-template-columns: 1fr;
-    gap: 16px;
-  }
-
-  .notification-banner {
-    flex-direction: column;
-    align-items: flex-start;
-    text-align: left;
-  }
-
-  .btn-notification {
-    width: 100%;
-    margin-top: 12px;
   }
 }

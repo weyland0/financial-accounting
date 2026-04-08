@@ -13,6 +13,144 @@
   margin-bottom: 12px;
 }
 
+/* Сводка по срокам: быстрые фильтры */
+.invoices-due-summary {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 16px;
+}
+
+.invoices-due-summary__chip {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 4px;
+  padding: 12px 16px;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--color-border-subtle);
+  background: var(--color-surface);
+  cursor: pointer;
+  text-align: left;
+  font: inherit;
+  color: inherit;
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease,
+    background 0.2s ease;
+}
+
+.invoices-due-summary__chip:hover {
+  border-color: var(--color-border-strong);
+  box-shadow: var(--shadow-sm);
+}
+
+.invoices-due-summary__chip.is-active {
+  border-color: var(--color-text-tertiary);
+  box-shadow: var(--shadow-focus-muted);
+}
+
+.invoices-due-summary__chip--danger {
+  border-left: 4px solid var(--color-danger);
+  background: var(--color-danger-surface);
+}
+
+.invoices-due-summary__chip--warning {
+  border-left: 4px solid var(--color-category-expense);
+  background: #fff8f6;
+}
+
+.invoices-due-summary__chip--neutral {
+  border-left: 4px solid var(--color-info-strong);
+  background: var(--color-info-surface);
+}
+
+.invoices-due-summary__chip-title {
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--color-text-tertiary);
+}
+
+.invoices-due-summary__chip-meta {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--color-text-primary);
+  font-variant-numeric: tabular-nums;
+}
+
+.invoices-payup-cell {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 4px;
+}
+
+.invoices-due-badge {
+  display: inline-block;
+  font-size: 11px;
+  font-weight: 600;
+  padding: 2px 8px;
+  border-radius: 999px;
+  letter-spacing: 0.02em;
+}
+
+.invoices-due-badge--overdue {
+  background: var(--color-danger-surface);
+  color: var(--color-danger);
+  border: 1px solid var(--color-danger-border-soft);
+}
+
+.invoices-due-badge--soon {
+  background: var(--color-badge-private-bg);
+  color: var(--color-badge-private-text);
+}
+
+.invoices-remaining {
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+
+.invoices-remaining--overdue {
+  color: var(--color-danger);
+}
+
+.invoices-remaining--soon {
+  color: var(--color-badge-private-text);
+}
+
+.invoices-table tbody tr.invoice-row--overdue {
+  background: linear-gradient(
+    90deg,
+    var(--color-danger-surface) 0%,
+    var(--color-surface-row-hover) 8px,
+    transparent 48px
+  );
+}
+
+.invoices-table tbody tr.invoice-row--overdue:hover {
+  background: linear-gradient(
+    90deg,
+    var(--color-danger-border-soft) 0%,
+    var(--color-surface-muted) 8px,
+    var(--color-surface-muted) 100%
+  );
+}
+
+.invoices-table tbody tr.invoice-row--due-soon {
+  background: linear-gradient(
+    90deg,
+    rgba(255, 107, 107, 0.08) 0%,
+    var(--color-surface-row-hover) 8px,
+    transparent 48px
+  );
+}
+
+.invoices-table tbody tr.invoice-row--due-soon:hover {
+  background: var(--color-surface-muted);
+}
+
 .invoices-table-wrapper {
   background: var(--color-surface);
   border: 1px solid var(--color-border-subtle);
