@@ -1,7 +1,7 @@
 using System.Reflection.Metadata;
 using finacc.DataAccess;
 using finacc.DTOs;
-using finacc.Models;
+using finacc.Utility;
 using Microsoft.EntityFrameworkCore;
 
 namespace finacc.Services;
@@ -39,6 +39,7 @@ public class RoleService : IRoleService
 
         return Result<RoleResponse>.Success(response);
     }
+
     public async Task<Result<List<RoleResponse>>> GetAll()
     {
         var roles = await _context.Roles.ToListAsync();
