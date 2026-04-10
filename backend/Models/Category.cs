@@ -5,7 +5,7 @@ namespace finacc.Models;
 
 
 [Table("categories")]
-public class Categories
+public class Category
 {
     [Key]
     [Column("category_id")]

@@ -37,7 +37,7 @@ public class CategoryService : ICategoryService
             return Result<CategoryResponse>.Failure("Организация не найдена", 404);
         }
 
-        var category = new Categories
+        var category = new Category
         {
             Name = request.Name,
             CategoryType = request.CategoryType,
@@ -66,7 +66,7 @@ public class CategoryService : ICategoryService
         return Result<List<CategoryResponse>>.Success(responses);
     }
 
-    private static CategoryResponse MapToResponse(Categories category)
+    private static CategoryResponse MapToResponse(Category category)
     {
         return new CategoryResponse
         {
