@@ -1,9 +1,9 @@
-using finacc.Application.Invoices.Commands;
-using finacc.Application.Invoices.Queries;
-using finacc.DTOs;
-using finacc.Utility;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using finacc.DTOs.Invoice;
+using finacc.Utility;
+using finacc.Application.Invoices.Commands;
+using finacc.Application.Invoices.Queries;
 
 namespace finacc.Controllers;
 
@@ -42,7 +42,7 @@ public class InvoiceController : ControllerBase
 
     [HttpPost("pay")]
     [Authorize(Roles = "owner,admin,accountant")]
-    public async Task<IActionResult> Pay([FromBody] InvoicePaymentRequest request)
+    public async Task<IActionResult> Pay([FromBody] PayInvoiceRequest request)
     {
         if (!ModelState.IsValid) return ValidationProblem(ModelState);
         return (await _payHandler.Handle(request)).ToActionResult();

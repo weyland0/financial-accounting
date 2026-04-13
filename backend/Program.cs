@@ -5,8 +5,6 @@ using Microsoft.IdentityModel.Tokens;
 
 using finacc.DataAccess;
 using finacc.Services;
-using finacc.Application.Invoices.Commands;
-using finacc.Application.Invoices.Queries;
 using finacc.Application.Services;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -24,7 +22,7 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection"))
 );
 
-// application services
+// crud services
 builder.Services.AddScoped<IPasswordHasher, PasswordHasher>();
 builder.Services.AddScoped<IJwtTokenService, JwtTokenService>();
 builder.Services.AddScoped<IAuthService, AuthService>();
@@ -33,18 +31,23 @@ builder.Services.AddScoped<IAccountService, AccountService>();
 builder.Services.AddScoped<ICategoryService, CategoryService>();
 builder.Services.AddScoped<ITransactionService, TransactionService>();
 builder.Services.AddScoped<ICounterpartyService, CounterpartyService>();
+builder.Services.AddScoped<IUserService, UserService>();
+// builder.Services.AddScoped<IInviteService, InviteService>();
+builder.Services.AddScoped<IRoleService, RoleService>();
 
 
 // Application services
 builder.Services.AddScoped<BalanceService>();
 
 // Invoice use-case handlers
-builder.Services.AddScoped<CreateInvoiceHandler>();
-builder.Services.AddScoped<PayInvoiceHandler>();
-builder.Services.AddScoped<GetInvoicesByOrganizationHandler>();
-builder.Services.AddScoped<IUserService, UserService>();
-builder.Services.AddScoped<IInviteService, InviteService>();
-builder.Services.AddScoped<IRoleService, RoleService>();
+builder.Services.AddScoped<finacc.Application.Invoices.Commands.CreateInvoiceHandler>();
+builder.Services.AddScoped<finacc.Application.Invoices.Commands.PayInvoiceHandler>();
+builder.Services.AddScoped<finacc.Application.Invoices.Queries.GetInvoicesByOrganizationHandler>();
+
+// Invite use-case handlers
+builder.Services.AddScoped<finacc.Application.Invites.Commands.CreateInviteHandler>();
+builder.Services.AddScoped<finacc.Application.Invites.Queries.GetInviteByTokenHandler>();
+builder.Services.AddScoped<finacc.Application.Invites.Commands.AcceptInviteHandler>();
 
 var jwtSettings = builder.Configuration.GetSection("Jwt");
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)

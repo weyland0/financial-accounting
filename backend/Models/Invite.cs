@@ -31,4 +31,14 @@ public class Invite
 
     [Column("created_at")]
     public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
+
+    public void MarkAsUsed()
+    {
+        IsRevoked = true;
+    }
+
+    public bool IsExpired()
+    {
+        return DateTime.UtcNow > ExpireTime;
+    }
 }

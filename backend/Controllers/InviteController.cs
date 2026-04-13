@@ -1,8 +1,9 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using finacc.Services;
-using finacc.DTOs;
 using finacc.Utility;
+using finacc.DTOs.Invite;
+using finacc.Application.Invites.Commands;
+using finacc.Application.Invites.Queries;
 
 namespace FinanceApp.Controllers;
 
@@ -11,32 +12,36 @@ namespace FinanceApp.Controllers;
 [Authorize]
 public class InviteController : ControllerBase
 {
-    private readonly IInviteService _service;
+    private readonly CreateInviteHandler _createInviteHandler;
+    private readonly AcceptInviteHandler _acceptInviteHandler;
+    private readonly GetInviteByTokenHandler _getInviteByTokenHandler;
 
 
-    public InviteController(IInviteService service)
+    public InviteController(CreateInviteHandler createInviteHandler, AcceptInviteHandler acceptInviteHandler, GetInviteByTokenHandler getInviteByTokenHandler)
     {
-        _service = service;
+        _createInviteHandler = createInviteHandler;
+        _acceptInviteHandler = acceptInviteHandler;
+        _getInviteByTokenHandler = getInviteByTokenHandler;
     }
 
     [HttpPost("create")]
-    public async Task<IActionResult> Create(InviteRequest request)
+    public async Task<IActionResult> Create(CreateInviteRequest request)
     {
-        var result = await _service.Create(request);
+        var result = await _createInviteHandler.Handle(request);
         return result.ToActionResult();
     }
 
     [HttpGet("{invite_token}")]
     public async Task<IActionResult> Get(string invite_token)
     {
-        var result = await _service.Get(invite_token);
+        var result = await _getInviteByTokenHandler.Handle(invite_token);
         return result.ToActionResult();
     }
 
     [HttpPut("accept/{token}")]
-    public async Task<IActionResult> Accept(string token, [FromBody] InviteAcceptRequest request)
+    public async Task<IActionResult> Accept(string token, [FromBody] AcceptInviteRequest request)
     {
-        var result = await _service.Accept(token, request);
+        var result = await _acceptInviteHandler.Handle(token, request);
         return result.ToActionResult();
     }
 }

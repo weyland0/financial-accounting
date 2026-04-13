@@ -37,4 +37,11 @@ public class User
 
     [ForeignKey("RoleId")]
     public Role? Role { get; set; }
+
+    public void JoinOrganization(int organizationId, int roleId)
+    {
+        OrganizationId = organizationId;
+        RoleId = roleId;
+        UpdatedAt = DateTime.UtcNow;
+    }
 }

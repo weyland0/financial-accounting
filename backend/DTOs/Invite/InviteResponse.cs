@@ -1,4 +1,4 @@
-namespace finacc.DTOs;
+namespace finacc.DTOs.Invite;
 
 
 public class InviteResponse
@@ -9,11 +9,4 @@ public class InviteResponse
     public required string RoleName { get; set; }
     public bool IsRevoked { get; set; }
     public DateTime CreatedAt { get; set; }
-}
-
-
-public class InviteAcceptResponse
-{
-    public int RoleId { get; set; }
-    public int OrganizationId { get; set; }
 }
