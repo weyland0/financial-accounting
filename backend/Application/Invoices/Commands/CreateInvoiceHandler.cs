@@ -1,6 +1,6 @@
 using finacc.Application.Invoices.Domain;
 using finacc.DataAccess;
-using finacc.DTOs;
+using finacc.DTOs.Invoice;
 using finacc.Models;
 using finacc.Utility;
 
@@ -17,7 +17,7 @@ public class CreateInvoiceHandler
         _invoiceCreationDataLoader = new InvoiceCreationDataLoader(context);
     }
 
-    public async Task<Result<InvoiceResponse>> Handle(CreateInvoiceRequest request)
+    public async Task<Result<InvoiceResponse>> Handle(InvoiceCreationRequest request)
     {
         var creationDataResult = await _invoiceCreationDataLoader.Load(request);
         if (!creationDataResult.IsSuccess)

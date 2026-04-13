@@ -1,4 +1,4 @@
-namespace finacc.DTOs;
+namespace finacc.DTOs.Invoice;
 
 public class InvoiceResponse
 {
@@ -19,5 +19,3 @@ public class InvoiceResponse
     public string? CategoryType { get; set; }
     public string? CounterpartyName { get; set; }
 }
-
-

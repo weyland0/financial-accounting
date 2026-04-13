@@ -1,6 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using finacc.DataAccess;
-using finacc.DTOs;
+using finacc.DTOs.Invoice;
 using finacc.Utility;
 
 namespace finacc.Application.Invoices;
@@ -14,7 +14,7 @@ public class InvoiceCreationDataLoader
         _context = context;
     }
 
-    public async Task<Result<InvoiceCreationData>> Load(CreateInvoiceRequest request)
+    public async Task<Result<InvoiceCreationData>> Load(InvoiceCreationRequest request)
     {
         var account = await _context.Accounts.FirstOrDefaultAsync(a =>
             a.Id == request.AccountId && a.OrganizationId == request.OrganizationId);

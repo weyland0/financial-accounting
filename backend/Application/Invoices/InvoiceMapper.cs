@@ -1,4 +1,4 @@
-using finacc.DTOs;
+using finacc.DTOs.Invoice;
 using finacc.Models;
 namespace finacc.Application.Invoices;
 public static class InvoiceMapper

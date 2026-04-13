@@ -1,4 +1,4 @@
-namespace finacc.DTOs;
+namespace finacc.DTOs.Invoice;
 
 public class InvoicePaymentRequest
 {
@@ -8,5 +8,3 @@ public class InvoicePaymentRequest
     public required decimal Amount { get; set; }
     public DateOnly? PaymentDate { get; set; }
 }
-
-

@@ -1,6 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using finacc.DataAccess;
-using finacc.DTOs;
+using finacc.DTOs.Invoice;
 using finacc.Utility;
 namespace finacc.Application.Invoices;
 

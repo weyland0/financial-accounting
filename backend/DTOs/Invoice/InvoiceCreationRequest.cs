@@ -1,6 +1,6 @@
-namespace finacc.DTOs;
+namespace finacc.DTOs.Invoice;
 
-public class CreateInvoiceRequest
+public class InvoiceCreationRequest
 {
     public required int OrganizationId { get; set; }
     public required int AccountId { get; set; }
@@ -12,5 +12,3 @@ public class CreateInvoiceRequest
     public required decimal Amount { get; set; }
     public string? Status { get; set; }
 }
-
-
