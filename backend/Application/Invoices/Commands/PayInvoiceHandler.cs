@@ -10,7 +10,7 @@ namespace finacc.Application.Invoices.Commands;
 public class PayInvoiceHandler
 {
     private readonly ApplicationDbContext _context;
-    private readonly InvoicePaymentDataLoader _invoicePaymentDataLoader;
+    private readonly PayInvoiceDataLoader _invoicePaymentDataLoader;
     private readonly BalanceService _balanceService;
 
     public PayInvoiceHandler(ApplicationDbContext context, BalanceService balanceService)
@@ -18,10 +18,10 @@ public class PayInvoiceHandler
         _context = context;
         _balanceService = balanceService;
         
-        _invoicePaymentDataLoader = new InvoicePaymentDataLoader(context);
+        _invoicePaymentDataLoader = new PayInvoiceDataLoader(context);
     }
 
-    public async Task<Result<InvoiceResponse>> Handle(InvoicePaymentRequest request)
+    public async Task<Result<InvoiceResponse>> Handle(PayInvoiceRequest request)
     {
         // Load invoice data
         var paymentDataResult = await _invoicePaymentDataLoader.Load(request);
@@ -40,7 +40,7 @@ public class PayInvoiceHandler
         }
 
         // ensure can pay
-        var paymentPolicyResult = InvoicePaymentPolicy.EnsureCanPay(paymentData.Invoice, request.Amount, balanceResult.Data!);
+        var paymentPolicyResult = PayInvoicePolicy.EnsureCanPay(paymentData.Invoice, request.Amount, balanceResult.Data!);
         if (!paymentPolicyResult.IsSuccess)
         {
             return Result<InvoiceResponse>.Failure(paymentPolicyResult.ErrorMessage, paymentPolicyResult.ErrorCode);

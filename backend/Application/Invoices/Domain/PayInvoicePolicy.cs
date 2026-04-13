@@ -4,7 +4,7 @@ using finacc.Utility;
 
 namespace finacc.Application.Invoices.Domain;
 
-public static class InvoicePaymentPolicy
+public static class PayInvoicePolicy
 {
     public static Result EnsureCanPay(Invoice invoice, decimal paymentAmount, decimal availableBalance)
     {

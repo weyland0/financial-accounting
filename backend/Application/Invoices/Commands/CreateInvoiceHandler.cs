@@ -9,15 +9,15 @@ namespace finacc.Application.Invoices.Commands;
 public class CreateInvoiceHandler
 {
     private readonly ApplicationDbContext _context;
-    private readonly InvoiceCreationDataLoader _invoiceCreationDataLoader;
+    private readonly CreateInvoiceDataLoader _invoiceCreationDataLoader;
 
     public CreateInvoiceHandler(ApplicationDbContext context)
     {
         _context = context;
-        _invoiceCreationDataLoader = new InvoiceCreationDataLoader(context);
+        _invoiceCreationDataLoader = new CreateInvoiceDataLoader(context);
     }
 
-    public async Task<Result<InvoiceResponse>> Handle(InvoiceCreationRequest request)
+    public async Task<Result<InvoiceResponse>> Handle(CreateInvoiceRequest request)
     {
         var creationDataResult = await _invoiceCreationDataLoader.Load(request);
         if (!creationDataResult.IsSuccess)
@@ -26,7 +26,7 @@ public class CreateInvoiceHandler
         }
         var creationData = creationDataResult.Data!;
 
-        var creationPolicyResult = InvoiceCreationPolicy.EnsureCanCreate(request.Amount);
+        var creationPolicyResult = CreateInvoicePolicy.EnsureCanCreate(request.Amount);
         if (!creationPolicyResult.IsSuccess)
         {
             return Result<InvoiceResponse>.Failure(creationPolicyResult.ErrorMessage, creationPolicyResult.ErrorCode);

@@ -1,6 +1,6 @@
 namespace finacc.DTOs.Invoice;
 
-public class InvoicePaymentRequest
+public class PayInvoiceRequest
 {
     public required int InvoiceId { get; set; }
     public required int OrganizationId { get; set; }

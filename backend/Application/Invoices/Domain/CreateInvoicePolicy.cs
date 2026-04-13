@@ -4,7 +4,7 @@ using finacc.Utility;
 
 namespace finacc.Application.Invoices.Domain;
 
-public static class InvoiceCreationPolicy
+public static class CreateInvoicePolicy
 {
     public static Result EnsureCanCreate(decimal paymentAmount)
     {
