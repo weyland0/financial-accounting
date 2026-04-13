@@ -50,4 +50,19 @@ public class Invoice
 
     [Column("paid_amount")]
     public decimal PaidAmount { get; set; } = 0;
+
+
+    public void RegisterPayment(decimal amount)
+    {
+        PaidAmount += amount;
+        UpdatedAt = DateTime.UtcNow;
+        Status = (Amount - PaidAmount) <= 0
+            ? InvoiceStatuses.Paid
+            : InvoiceStatuses.PartiallyPaid;
+    }
+
+    public decimal GetRemainingAmount()
+    {
+        return Amount - PaidAmount;
+    }
 }
