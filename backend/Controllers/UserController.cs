@@ -4,26 +4,37 @@ using finacc.Services;
 using finacc.DTOs;
 using finacc.Utility;
 
-namespace FinanceApp.Controllers;
+namespace finacc.Controllers;
 
 
 [ApiController]
 [Route("[controller]")]
 [Authorize]
-public class UserController : ControllerBase
+public class UserController : BaseControllerContext
 {
     private readonly IUserService _service;
-
 
     public UserController(IUserService service)
     {
         _service = service;
     }
 
-    [HttpGet("{orgId}")]
-    public async Task<IActionResult> GetAllByOrganizationId(int orgId)
+    [HttpGet("organization")]
+    public async Task<IActionResult> GetAllByOrganizationId()
     {
-        var result = await _service.GetAllByOrganizationId(orgId);
+        var orgId = GetOrganizationId();
+        if (orgId is null) return Forbid();
+        var result = await _service.GetAllByOrganizationId(orgId.Value);
+        return result.ToActionResult();
+    }
+
+    [HttpPut("update-role/{id}")]
+    [Authorize(Roles = "owner,admin")]
+    public async Task<IActionResult> UpdateRole(int id, [FromBody] UserRoleUpdateRequest request)
+    {
+        var orgId = GetOrganizationId();
+        if (orgId is null) return Forbid();
+        var result = await _service.UpdateRole(id, orgId.Value, request);
         return result.ToActionResult();
     }
 }

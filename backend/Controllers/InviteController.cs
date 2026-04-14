@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using finacc.Filters;
 using finacc.Utility;
 using finacc.DTOs.Invite;
 using finacc.Application.Invites.Commands;
@@ -33,12 +34,14 @@ public class InviteController : BaseControllerContext
     }
 
     [HttpGet("{inviteToken}")]
+    [SkipOrganizationContext]
     public async Task<IActionResult> Get(string inviteToken)
     {
         return (await _getInviteByTokenHandler.Handle(inviteToken)).ToActionResult();
     }
 
     [HttpPut("accept/{token}")]
+    [SkipOrganizationContext]
     public async Task<IActionResult> Accept(string token)
     {
         var userId = GetUserId();

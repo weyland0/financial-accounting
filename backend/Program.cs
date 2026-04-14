@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 
 using finacc.DataAccess;
+using finacc.Filters;
 using finacc.Services;
 using finacc.Application.Services;
 
@@ -35,6 +36,7 @@ builder.Services.AddScoped<IUserService, UserService>();
 // builder.Services.AddScoped<IInviteService, InviteService>();
 builder.Services.AddScoped<IRoleService, RoleService>();
 
+builder.Services.AddScoped<RequireOrganizationContextFilter>();
 
 // Application services
 builder.Services.AddScoped<BalanceService>();

@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using finacc.Services;
 using finacc.DTOs;
+using finacc.Filters;
 using finacc.Utility;
 
 namespace finacc.Controllers;
@@ -21,6 +22,7 @@ public class OrganizationController : BaseControllerContext
     }
 
     [HttpPost("create")]
+    [SkipOrganizationContext]
     public async Task<IActionResult> Create([FromBody] OrganizationRequest request)
     {
         if (!ModelState.IsValid) return ValidationProblem(ModelState);
