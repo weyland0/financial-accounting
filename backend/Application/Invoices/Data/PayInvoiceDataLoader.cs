@@ -2,7 +2,8 @@ using Microsoft.EntityFrameworkCore;
 using finacc.DataAccess;
 using finacc.DTOs.Invoice;
 using finacc.Utility;
-namespace finacc.Application.Invoices;
+
+namespace finacc.Application.Invoices.Data;
 
 public class PayInvoiceDataLoader
 {
