@@ -25,12 +25,6 @@ public class CategoryService : ICategoryService
 
     public async Task<Result<CategoryResponse>> Create(int organizationId, CategoryRequest request)
     {
-        var orgExists = await _context.Organizations.AnyAsync(o => o.Id == organizationId);
-        if (!orgExists)
-        {
-            return Result<CategoryResponse>.Failure("Организация не найдена", 404);
-        }
-
         var category = new Category
         {
             Name = request.Name,

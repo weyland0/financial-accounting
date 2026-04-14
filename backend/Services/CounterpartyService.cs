@@ -24,12 +24,6 @@ public class CounterpartyService : ICounterpartyService
 
     public async Task<Result<CounterpartyResponse>> Create(int organizationId, CounterpartyRequest request)
     {
-        var orgExists = await _context.Organizations.AnyAsync(o => o.Id == organizationId);
-        if (!orgExists)
-        {
-            return Result<CounterpartyResponse>.Failure("Организация не найдена", 404);
-        }
-
         var counterparty = new Counterparty
         {
             Name = request.Name,
@@ -50,12 +44,6 @@ public class CounterpartyService : ICounterpartyService
 
     public async Task<Result<List<CounterpartyResponse>>> GetAllByOrganization(int organizationId)
     {
-        var orgExists = await _context.Organizations.AnyAsync(o => o.Id == organizationId);
-        if (!orgExists)
-        {
-            return Result<List<CounterpartyResponse>>.Failure("Организация не найдена", 404);
-        }
-
         var items = await _context.Counterparties
             .Where(c => c.OrganizationId == organizationId)
             .OrderBy(c => c.Name)

@@ -58,8 +58,7 @@ public class OrganizationService : IOrganizationService
         await _context.SaveChangesAsync();
 
         // Назначаем пользователя администратором организации
-        user.OrganizationId = org.Id;
-        user.RoleId = 1;
+        user.JoinOrganization(org.Id, 1);
         await _context.SaveChangesAsync();
 
         // Возвращаем ответ

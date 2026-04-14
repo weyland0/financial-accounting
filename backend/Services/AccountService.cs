@@ -64,13 +64,6 @@ public class AccountService : IAccountService
 
     public async Task<Result<List<AccountResponse>>> GetAllByOrganization(int orgId)
     {
-        // Получаем орагнизацию
-        Organization? org = await _context.Organizations.FindAsync(orgId);
-        if (org is null)
-        {
-            return Result<List<AccountResponse>>.Failure("Организация не найдена", 404);
-        }
-
         List<Account> accounts = await _context.Accounts.Where(acc => acc.OrganizationId == orgId).ToListAsync();
 
         if (accounts.Count == 0)

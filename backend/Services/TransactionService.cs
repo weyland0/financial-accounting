@@ -28,13 +28,6 @@ public class TransactionService : ITransactionService
             return Result<TransactionResponse>.Failure("Сумма должна быть больше 0", 400);
         }
 
-        // Проверяем существование организации
-        var orgExists = await _context.Organizations.AnyAsync(o => o.Id == organizationId);
-        if (!orgExists)
-        {
-            return Result<TransactionResponse>.Failure("Организация не найдена", 404);
-        }
-
         // Проверяем счет принадлежит организации
         var account = await _context.Accounts.FirstOrDefaultAsync(a =>
             a.Id == request.AccountId && a.OrganizationId == organizationId);
