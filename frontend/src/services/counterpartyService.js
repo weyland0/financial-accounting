@@ -14,9 +14,9 @@ export async function createCounterparty(data) {
   }
 }
 
-export async function getCounterpartiesByOrganization(orgId) {
+export async function getCounterpartiesByOrganization() {
   try {
-    const response = await api.get(`/counterparty/get-by-organization/${orgId}`);
+    const response = await api.get('/counterparty/get-by-organization');
     return response.data;
   } catch (error) {
     const errorMessage =

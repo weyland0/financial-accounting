@@ -2,7 +2,7 @@ namespace finacc.DTOs;
 
 public class TransactionRequest
 {
-    public required int OrganizationId { get; set; }
+    // OrganizationId убран — извлекается из JWT-токена в контроллере
     public required int AccountId { get; set; }
     public required int CategoryId { get; set; }
     public required string TransactionType { get; set; } // INCOME | EXPENSE

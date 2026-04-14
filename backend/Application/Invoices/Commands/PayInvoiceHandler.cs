@@ -21,10 +21,10 @@ public class PayInvoiceHandler
         _invoicePaymentDataLoader = new PayInvoiceDataLoader(context);
     }
 
-    public async Task<Result<InvoiceResponse>> Handle(PayInvoiceRequest request)
+    public async Task<Result<InvoiceResponse>> Handle(int organizationId, PayInvoiceRequest request)
     {
         // Load invoice data
-        var paymentDataResult = await _invoicePaymentDataLoader.Load(request);
+        var paymentDataResult = await _invoicePaymentDataLoader.Load(organizationId, request);
         if (!paymentDataResult.IsSuccess)
         {
             return Result<InvoiceResponse>.Failure(paymentDataResult.ErrorMessage, paymentDataResult.ErrorCode);
@@ -48,7 +48,7 @@ public class PayInvoiceHandler
 
         var transaction = new Transaction
         {
-            OrganizationId = request.OrganizationId,
+            OrganizationId = organizationId,
             AccountId = paymentData.Account.Id,
             CategoryId = paymentData.Invoice.CategoryId,
             TransactionType = paymentData.Invoice.InvoiceType,

@@ -39,8 +39,13 @@ export function Invite() {
   const handleInviteAccaption = async () => {
     try {
       setAccepting(true);
-      const response = await acceptInvite(invite_token, user.id);
- 
+      // userId больше не передаём — бэкенд читает его из JWT
+      const response = await acceptInvite(invite_token);
+
+      // Сохраняем новые токены с обновлённым organizationId внутри JWT
+      localStorage.setItem('accessToken', response.accessToken);
+      localStorage.setItem('refreshToken', response.refreshToken);
+
       const updatedUser = {
         ...user,
         organizationId: response.organizationId,

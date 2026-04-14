@@ -9,7 +9,7 @@ namespace finacc.Controllers;
 [ApiController]
 [Route("[controller]")]
 [Authorize]
-public class CounterpartyController : ControllerBase
+public class CounterpartyController : BaseControllerContext
 {
     private readonly ICounterpartyService _counterpartyService;
 
@@ -19,31 +19,29 @@ public class CounterpartyController : ControllerBase
     }
 
     [HttpPost("create")]
-    [Authorize(Roles ="owner,admin,accountant")]
+    [Authorize(Roles = "owner,admin,accountant")]
     public async Task<IActionResult> Create([FromBody] CounterpartyRequest request)
     {
-        if (!ModelState.IsValid)
-        {
-            return ValidationProblem(ModelState);
-        }
-
-        var result = await _counterpartyService.Create(request);
-        return result.ToActionResult();
+        if (!ModelState.IsValid) return ValidationProblem(ModelState);
+        var orgId = GetOrganizationId();
+        if (orgId is null) return Forbid();
+        return (await _counterpartyService.Create(orgId.Value, request)).ToActionResult();
     }
 
-    [HttpGet("get-by-organization/{orgId}")]
-    public async Task<IActionResult> GetAllByOrganization(int orgId)
+    [HttpGet("get-by-organization")]
+    public async Task<IActionResult> GetAllByOrganization()
     {
-        var result = await _counterpartyService.GetAllByOrganization(orgId);
-        return result.ToActionResult();
+        var orgId = GetOrganizationId();
+        if (orgId is null) return Forbid();
+        return (await _counterpartyService.GetAllByOrganization(orgId.Value)).ToActionResult();
     }
 
     [HttpPut("update/{id}")]
-    [Authorize(Roles ="owner,admin,accountant")]
+    [Authorize(Roles = "owner,admin,accountant")]
     public async Task<IActionResult> Update(int id, [FromBody] CounterpartyRequest request)
     {
-        var result = await _counterpartyService.Update(id, request);
-        return result.ToActionResult();
+        var orgId = GetOrganizationId();
+        if (orgId is null) return Forbid();
+        return (await _counterpartyService.Update(id, orgId.Value, request)).ToActionResult();
     }
 }
-

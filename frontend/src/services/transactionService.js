@@ -14,9 +14,10 @@ export async function createTransaction(data) {
   }
 }
 
-export async function getTransactionsByOrganization(orgId) {
+export async function getTransactionsByOrganization() {
   try {
-    const response = await api.get(`/transaction/organization/${orgId}`);
+    // orgId убран из URL — бэкенд читает из JWT
+    const response = await api.get('/transaction/organization');
     return response.data;
   } catch (error) {
     const errorMessage =

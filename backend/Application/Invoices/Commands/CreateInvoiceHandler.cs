@@ -17,9 +17,9 @@ public class CreateInvoiceHandler
         _invoiceCreationDataLoader = new CreateInvoiceDataLoader(context);
     }
 
-    public async Task<Result<InvoiceResponse>> Handle(CreateInvoiceRequest request)
+    public async Task<Result<InvoiceResponse>> Handle(int organizationId, CreateInvoiceRequest request)
     {
-        var creationDataResult = await _invoiceCreationDataLoader.Load(request);
+        var creationDataResult = await _invoiceCreationDataLoader.Load(organizationId, request);
         if (!creationDataResult.IsSuccess)
         {
             return Result<InvoiceResponse>.Failure(creationDataResult.ErrorMessage, creationDataResult.ErrorCode);
@@ -30,11 +30,11 @@ public class CreateInvoiceHandler
         if (!creationPolicyResult.IsSuccess)
         {
             return Result<InvoiceResponse>.Failure(creationPolicyResult.ErrorMessage, creationPolicyResult.ErrorCode);
-        } 
+        }
 
         var invoice = new Invoice
         {
-            OrganizationId = request.OrganizationId,
+            OrganizationId = organizationId,
             AccountId = request.AccountId,
             CategoryId = request.CategoryId,
             CounterpartyId = request.CounterpartyId,

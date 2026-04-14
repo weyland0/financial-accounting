@@ -30,16 +30,17 @@ export async function getAccount(id, token) {
   }
 }
 
-export async function getAllAccountsByOrganization(orgId, token) {
+export async function getAllAccountsByOrganization() {
   try {
-    const response = await api.get(`/account/get-by-organization/${orgId}`);
+    // orgId убран из URL — бэкенд читает из JWT
+    const response = await api.get('/account/get-by-organization');
     return response.data;
   } catch (error) {
     const errorMessage =
       error.response?.data?.detail ||
       error.response?.data?.title ||
       error.message ||
-      "Ошибка при получении счета";
+      "Ошибка при получении счетов";
 
     throw new Error(errorMessage);
   }

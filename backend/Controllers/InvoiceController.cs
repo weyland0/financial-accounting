@@ -10,7 +10,7 @@ namespace finacc.Controllers;
 [ApiController]
 [Route("[controller]")]
 [Authorize]
-public class InvoiceController : ControllerBase
+public class InvoiceController : BaseControllerContext
 {
     private readonly CreateInvoiceHandler _createHandler;
     private readonly PayInvoiceHandler _payHandler;
@@ -31,13 +31,17 @@ public class InvoiceController : ControllerBase
     public async Task<IActionResult> Create([FromBody] CreateInvoiceRequest request)
     {
         if (!ModelState.IsValid) return ValidationProblem(ModelState);
-        return (await _createHandler.Handle(request)).ToActionResult();
+        var orgId = GetOrganizationId();
+        if (orgId is null) return Forbid();
+        return (await _createHandler.Handle(orgId.Value, request)).ToActionResult();
     }
 
-    [HttpGet("organization/{orgId}")]
-    public async Task<IActionResult> GetAll(int orgId)
+    [HttpGet("organization")]
+    public async Task<IActionResult> GetAll()
     {
-        return (await _getByOrgHandler.Handle(orgId)).ToActionResult();
+        var orgId = GetOrganizationId();
+        if (orgId is null) return Forbid();
+        return (await _getByOrgHandler.Handle(orgId.Value)).ToActionResult();
     }
 
     [HttpPost("pay")]
@@ -45,7 +49,9 @@ public class InvoiceController : ControllerBase
     public async Task<IActionResult> Pay([FromBody] PayInvoiceRequest request)
     {
         if (!ModelState.IsValid) return ValidationProblem(ModelState);
-        return (await _payHandler.Handle(request)).ToActionResult();
+        var orgId = GetOrganizationId();
+        if (orgId is null) return Forbid();
+        return (await _payHandler.Handle(orgId.Value, request)).ToActionResult();
     }
 }
 

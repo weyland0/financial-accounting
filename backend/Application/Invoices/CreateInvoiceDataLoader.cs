@@ -14,10 +14,10 @@ public class CreateInvoiceDataLoader
         _context = context;
     }
 
-    public async Task<Result<CreateInvoiceData>> Load(CreateInvoiceRequest request)
+    public async Task<Result<CreateInvoiceData>> Load(int organizationId, CreateInvoiceRequest request)
     {
         var account = await _context.Accounts.FirstOrDefaultAsync(a =>
-            a.Id == request.AccountId && a.OrganizationId == request.OrganizationId);
+            a.Id == request.AccountId && a.OrganizationId == organizationId);
         if (account is null)
         {
             return Result<CreateInvoiceData>.Failure("Счёт не найден или не принадлежит организации", 404);
@@ -25,14 +25,14 @@ public class CreateInvoiceDataLoader
 
         var category = await _context.Categories.FirstOrDefaultAsync(c =>
             c.Id == request.CategoryId &&
-            (c.OrganizationId == request.OrganizationId || c.OrganizationId == null));
+            (c.OrganizationId == organizationId || c.OrganizationId == null));
         if (category is null)
         {
             return Result<CreateInvoiceData>.Failure("Статья учёта не найдена", 404);
         }
 
         var counterparty = await _context.Counterparties.FirstOrDefaultAsync(c =>
-            c.Id == request.CounterpartyId && c.OrganizationId == request.OrganizationId);
+            c.Id == request.CounterpartyId && c.OrganizationId == organizationId);
         if (counterparty is null)
         {
             return Result<CreateInvoiceData>.Failure("Контрагент не найден в организации", 404);

@@ -2,6 +2,7 @@ import api from './api';
 
 export async function createInvoice(data) {
   try {
+    // organizationId убран из data — бэкенд читает из JWT
     const response = await api.post('/invoice/create', data);
     return response.data;
   } catch (error) {
@@ -14,9 +15,10 @@ export async function createInvoice(data) {
   }
 }
 
-export async function getInvoicesByOrganization(orgId) {
+export async function getInvoicesByOrganization() {
   try {
-    const response = await api.get(`/invoice/organization/${orgId}`);
+    // orgId убран из URL — бэкенд читает из JWT
+    const response = await api.get('/invoice/organization');
     return response.data;
   } catch (error) {
     const errorMessage =
@@ -30,6 +32,7 @@ export async function getInvoicesByOrganization(orgId) {
 
 export async function payInvoice(data) {
   try {
+    // organizationId убран из data — бэкенд читает из JWT
     const response = await api.post('/invoice/pay', data);
     return response.data;
   } catch (error) {

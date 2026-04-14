@@ -2,7 +2,7 @@ namespace finacc.DTOs.Invoice;
 
 public class CreateInvoiceRequest
 {
-    public required int OrganizationId { get; set; }
+    // OrganizationId убран — извлекается из JWT-токена в контроллере
     public required int AccountId { get; set; }
     public required int CategoryId { get; set; }
     public required int CounterpartyId { get; set; }

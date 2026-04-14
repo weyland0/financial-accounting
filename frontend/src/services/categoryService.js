@@ -15,9 +15,10 @@ export async function createCategory(categoryData, token) {
   }
 }
 
-export async function getCategoriesByOrganization(orgId, token) {
+export async function getCategoriesByOrganization() {
   try {
-    const response = await api.get(`/category/organization/${orgId}`);
+    // orgId убран из URL — бэкенд читает из JWT
+    const response = await api.get('/category/organization');
     return response.data;
   } catch (error) {
     const errorMessage =

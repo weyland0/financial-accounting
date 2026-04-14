@@ -3,7 +3,7 @@ namespace finacc.DTOs;
 
 public class AccountRequest
 {
-    public required int OrganizationId { get; set; }
+    // OrganizationId убран — извлекается из JWT-токена в контроллере
     public required string Name { get; set; }
     public required string AccountType { get; set; }
     public string? AccountNumber { get; set; } = null;

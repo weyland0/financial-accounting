@@ -8,7 +8,7 @@ namespace finacc.Services;
 
 public interface ITransactionService
 {
-    Task<Result<TransactionResponse>> Create(TransactionRequest request);
+    Task<Result<TransactionResponse>> Create(int organizationId, TransactionRequest request);
     Task<Result<List<TransactionResponse>>> GetAllByOrganization(int organizationId);
 }
 
@@ -21,7 +21,7 @@ public class TransactionService : ITransactionService
         _context = context;
     }
 
-    public async Task<Result<TransactionResponse>> Create(TransactionRequest request)
+    public async Task<Result<TransactionResponse>> Create(int organizationId, TransactionRequest request)
     {
         if (request.Amount <= 0)
         {
@@ -29,7 +29,7 @@ public class TransactionService : ITransactionService
         }
 
         // Проверяем существование организации
-        var orgExists = await _context.Organizations.AnyAsync(o => o.Id == request.OrganizationId);
+        var orgExists = await _context.Organizations.AnyAsync(o => o.Id == organizationId);
         if (!orgExists)
         {
             return Result<TransactionResponse>.Failure("Организация не найдена", 404);
@@ -37,7 +37,7 @@ public class TransactionService : ITransactionService
 
         // Проверяем счет принадлежит организации
         var account = await _context.Accounts.FirstOrDefaultAsync(a =>
-            a.Id == request.AccountId && a.OrganizationId == request.OrganizationId);
+            a.Id == request.AccountId && a.OrganizationId == organizationId);
         if (account is null)
         {
             return Result<TransactionResponse>.Failure("Счет не найден или не принадлежит организации", 404);
@@ -46,7 +46,7 @@ public class TransactionService : ITransactionService
         // Проверяем категорию принадлежит организации или общая (OrganizationId null)
         var category = await _context.Categories.FirstOrDefaultAsync(c =>
             c.Id == request.CategoryId &&
-            (c.OrganizationId == request.OrganizationId || c.OrganizationId == null));
+            (c.OrganizationId == organizationId || c.OrganizationId == null));
         if (category is null)
         {
             return Result<TransactionResponse>.Failure("Статья учета не найдена", 404);
@@ -54,7 +54,7 @@ public class TransactionService : ITransactionService
 
         var transaction = new Transaction
         {
-            OrganizationId = request.OrganizationId,
+            OrganizationId = organizationId,
             AccountId = request.AccountId,
             CategoryId = request.CategoryId,
             TransactionType = request.TransactionType,

@@ -9,7 +9,7 @@ namespace finacc.Controllers;
 [ApiController]
 [Route("[controller]")]
 [Authorize]
-public class TransactionController : ControllerBase
+public class TransactionController : BaseControllerContext
 {
     private readonly ITransactionService _transactionService;
 
@@ -19,23 +19,21 @@ public class TransactionController : ControllerBase
     }
 
     [HttpPost("create")]
-    [Authorize(Roles ="owner,admin,accountant")]
+    [Authorize(Roles = "owner,admin,accountant")]
     public async Task<IActionResult> Create([FromBody] TransactionRequest request)
     {
-        if (!ModelState.IsValid)
-        {
-            return ValidationProblem(ModelState);
-        }
-
-        var result = await _transactionService.Create(request);
-        return result.ToActionResult();
+        if (!ModelState.IsValid) return ValidationProblem(ModelState);
+        var orgId = GetOrganizationId();
+        if (orgId is null) return Forbid();
+        return (await _transactionService.Create(orgId.Value, request)).ToActionResult();
     }
 
-    [HttpGet("organization/{orgId}")]
-    public async Task<IActionResult> GetAll(int orgId)
+    [HttpGet("organization")]
+    public async Task<IActionResult> GetAll()
     {
-        var result = await _transactionService.GetAllByOrganization(orgId);
-        return result.ToActionResult();
+        var orgId = GetOrganizationId();
+        if (orgId is null) return Forbid();
+        return (await _transactionService.GetAllByOrganization(orgId.Value)).ToActionResult();
     }
 }
 

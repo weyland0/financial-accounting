@@ -9,7 +9,7 @@ namespace finacc.Services;
 
 public interface IAccountService
 {
-    Task<Result<AccountResponse>> Create(AccountRequest request);
+    Task<Result<AccountResponse>> Create(int organizationId, AccountRequest request);
     Task<Result<AccountResponse>> GetById(int id);
     Task<Result<List<AccountResponse>>> GetAllByOrganization(int orgId);
 }
@@ -24,13 +24,11 @@ public class AccountService : IAccountService
         _context = context;
     }
 
-    public async Task<Result<AccountResponse>> Create(AccountRequest request)
+    public async Task<Result<AccountResponse>> Create(int organizationId, AccountRequest request)
     {
-
-        // Создаем новый счет
         var account = new Account
         {
-            OrganizationId = request.OrganizationId,
+            OrganizationId = organizationId,
             Name = request.Name,
             AccountType = request.AccountType,
             AccountNumber = request.AccountNumber,

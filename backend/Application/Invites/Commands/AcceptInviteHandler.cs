@@ -3,6 +3,8 @@ using finacc.DTOs.Invite;
 using finacc.Utility;
 using finacc.Application.Invites.Domain;
 using finacc.Application.Invites.Data;
+using finacc.Services;
+using Microsoft.EntityFrameworkCore;
 
 namespace finacc.Application.Invites.Commands;
 
@@ -10,16 +12,18 @@ public class AcceptInviteHandler
 {
     private readonly ApplicationDbContext _context;
     private readonly AcceptInviteDataLoader _acceptInviteDataLoader;
+    private readonly IJwtTokenService _jwtTokenService;
 
-    public AcceptInviteHandler(ApplicationDbContext context)
+    public AcceptInviteHandler(ApplicationDbContext context, IJwtTokenService jwtTokenService)
     {
         _context = context;
+        _jwtTokenService = jwtTokenService;
         _acceptInviteDataLoader = new AcceptInviteDataLoader(context);
     }
 
-    public async Task<Result<AcceptInviteResponse>> Handle(string token, AcceptInviteRequest request)
+    public async Task<Result<AcceptInviteResponse>> Handle(string token, int userId)
     {
-        var acceptDataResult = await _acceptInviteDataLoader.Load(token, request);
+        var acceptDataResult = await _acceptInviteDataLoader.Load(token, userId);
         if (!acceptDataResult.IsSuccess)
         {
             return Result<AcceptInviteResponse>.Failure(acceptDataResult.ErrorMessage, acceptDataResult.ErrorCode);
@@ -36,12 +40,17 @@ public class AcceptInviteHandler
         acceptData.Invite.MarkAsUsed();
         await _context.SaveChangesAsync();
 
-        var response = new AcceptInviteResponse
+        // Перечитываем пользователя с ролью — нужно для корректного JWT с новым organizationId
+        var updatedUser = await _context.Users
+            .Include(u => u.Role)
+            .FirstAsync(u => u.Id == acceptData.User.Id);
+
+        return Result<AcceptInviteResponse>.Success(new AcceptInviteResponse
         {
             OrganizationId = acceptData.Invite.OrganizationId,
             RoleId = acceptData.Invite.RoleId,
-        };
-
-        return Result<AcceptInviteResponse>.Success(response);
+            AccessToken = _jwtTokenService.GenerateAccessToken(updatedUser),
+            RefreshToken = _jwtTokenService.GenerateRefreshToken(updatedUser)
+        });
     }
 }

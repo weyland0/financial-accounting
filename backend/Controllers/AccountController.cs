@@ -4,16 +4,14 @@ using finacc.Services;
 using finacc.DTOs;
 using finacc.Utility;
 
-namespace FinanceApp.Controllers;
-
+namespace finacc.Controllers;
 
 [ApiController]
 [Route("[controller]")]
 [Authorize]
-public class AccountController : ControllerBase
+public class AccountController : BaseControllerContext
 {
     private readonly IAccountService _accountService;
-
 
     public AccountController(IAccountService accountService)
     {
@@ -24,28 +22,23 @@ public class AccountController : ControllerBase
     [Authorize(Roles = "owner,admin")]
     public async Task<IActionResult> Create([FromBody] AccountRequest request)
     {
-        // Проверка валидации модели
-        if (!ModelState.IsValid)
-        {
-            return ValidationProblem(ModelState);
-        }
-
-        // Создаем счет
-        var result = await _accountService.Create(request);
-        return result.ToActionResult();
+        if (!ModelState.IsValid) return ValidationProblem(ModelState);
+        var orgId = GetOrganizationId();
+        if (orgId is null) return Forbid();
+        return (await _accountService.Create(orgId.Value, request)).ToActionResult();
     }
 
     [HttpGet("{id}")]
     public async Task<IActionResult> Get(int id)
     {
-        var result = await _accountService.GetById(id);
-        return result.ToActionResult();
+        return (await _accountService.GetById(id)).ToActionResult();
     }
 
-    [HttpGet("get-by-organization/{id}")]
-    public async Task<IActionResult> GetAllByOrganization(int id)
+    [HttpGet("get-by-organization")]
+    public async Task<IActionResult> GetAllByOrganization()
     {
-        var result = await _accountService.GetAllByOrganization(id);
-        return result.ToActionResult();
+        var orgId = GetOrganizationId();
+        if (orgId is null) return Forbid();
+        return (await _accountService.GetAllByOrganization(orgId.Value)).ToActionResult();
     }
 }

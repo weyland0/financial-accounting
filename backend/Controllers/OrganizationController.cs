@@ -1,17 +1,16 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using finacc.Services;
-using System.Security.Claims;
 using finacc.DTOs;
 using finacc.Utility;
 
-namespace FinanceApp.Controllers;
+namespace finacc.Controllers;
 
 
 [ApiController]
 [Route("[controller]")]
 [Authorize]
-public class OrganizationController : ControllerBase
+public class OrganizationController : BaseControllerContext
 {
     private readonly IOrganizationService _organizationService;
 
@@ -24,26 +23,13 @@ public class OrganizationController : ControllerBase
     [HttpPost("create")]
     public async Task<IActionResult> Create([FromBody] OrganizationRequest request)
     {
-        // Проверка валидации модели
-        if (!ModelState.IsValid)
-        {
-            return ValidationProblem(ModelState);
-        }
-
-        // Получаем ID текущего пользователя
-        var userIdString = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-        if (!int.TryParse(userIdString, out var userId))
-        {
-            return Result<OrganizationResponse>.Failure("Не удалось получить ID пользователя", 401).ToActionResult();
-        }
-
-        // Создаем организацию
-        var result = await _organizationService.Create(userId, request);
+        if (!ModelState.IsValid) return ValidationProblem(ModelState);
+        var result = await _organizationService.Create(GetUserId(), request);
         return result.ToActionResult();
     }
 
     [HttpPut("update/{id}")]
-    public async Task<IActionResult> Update(int id, OrganizationRequest request) 
+    public async Task<IActionResult> Update(int id, OrganizationRequest request)
     {
         var result = await _organizationService.Update(id, request);
         return result.ToActionResult();

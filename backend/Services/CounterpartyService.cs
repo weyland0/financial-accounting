@@ -8,8 +8,8 @@ namespace finacc.Services;
 
 public interface ICounterpartyService
 {
-    Task<Result<CounterpartyResponse>> Create(CounterpartyRequest request);
-    Task<Result<CounterpartyResponse>> Update(int id, CounterpartyRequest request);
+    Task<Result<CounterpartyResponse>> Create(int organizationId, CounterpartyRequest request);
+    Task<Result<CounterpartyResponse>> Update(int id, int organizationId, CounterpartyRequest request);
     Task<Result<List<CounterpartyResponse>>> GetAllByOrganization(int organizationId);
 }
 
@@ -22,9 +22,9 @@ public class CounterpartyService : ICounterpartyService
         _context = context;
     }
 
-    public async Task<Result<CounterpartyResponse>> Create(CounterpartyRequest request)
+    public async Task<Result<CounterpartyResponse>> Create(int organizationId, CounterpartyRequest request)
     {
-        var orgExists = await _context.Organizations.AnyAsync(o => o.Id == request.OrganizationId);
+        var orgExists = await _context.Organizations.AnyAsync(o => o.Id == organizationId);
         if (!orgExists)
         {
             return Result<CounterpartyResponse>.Failure("Организация не найдена", 404);
@@ -33,7 +33,7 @@ public class CounterpartyService : ICounterpartyService
         var counterparty = new Counterparty
         {
             Name = request.Name,
-            OrganizationId = request.OrganizationId,
+            OrganizationId = organizationId,
             Type = request.Type,
             Category = request.Category,
             Phone = request.Phone,
@@ -65,17 +65,9 @@ public class CounterpartyService : ICounterpartyService
         return Result<List<CounterpartyResponse>>.Success(responses);
     }
 
-    public async Task<Result<CounterpartyResponse>> Update(int id, CounterpartyRequest request)
+    public async Task<Result<CounterpartyResponse>> Update(int id, int organizationId, CounterpartyRequest request)
     {
-        // проверка существует ли организация
-        // var orgExists = await _context.Organizations.AnyAsync(o => o.Id == request.OrganizationId);
-        // if (!orgExists)
-        // {
-        //     return Result<CounterpartyResponse>.Failure("Организация не найдена", 404);
-        // }
-
-        // получить контрагента
-        var counterparty = await _context.Counterparties.FirstOrDefaultAsync(crp => crp.Id == id && crp.OrganizationId == request.OrganizationId);
+        var counterparty = await _context.Counterparties.FirstOrDefaultAsync(crp => crp.Id == id && crp.OrganizationId == organizationId);
         if (counterparty is null)
         {
            return Result<CounterpartyResponse>.Failure("Не удалось найти контрагента в вашей организации", 404); 

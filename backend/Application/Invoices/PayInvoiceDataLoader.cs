@@ -13,17 +13,17 @@ public class PayInvoiceDataLoader
         _context = context;
     }
 
-    public async Task<Result<PayInvoiceData>> Load(PayInvoiceRequest request)
+    public async Task<Result<PayInvoiceData>> Load(int organizationId, PayInvoiceRequest request)
     {
         var invoice = await _context.Invoices
-            .FirstOrDefaultAsync(i => i.Id == request.InvoiceId && i.OrganizationId == request.OrganizationId);
+            .FirstOrDefaultAsync(i => i.Id == request.InvoiceId && i.OrganizationId == organizationId);
         if (invoice is null)
         {
-            return Result<PayInvoiceData>.Failure("Счет не найден", 404);
+            return Result<PayInvoiceData>.Failure("Инвойс не найден", 404);
         }
 
         var account = await _context.Accounts.FirstOrDefaultAsync(a =>
-            a.Id == request.AccountId && a.OrganizationId == request.OrganizationId);
+            a.Id == request.AccountId && a.OrganizationId == organizationId);
         if (account is null)
         {
             return Result<PayInvoiceData>.Failure("Счёт не найден или не принадлежит организации", 404);
@@ -31,14 +31,14 @@ public class PayInvoiceDataLoader
 
         var category = await _context.Categories.FirstOrDefaultAsync(c =>
             c.Id == invoice.CategoryId &&
-            (c.OrganizationId == request.OrganizationId || c.OrganizationId == null));
+            (c.OrganizationId == organizationId || c.OrganizationId == null));
         if (category is null)
         {
             return Result<PayInvoiceData>.Failure("Статья учёта не найдена", 404);
         }
 
         var counterparty = await _context.Counterparties.FirstOrDefaultAsync(c =>
-            c.Id == invoice.CounterpartyId && c.OrganizationId == request.OrganizationId);
+            c.Id == invoice.CounterpartyId && c.OrganizationId == organizationId);
         if (counterparty is null)
         {
             return Result<PayInvoiceData>.Failure("Контрагент не найден", 404);

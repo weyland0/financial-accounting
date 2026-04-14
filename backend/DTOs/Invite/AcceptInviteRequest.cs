@@ -1,6 +1,4 @@
 namespace finacc.DTOs.Invite;
 
-public class AcceptInviteRequest
-{
-    public int UserId { get; set; }
-}
+// UserId убран — извлекается из JWT-токена в контроллере
+public class AcceptInviteRequest { }

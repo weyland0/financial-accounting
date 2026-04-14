@@ -9,7 +9,7 @@ namespace finacc.Services;
 
 public interface ICategoryService
 {
-    Task<Result<CategoryResponse>> Create(CategoryRequest request);
+    Task<Result<CategoryResponse>> Create(int organizationId, CategoryRequest request);
     Task<Result<List<CategoryResponse>>> GetAllByOrganization(int organizationId);
 }
 
@@ -23,15 +23,9 @@ public class CategoryService : ICategoryService
         _context = context;
     }
 
-    public async Task<Result<CategoryResponse>> Create(CategoryRequest request)
+    public async Task<Result<CategoryResponse>> Create(int organizationId, CategoryRequest request)
     {
-        if (request.OrganizationId is null)
-        {
-            return Result<CategoryResponse>.Failure("OrganizationId обязателен");
-        }
-
-        // Проверяем что организация существует
-        var orgExists = await _context.Organizations.AnyAsync(o => o.Id == request.OrganizationId);
+        var orgExists = await _context.Organizations.AnyAsync(o => o.Id == organizationId);
         if (!orgExists)
         {
             return Result<CategoryResponse>.Failure("Организация не найдена", 404);
@@ -43,7 +37,7 @@ public class CategoryService : ICategoryService
             CategoryType = request.CategoryType,
             ActivityType = request.ActivityType,
             Description = request.Description,
-            OrganizationId = request.OrganizationId,
+            OrganizationId = organizationId,
             ParentId = request.ParentId
         };
 
