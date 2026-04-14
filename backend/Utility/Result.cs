@@ -29,7 +29,7 @@ public class Result<T> : Result
         return new Result<T> { IsSuccess = true, Data = data };
     }
 
-    public static Result<T> Failure(string errorMessage, int errorCode = 400)
+    new public static Result<T> Failure(string errorMessage, int errorCode = 400)
     {
         return new Result<T>
         {
