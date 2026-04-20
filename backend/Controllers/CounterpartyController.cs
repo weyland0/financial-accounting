@@ -1,4 +1,4 @@
-using finacc.DTOs;
+using finacc.DTOs.Counterparty;
 using finacc.Services;
 using finacc.Utility;
 using Microsoft.AspNetCore.Authorization;
@@ -20,7 +20,7 @@ public class CounterpartyController : BaseControllerContext
 
     [HttpPost("create")]
     [Authorize(Roles = "owner,admin,accountant")]
-    public async Task<IActionResult> Create([FromBody] CounterpartyRequest request)
+    public async Task<IActionResult> Create([FromBody] CreateCounterpartyRequest request)
     {
         if (!ModelState.IsValid) return ValidationProblem(ModelState);
         var orgId = GetOrganizationId();
@@ -38,7 +38,7 @@ public class CounterpartyController : BaseControllerContext
 
     [HttpPut("update/{id}")]
     [Authorize(Roles = "owner,admin,accountant")]
-    public async Task<IActionResult> Update(int id, [FromBody] CounterpartyRequest request)
+    public async Task<IActionResult> Update(int id, [FromBody] UpdateCounterpartyRequest request)
     {
         var orgId = GetOrganizationId();
         if (orgId is null) return Forbid();

@@ -1,5 +1,5 @@
 using finacc.DataAccess;
-using finacc.DTOs;
+using finacc.DTOs.Organization;
 using finacc.Models;
 using finacc.Utility;
 using Microsoft.EntityFrameworkCore;

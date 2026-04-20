@@ -1,4 +1,4 @@
-namespace finacc.DTOs;
+namespace finacc.DTOs.User;
 
 public class UserResponse
 {

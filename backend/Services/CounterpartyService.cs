@@ -1,5 +1,5 @@
 using finacc.DataAccess;
-using finacc.DTOs;
+using finacc.DTOs.Counterparty;
 using finacc.Models;
 using finacc.Utility;
 using Microsoft.EntityFrameworkCore;
@@ -8,8 +8,8 @@ namespace finacc.Services;
 
 public interface ICounterpartyService
 {
-    Task<Result<CounterpartyResponse>> Create(int organizationId, CounterpartyRequest request);
-    Task<Result<CounterpartyResponse>> Update(int id, int organizationId, CounterpartyRequest request);
+    Task<Result<CounterpartyResponse>> Create(int organizationId, CreateCounterpartyRequest request);
+    Task<Result<CounterpartyResponse>> Update(int id, int organizationId, UpdateCounterpartyRequest request);
     Task<Result<List<CounterpartyResponse>>> GetAllByOrganization(int organizationId);
 }
 
@@ -22,7 +22,7 @@ public class CounterpartyService : ICounterpartyService
         _context = context;
     }
 
-    public async Task<Result<CounterpartyResponse>> Create(int organizationId, CounterpartyRequest request)
+    public async Task<Result<CounterpartyResponse>> Create(int organizationId, CreateCounterpartyRequest request)
     {
         var counterparty = new Counterparty
         {
@@ -53,7 +53,7 @@ public class CounterpartyService : ICounterpartyService
         return Result<List<CounterpartyResponse>>.Success(responses);
     }
 
-    public async Task<Result<CounterpartyResponse>> Update(int id, int organizationId, CounterpartyRequest request)
+    public async Task<Result<CounterpartyResponse>> Update(int id, int organizationId, UpdateCounterpartyRequest request)
     {
         var counterparty = await _context.Counterparties.FirstOrDefaultAsync(crp => crp.Id == id && crp.OrganizationId == organizationId);
         if (counterparty is null)

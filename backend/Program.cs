@@ -26,7 +26,6 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 // crud services
 builder.Services.AddScoped<IPasswordHasher, PasswordHasher>();
 builder.Services.AddScoped<IJwtTokenService, JwtTokenService>();
-builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<IOrganizationService, OrganizationService>();
 builder.Services.AddScoped<IAccountService, AccountService>();
 builder.Services.AddScoped<ICategoryService, CategoryService>();
@@ -50,6 +49,13 @@ builder.Services.AddScoped<finacc.Application.Invoices.Queries.GetInvoicesByOrga
 builder.Services.AddScoped<finacc.Application.Invites.Commands.CreateInviteHandler>();
 builder.Services.AddScoped<finacc.Application.Invites.Queries.GetInviteByTokenHandler>();
 builder.Services.AddScoped<finacc.Application.Invites.Commands.AcceptInviteHandler>();
+
+// Auth use-case handlers
+builder.Services.AddScoped<finacc.Application.Auth.Data.LoginDataLoader>();
+builder.Services.AddScoped<finacc.Application.Auth.Data.RefreshTokenDataLoader>();
+builder.Services.AddScoped<finacc.Application.Auth.Commands.LoginHandler>();
+builder.Services.AddScoped<finacc.Application.Auth.Commands.RegisterHandler>();
+builder.Services.AddScoped<finacc.Application.Auth.Commands.RefreshTokenHandler>();
 
 var jwtSettings = builder.Configuration.GetSection("Jwt");
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)

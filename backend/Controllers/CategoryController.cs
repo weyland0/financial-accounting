@@ -1,4 +1,4 @@
-using finacc.DTOs;
+using finacc.DTOs.Category;
 using finacc.Services;
 using finacc.Utility;
 using Microsoft.AspNetCore.Authorization;
@@ -20,7 +20,7 @@ public class CategoryController : BaseControllerContext
 
     [HttpPost("create")]
     [Authorize(Roles = "owner,admin,accountant")]
-    public async Task<IActionResult> Create([FromBody] CategoryRequest request)
+    public async Task<IActionResult> Create([FromBody] CreateCategoryRequest request)
     {
         if (!ModelState.IsValid) return ValidationProblem(ModelState);
         var orgId = GetOrganizationId();

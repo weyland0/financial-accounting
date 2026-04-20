@@ -1,4 +1,4 @@
-namespace finacc.DTOs;
+namespace finacc.DTOs.Role;
 
 public class RoleResponse
 {

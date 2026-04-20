@@ -1,4 +1,4 @@
-using finacc.DTOs;
+using finacc.DTOs.Transaction;
 using finacc.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;

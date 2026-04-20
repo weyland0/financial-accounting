@@ -1,7 +1,7 @@
-namespace finacc.DTOs;
+namespace finacc.DTOs.Category;
 
 
-public class CategoryRequest
+public class CreateCategoryRequest
 {
     public required string Name { get; set; }
     public required string CategoryType { get; set; }

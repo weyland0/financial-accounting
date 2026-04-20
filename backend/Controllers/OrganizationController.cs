@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using finacc.Services;
-using finacc.DTOs;
+using finacc.DTOs.Organization;
 using finacc.Filters;
 using finacc.Utility;
 

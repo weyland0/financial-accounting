@@ -1,10 +1,9 @@
-namespace finacc.DTOs;
+namespace finacc.DTOs.Counterparty;
 
-public class CounterpartyResponse
+public class UpdateCounterpartyRequest
 {
-    public required int Id { get; set; }
+    // OrganizationId убран — извлекается из JWT-токена в контроллере
     public required string Name { get; set; }
-    public required int OrganizationId { get; set; }
     public string? Type { get; set; }
     public string? Category { get; set; }
     public string? Phone { get; set; }

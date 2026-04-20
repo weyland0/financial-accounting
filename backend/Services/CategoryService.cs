@@ -1,5 +1,5 @@
 using finacc.DataAccess;
-using finacc.DTOs;
+using finacc.DTOs.Category;
 using finacc.Models;
 using finacc.Utility;
 using Microsoft.EntityFrameworkCore;
@@ -9,7 +9,7 @@ namespace finacc.Services;
 
 public interface ICategoryService
 {
-    Task<Result<CategoryResponse>> Create(int organizationId, CategoryRequest request);
+    Task<Result<CategoryResponse>> Create(int organizationId, CreateCategoryRequest request);
     Task<Result<List<CategoryResponse>>> GetAllByOrganization(int organizationId);
 }
 
@@ -23,7 +23,7 @@ public class CategoryService : ICategoryService
         _context = context;
     }
 
-    public async Task<Result<CategoryResponse>> Create(int organizationId, CategoryRequest request)
+    public async Task<Result<CategoryResponse>> Create(int organizationId, CreateCategoryRequest request)
     {
         var category = new Category
         {
