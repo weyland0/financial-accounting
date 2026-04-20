@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
-using finacc.Services;
-using finacc.DTOs;
+using finacc.DTOs.Auth;
 using finacc.Utility;
+using finacc.Application.Auth.Commands;
 
 namespace finacc.Controllers;
 
@@ -10,15 +10,23 @@ namespace finacc.Controllers;
 [Route("[controller]")]
 public class AuthController : ControllerBase
 {
-    private IAuthService _authService;
+    private readonly LoginHandler _loginHandler;
+    private readonly RegisterHandler _registerHandler;
+    private readonly RefreshTokenHandler _refreshTokenHandler;
 
-    public AuthController(IAuthService authService)
+
+    public AuthController(
+        LoginHandler loginHandler,
+        RegisterHandler registerHandler,
+        RefreshTokenHandler refreshTokenHandler)
     {
-        _authService = authService;
+        _loginHandler = loginHandler;
+        _registerHandler = registerHandler;
+        _refreshTokenHandler = refreshTokenHandler;
     }
 
     [HttpPost("register")]
-    public async Task<IActionResult> Register([FromBody] RegisterRequest request)
+    public async Task<IActionResult> Register([FromBody] RegisterRequest request, CancellationToken cancellationToken)
     {
         // Проверка валидации модели
         if (!ModelState.IsValid)
@@ -26,7 +34,7 @@ public class AuthController : ControllerBase
             return ValidationProblem(ModelState);
         }
 
-        var result = await _authService.Register(request);
+        var result = await _registerHandler.Handle(request, cancellationToken);
         if (result.IsSuccess && result.Data?.RefreshToken is not null)
         {
             AppendRefreshCookie(result.Data.RefreshToken);
@@ -37,7 +45,7 @@ public class AuthController : ControllerBase
     }
 
     [HttpPost("login")]
-    public async Task<IActionResult> Login([FromBody] LoginRequest request)
+    public async Task<IActionResult> Login([FromBody] LoginRequest request, CancellationToken cancellationToken)
     {
         // Проверка валидации модели
         if (!ModelState.IsValid)
@@ -45,7 +53,7 @@ public class AuthController : ControllerBase
             return ValidationProblem(ModelState);
         }
 
-        var result = await _authService.Login(request);
+        var result = await _loginHandler.Handle(request, cancellationToken);
         if (result.IsSuccess && result.Data?.RefreshToken is not null)
         {
             AppendRefreshCookie(result.Data.RefreshToken);
@@ -56,7 +64,7 @@ public class AuthController : ControllerBase
     }
 
     [HttpPost("refresh")]
-    public async Task<IActionResult> Refresh()
+    public async Task<IActionResult> Refresh(CancellationToken cancellationToken)
     {
         var refreshToken = Request.Cookies["refreshToken"];
         if (string.IsNullOrEmpty(refreshToken))
@@ -64,7 +72,7 @@ public class AuthController : ControllerBase
             return Result<AuthResponse>.Failure("Refresh token отсутствует", 401).ToActionResult();
         }
 
-        var result = await _authService.RefreshToken(refreshToken);
+        var result = await _refreshTokenHandler.Handle(refreshToken, cancellationToken);
         if (result.IsSuccess && result.Data?.RefreshToken is not null)
         {
             AppendRefreshCookie(result.Data.RefreshToken);
