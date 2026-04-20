@@ -9,44 +9,42 @@
 // (что было бы очень неудобно), мы сохраняем её в одном месте 
 // и любой компонент может получить доступ.
 
-import React, { createContext, useState, useEffect, useCallback } from 'react';
-import { login as loginApi, register as registerApi } from '../services/authService';
+// Файл src/context/AuthContext.jsx
+//   - Хранит Access Token
+//   - Хранит данные пользователя
+//   - Предоставляет функцию login()
+//   - Оборачивает всё приложение
 
-// Создаем контекст (пока это пустой контейнер для данных).
-// Позже мы его наполним данными в Provider.
-// В дальнейшем он может использоваться компонентами 
-// через useContext(AuthContext).
+// AuthContext - это "глобальное хранилище" информации об авторизации
+// пользователя. Вместо того чтобы передавать эту информацию через пропсы 
+// (что было бы очень неудобно), мы сохраняем её в одном месте 
+// и любой компонент может получить доступ.
+
+import React, { createContext, useState, useEffect, useCallback } from 'react';
+import {
+  login as loginApi,
+  register as registerApi,
+  normalizeAuthSession,
+} from '../services/authService';
+
 export const AuthContext = createContext();
 
-// React-компонент Provider - оборачивает приложение.
-// Provider - это компонент который "поставляет" данные в контекст.
-// Здесь {children} - эо все компоненты внутри, которые получат доступ 
-// к данным, находящемся в контексте
-export const AuthProvider = ( { children } ) => {
-
-  // Состояния контекста - его данные
+export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [token, setToken] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  // Получаем acessToken и данные пользователя из localStorage при загрузке компонента
   useEffect(() => {
     const initializeAuth = async () => {
       try {
-        // Получаем сохраненный token из localStorage
         const savedToken = localStorage.getItem('accessToken');
         const savedUser = localStorage.getItem('user');
 
-        // проверяем не null ли savedToken и savedUser
         if (savedToken && savedUser) {
-          // Восстанавливаем данные
           setToken(savedToken);
           setUser(JSON.parse(savedUser));
         }
-
-        // ================= ДОБАВИТЬ ПРОВРЕКУ accessToken =================
-
       } catch (err) {
         console.error('Ошибка инициализации:', err);
       } finally {
@@ -55,82 +53,66 @@ export const AuthProvider = ( { children } ) => {
     };
 
     initializeAuth();
+  }, []);
 
-  }, []);  // Запускается один раз при загрузке приложения
-
-  // Функция входа
   const login = useCallback(async (email, password) => {
-
-    setLoading(true); // Устанавливаем переменную загрузки в true
-    setError(null);  // Очищаем ошибки перед новым запросом
+    setLoading(true);
+    setError(null);
 
     try {
-      // После рефакторинга loginApi возвращает чистый DTO { token, userDto }
-      const data = await loginApi({email, password});
-
-      if (!data?.token || !data?.userDto) {
+      const data = await loginApi({ email, password });
+      const session = normalizeAuthSession(data);
+      if (!session) {
         throw new Error('Некорректный ответ сервера');
       }
-      
-      // Сохраняем данные в localStorage
-      localStorage.setItem('accessToken', data.token);
-      localStorage.setItem('user', JSON.stringify(data.userDto));
 
-      // Сохраняем данные в состояние
-      setToken(data.token);
-      setUser(data.userDto);
+      localStorage.setItem('accessToken', session.token);
+      localStorage.setItem('user', JSON.stringify(session.user));
 
-      return data;  // Возвращаем для использования в компоненте
+      setToken(session.token);
+      setUser(session.user);
 
+      return { ...data, ...session };
     } catch (err) {
       const message = err instanceof Error ? err.message : String(err);
       setError(message);
-      throw new Error(message);  // Выбрасываем ошибку чтобы компонент её обработал
+      throw new Error(message);
     } finally {
-      setLoading(false);  // Всегда выключаем loading
+      setLoading(false);
     }
   }, []);
 
-  // Функция регистрации
   const register = useCallback(async (email, fullName, password) => {
-
-    setLoading(true); // Устанавливаем переменную загрузки в true
-    setError(null);  // Очищаем ошибки перед новым запросом
+    setLoading(true);
+    setError(null);
 
     try {
       const data = await registerApi({ email, fullName, password });
-
-      if (!data?.token || !data?.userDto) {
+      const session = normalizeAuthSession(data);
+      if (!session) {
         throw new Error('Некорректный ответ сервера');
       }
-      
-      // Сохраняем данные в localStorage
-      localStorage.setItem('accessToken', data.token);
-      localStorage.setItem('user', JSON.stringify(data.userDto));
 
-      // Сохраняем данные в состояние
-      setToken(data.token);
-      setUser(data.userDto);
+      localStorage.setItem('accessToken', session.token);
+      localStorage.setItem('user', JSON.stringify(session.user));
 
-      return data;  // Возвращаем для использования в компоненте
+      setToken(session.token);
+      setUser(session.user);
 
+      return { ...data, ...session };
     } catch (err) {
       const message = err instanceof Error ? err.message : String(err);
       setError(message);
-      throw new Error(message);  // Выбрасываем ошибку чтобы компонент её обработал
+      throw new Error(message);
     } finally {
-      setLoading(false);  // Всегда выключаем loading
+      setLoading(false);
     }
-
   }, []);
 
-  // Функция для логаута
   const logout = useCallback(() => {
-
-    // Очищаем localStorage
     localStorage.removeItem('accessToken');
     localStorage.removeItem('user');
-    
+
     setToken(null);
     setUser(null);
     setError(null);
@@ -158,36 +140,44 @@ export const AuthProvider = ( { children } ) => {
     });
   }, []);
 
-  const hasRole = useCallback((roles) => {
-    if (!user?.roleName) {
-      return false;
-    } 
-    if (Array.isArray(roles)) { 
-      return roles.includes(user?.roleName);
-    }
-    return user?.roleName === roles;
-}, [user?.roleName]);
+  const hasRole = useCallback(
+    (roles) => {
+      if (!user?.roleName) {
+        return false;
+      }
+      if (Array.isArray(roles)) {
+        return roles.includes(user?.roleName);
+      }
+      return user?.roleName === roles;
+    },
+    [user?.roleName],
+  );
 
-  // Возвращаем Provider с контекстом
   return (
-    <AuthContext.Provider value={{
-      user, setUser,
-      token,
-      loading, setLoading,
-      error, setError,
-      login, register, logout,
-      isAuthenticated: !!token && !loading,
-      updateUserOrganization, updateUserRole,
-      hasRole
-    }}>
+    <AuthContext.Provider
+      value={{
+        user,
+        setUser,
+        token,
+        loading,
+        setLoading,
+        error,
+        setError,
+        login,
+        register,
+        logout,
+        isAuthenticated: !!token && !loading,
+        updateUserOrganization,
+        updateUserRole,
+        hasRole,
+      }}
+    >
       {children}
     </AuthContext.Provider>
   );
 };
 
-// React-хук для доступа к контексту
 export const useAuth = () => {
-
   const context = React.useContext(AuthContext);
   if (!context) {
     throw new Error('useAuth должен использоваться внутри AuthProvider');
