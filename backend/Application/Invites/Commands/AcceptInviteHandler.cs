@@ -3,7 +3,7 @@ using finacc.DTOs.Invite;
 using finacc.Utility;
 using finacc.Application.Invites.Domain;
 using finacc.Application.Invites.Data;
-using finacc.Services;
+using finacc.Application.Services;
 using Microsoft.EntityFrameworkCore;
 
 namespace finacc.Application.Invites.Commands;
@@ -14,11 +14,11 @@ public class AcceptInviteHandler
     private readonly AcceptInviteDataLoader _acceptInviteDataLoader;
     private readonly IJwtTokenService _jwtTokenService;
 
-    public AcceptInviteHandler(ApplicationDbContext context, IJwtTokenService jwtTokenService)
+    public AcceptInviteHandler(ApplicationDbContext context, IJwtTokenService jwtTokenService, AcceptInviteDataLoader acceptInviteDataLoader)
     {
         _context = context;
         _jwtTokenService = jwtTokenService;
-        _acceptInviteDataLoader = new AcceptInviteDataLoader(context);
+        _acceptInviteDataLoader = acceptInviteDataLoader;
     }
 
     public async Task<Result<AcceptInviteResponse>> Handle(string token, int userId)

@@ -11,10 +11,10 @@ public class CreateInviteHandler
     private readonly ApplicationDbContext _context;
     private readonly CreateInviteDataLoader _inviteCreationDataLoader;
 
-    public CreateInviteHandler(ApplicationDbContext context)
+    public CreateInviteHandler(ApplicationDbContext context, CreateInviteDataLoader inviteCreationDataLoader)
     {
         _context = context;
-        _inviteCreationDataLoader = new CreateInviteDataLoader(context);
+        _inviteCreationDataLoader = inviteCreationDataLoader;
     }
 
     public async Task<Result<InviteResponse>> Handle(CreateInviteRequest request)

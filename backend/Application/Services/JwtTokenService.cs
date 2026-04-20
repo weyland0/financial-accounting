@@ -4,7 +4,7 @@ using System.Text;
 using Microsoft.IdentityModel.Tokens;
 using finacc.Models;
 
-namespace finacc.Services;
+namespace finacc.Application.Services;
 
 public interface IJwtTokenService
 {

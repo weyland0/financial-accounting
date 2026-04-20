@@ -1,7 +1,7 @@
 using System.Security.Cryptography;
 using System.Text;
 
-namespace finacc.Services;
+namespace finacc.Application.Services;
 
 
 public interface IPasswordHasher

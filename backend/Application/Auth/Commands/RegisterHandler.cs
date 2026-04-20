@@ -1,5 +1,5 @@
 using finacc.DTOs.Auth;
-using finacc.Services;
+using finacc.Application.Services;
 using finacc.Utility;
 using finacc.Models;
 using finacc.DataAccess;

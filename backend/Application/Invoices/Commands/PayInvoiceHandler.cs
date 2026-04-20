@@ -14,12 +14,12 @@ public class PayInvoiceHandler
     private readonly PayInvoiceDataLoader _invoicePaymentDataLoader;
     private readonly BalanceService _balanceService;
 
-    public PayInvoiceHandler(ApplicationDbContext context, BalanceService balanceService)
+    public PayInvoiceHandler(ApplicationDbContext context, BalanceService balanceService, PayInvoiceDataLoader invoicePaymentDataLoader)
     {
         _context = context;
         _balanceService = balanceService;
         
-        _invoicePaymentDataLoader = new PayInvoiceDataLoader(context);
+        _invoicePaymentDataLoader = invoicePaymentDataLoader;
     }
 
     public async Task<Result<InvoiceResponse>> Handle(int organizationId, PayInvoiceRequest request)

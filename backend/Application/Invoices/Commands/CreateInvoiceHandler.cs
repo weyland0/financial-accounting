@@ -12,10 +12,10 @@ public class CreateInvoiceHandler
     private readonly ApplicationDbContext _context;
     private readonly CreateInvoiceDataLoader _invoiceCreationDataLoader;
 
-    public CreateInvoiceHandler(ApplicationDbContext context)
+    public CreateInvoiceHandler(ApplicationDbContext context, CreateInvoiceDataLoader invoiceCreationDataLoader)
     {
         _context = context;
-        _invoiceCreationDataLoader = new CreateInvoiceDataLoader(context);
+        _invoiceCreationDataLoader = invoiceCreationDataLoader;
     }
 
     public async Task<Result<InvoiceResponse>> Handle(int organizationId, CreateInvoiceRequest request)

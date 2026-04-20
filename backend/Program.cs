@@ -6,7 +6,6 @@ using Microsoft.IdentityModel.Tokens;
 using finacc.DataAccess;
 using finacc.Filters;
 using finacc.Services;
-using finacc.Application.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -24,31 +23,35 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 );
 
 // crud services
-builder.Services.AddScoped<IPasswordHasher, PasswordHasher>();
-builder.Services.AddScoped<IJwtTokenService, JwtTokenService>();
 builder.Services.AddScoped<IOrganizationService, OrganizationService>();
 builder.Services.AddScoped<IAccountService, AccountService>();
 builder.Services.AddScoped<ICategoryService, CategoryService>();
 builder.Services.AddScoped<ITransactionService, TransactionService>();
 builder.Services.AddScoped<ICounterpartyService, CounterpartyService>();
 builder.Services.AddScoped<IUserService, UserService>();
-// builder.Services.AddScoped<IInviteService, InviteService>();
 builder.Services.AddScoped<IRoleService, RoleService>();
 
 builder.Services.AddScoped<RequireOrganizationContextFilter>();
 
 // Application services
-builder.Services.AddScoped<BalanceService>();
+builder.Services.AddScoped<finacc.Application.Services.BalanceService>();
+builder.Services.AddScoped<finacc.Application.Services.IPasswordHasher, finacc.Application.Services.PasswordHasher>();
+builder.Services.AddScoped<finacc.Application.Services.IJwtTokenService, finacc.Application.Services.JwtTokenService>();
 
 // Invoice use-case handlers
 builder.Services.AddScoped<finacc.Application.Invoices.Commands.CreateInvoiceHandler>();
 builder.Services.AddScoped<finacc.Application.Invoices.Commands.PayInvoiceHandler>();
 builder.Services.AddScoped<finacc.Application.Invoices.Queries.GetInvoicesByOrganizationHandler>();
+builder.Services.AddScoped<finacc.Application.Invoices.Data.CreateInvoiceDataLoader>();
+builder.Services.AddScoped<finacc.Application.Invoices.Data.PayInvoiceDataLoader>();
+
 
 // Invite use-case handlers
 builder.Services.AddScoped<finacc.Application.Invites.Commands.CreateInviteHandler>();
 builder.Services.AddScoped<finacc.Application.Invites.Queries.GetInviteByTokenHandler>();
 builder.Services.AddScoped<finacc.Application.Invites.Commands.AcceptInviteHandler>();
+builder.Services.AddScoped<finacc.Application.Invites.Data.CreateInviteDataLoader>();
+builder.Services.AddScoped<finacc.Application.Invites.Data.AcceptInviteDataLoader>();
 
 // Auth use-case handlers
 builder.Services.AddScoped<finacc.Application.Auth.Data.LoginDataLoader>();
