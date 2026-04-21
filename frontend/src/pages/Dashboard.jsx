@@ -8,6 +8,7 @@ import { getInvoicesByOrganization } from '../services/invoiceService';
 import { getCategoriesByOrganization } from '../services/categoryService';
 import { CreateOrganizationModal } from '../components/CreateOrganizationModal';
 import { PageHeader } from '../shared/ui/PageHeader';
+import { PageLoading } from '../shared/ui/PageLoading';
 import { aggregateCalendarMonthFinancials } from '../utils/reporting';
 import { formatMoney } from '../utils/numbers';
 
@@ -109,11 +110,7 @@ export function Dashboard() {
   };
 
   if (loading) {
-    return (
-      <div className="loading-state">
-        <p>Загрузка...</p>
-      </div>
-    );
+    return <PageLoading />;
   }
 
   if (!hasOrganization && !user?.organizationId) {
@@ -153,11 +150,7 @@ export function Dashboard() {
 
   if (user?.organizationId && orgLoading) {
     return (
-      <div className="page-shell page-shell--soft page-shell--dense">
-        <div className="loading-state">
-          <p>Загрузка панели…</p>
-        </div>
-      </div>
+      <PageLoading message="Загрузка панели…" />
     );
   }
 

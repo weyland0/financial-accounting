@@ -8,6 +8,8 @@ import { CreateInvoiceModal } from '../components/CreateInvoiceModal';
 import { PayInvoiceModal } from '../components/PayInvoiceModal';
 import { canCreate } from '../config/roles';
 import { PageHeader } from '../shared/ui/PageHeader';
+import { EmptyPage } from '../shared/ui/EmptyPage';
+import { PageLoading } from '../shared/ui/PageLoading';
 import {
   getInvoiceDueBucket,
   invoiceRemaining,
@@ -130,22 +132,15 @@ export function Invoices() {
   ]);
 
   if (loading) {
-    return (
-      <div className="invoices-loading">
-        <div className="loading-spinner" />
-        <p>Загрузка...</p>
-      </div>
-    );
+    return <PageLoading />;
   }
 
   if (!user?.organizationId) {
     return (
-      <div className="page-shell">
-        <div className="invoices-empty">
-          <h2>Организация не выбрана</h2>
-          <p>Создайте или выберите организацию, чтобы работать со счетами.</p>
-        </div>
-      </div>
+      <EmptyPage
+        title="Организация не выбрана"
+        description="Создайте или выберите организацию, чтобы работать со счетами."
+      />
     );
   }
 

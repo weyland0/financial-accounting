@@ -114,29 +114,6 @@
   font-style: italic;
 }
 
-.categories-loading,
-.categories-empty-state {
-  min-height: 50vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 12px;
-  color: var(--color-text-secondary);
-}
-
-.categories-empty-state {
-  background: var(--color-surface);
-  border-radius: var(--radius-md);
-  border: 1px solid var(--color-border-subtle);
-  padding: 40px;
-  box-shadow: var(--shadow-sm);
-}
-
-.empty-icon {
-  font-size: 48px;
-}
-
 @media (max-width: 768px) {
   .category-table-wrapper th,
   .category-table-wrapper td {

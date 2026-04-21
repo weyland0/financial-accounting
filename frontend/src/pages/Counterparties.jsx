@@ -5,6 +5,8 @@ import { CreateCounterpartyModal } from "../components/CreateCounterpartyModal";
 import { UpdateCounterpartyModal } from "../components/UpdateCounterpartyModal";
 import { canCreate } from "../config/roles";
 import { PageHeader } from "../shared/ui/PageHeader";
+import { EmptyPage } from "../shared/ui/EmptyPage";
+import { PageLoading } from "../shared/ui/PageLoading";
 import "../styles/pages/counterparties.css";
 
 export function Counterparties() {
@@ -66,24 +68,15 @@ export function Counterparties() {
   }, [counterparties, typeFilter, search]);
 
   if (loading) {
-    return (
-      <div className="counterparties-loading">
-        <div className="loading-spinner" />
-        <p>Загрузка...</p>
-      </div>
-    );
+    return <PageLoading />;
   }
 
   if (!user?.organizationId) {
     return (
-      <div className="page-shell">
-        <div className="counterparties-empty">
-          <h2>Организация не выбрана</h2>
-          <p>
-            Создайте или выберите организацию, чтобы управлять контрагентами.
-          </p>
-        </div>
-      </div>
+      <EmptyPage
+        title="Организация не выбрана"
+        description="Создайте или выберите организацию, чтобы управлять контрагентами."
+      />
     );
   }
 

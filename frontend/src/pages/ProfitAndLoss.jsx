@@ -7,6 +7,8 @@ import { parseDateOnly } from '../utils/dates';
 import { classifyExpenseCategory } from '../utils/expenseCategories';
 import { isInvoicePaymentTransaction } from '../utils/transactions';
 import { PageHeader } from '../shared/ui/PageHeader';
+import { EmptyPage } from '../shared/ui/EmptyPage';
+import { PageLoading } from '../shared/ui/PageLoading';
 import '../styles/pages/profit-and-loss.css';
 
 function toDateOnlyString(d) {
@@ -202,22 +204,15 @@ export function ProfitAndLoss() {
   const formatPct = (v) => `${Number(v || 0).toFixed(1)}%`;
 
   if (loading) {
-    return (
-      <div className="pnl-loading">
-        <div className="loading-spinner" />
-        <p>Загрузка...</p>
-      </div>
-    );
+    return <PageLoading />;
   }
 
   if (!user?.organizationId) {
     return (
-      <div className="page-shell">
-        <div className="pnl-empty">
-          <h2>Организация не выбрана</h2>
-          <p>Создайте или выберите организацию, чтобы открыть отчёты.</p>
-        </div>
-      </div>
+      <EmptyPage
+        title="Организация не выбрана"
+        description="Создайте или выберите организацию, чтобы открыть отчёты."
+      />
     );
   }
 

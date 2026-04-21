@@ -7,6 +7,8 @@ import { getCounterpartiesByOrganization } from "../services/counterpartyService
 import { CreateTransactionModal } from "../components/CreateTransactionModal";
 import { canCreate } from "../config/roles";
 import { PageHeader } from "../shared/ui/PageHeader";
+import { EmptyPage } from "../shared/ui/EmptyPage";
+import { PageLoading } from "../shared/ui/PageLoading";
 import "../styles/pages/transactions.css";
 
 export function Transactions() {
@@ -91,22 +93,15 @@ export function Transactions() {
   }, [transactions]);
 
   if (loading) {
-    return (
-      <div className="transactions-loading">
-        <div className="loading-spinner" />
-        <p>Загрузка...</p>
-      </div>
-    );
+    return <PageLoading />;
   }
 
   if (!user?.organizationId) {
     return (
-      <div className="page-shell">
-        <div className="transactions-empty">
-          <h2>Организация не выбрана</h2>
-          <p>Создайте или выберите организацию, чтобы работать с операциями.</p>
-        </div>
-      </div>
+      <EmptyPage
+        title="Организация не выбрана"
+        description="Создайте или выберите организацию, чтобы работать с операциями."
+      />
     );
   }
 

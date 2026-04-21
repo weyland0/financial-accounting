@@ -99,7 +99,7 @@ export function OrganizationInfo() {
   };
 
   if (loading) {
-    return <div className="loading-state">Загрузка...</div>;
+    return <PageLoading />;
   }
 
   if (!user?.organizationId) {
@@ -149,7 +149,6 @@ export function OrganizationInfo() {
             )}
           </div>
         )}
-      </header>
       </PageHeader>
 
       {error && (

@@ -5,6 +5,8 @@ import { getCategoriesByOrganization } from '../services/categoryService';
 import { activityTypeLabels } from '../config/enums'
 import { parseDateOnly } from '../utils/dates';
 import { PageHeader } from '../shared/ui/PageHeader';
+import { EmptyPage } from '../shared/ui/EmptyPage';
+import { PageLoading } from '../shared/ui/PageLoading';
 import '../styles/pages/cash-flow.css';
 
 function toDateOnlyString(d) {
@@ -195,22 +197,15 @@ export function CashFlow() {
   const formatMoney = (v) => Number(v || 0).toFixed(2);
 
   if (loading) {
-    return (
-      <div className="cashflow-loading">
-        <div className="loading-spinner" />
-        <p>Загрузка...</p>
-      </div>
-    );
+    return <PageLoading />;
   }
 
   if (!user?.organizationId) {
     return (
-      <div className="page-shell">
-        <div className="cashflow-empty">
-          <h2>Организация не выбрана</h2>
-          <p>Создайте или выберите организацию, чтобы открыть отчёты.</p>
-        </div>
-      </div>
+      <EmptyPage
+        title="Организация не выбрана"
+        description="Создайте или выберите организацию, чтобы открыть отчёты."
+      />
     );
   }
 

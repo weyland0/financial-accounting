@@ -6,8 +6,10 @@ import { CreateAccountModal } from "../components/CreateAccountModal";
 import { canCreate } from "../config/roles";
 
 import { PageHeader } from "../shared/ui/PageHeader";
-import { PageHeaderActions } from "../shared/ui/PageHeaderActions"; 
+import { PageHeaderActions } from "../shared/ui/PageHeaderActions";
 import { ErrorMessage } from "../shared/ui/ErrorMessage";
+import { EmptyPage } from "../shared/ui/EmptyPage";
+import { PageLoading } from "../shared/ui/PageLoading";
 
 import "../styles/pages/accounts.css";
 
@@ -42,22 +44,15 @@ export function Accounts() {
   };
 
   if (loading) {
-    return (
-      <div className="accounts-loading">
-        <div className="loading-spinner"></div>
-        <p>Загрузка...</p>
-      </div>
-    );
+    return <PageLoading />;
   }
 
   if (!user?.organizationId) {
     return (
-      <div className="page-shell">
-        <div className="accounts-empty">
-          <h2>Организация не выбрана</h2>
-          <p>Для работы со счетами необходимо создать организацию</p>
-        </div>
-      </div>
+      <EmptyPage
+        title="Организация не выбрана"
+        description="Для работы со счетами необходимо создать организацию"
+      />
     );
   }
 
@@ -82,10 +77,12 @@ export function Accounts() {
       <ErrorMessage active={error != null} error={error}/>
 
       {accounts.length === 0 ? (
-        <div className="accounts-empty-state">
-          <div className="empty-icon">💳</div>
-          <h2>Счетов пока нет</h2>
-          <p>Создайте первый счет для начала работы</p>
+        <EmptyPage
+          shell={false}
+          title="Счетов пока нет"
+          description="Создайте первый счет для начала работы"
+          icon="💳"
+        >
           <button
             className="btn btn-primary"
             onClick={() => setShowModal(true)}
@@ -93,7 +90,7 @@ export function Accounts() {
           >
             Создать счет
           </button>
-        </div>
+        </EmptyPage>
       ) : (
         <div className="accounts-grid">
           {accounts.map((account) => (

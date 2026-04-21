@@ -4,6 +4,8 @@ import { getCategoriesByOrganization } from "../services/categoryService";
 import { CreateCategoryModal } from "../components/CreateCategoryModal";
 import { canCreate } from "../config/roles";
 import { PageHeader } from "../shared/ui/PageHeader";
+import { EmptyPage } from "../shared/ui/EmptyPage";
+import { PageLoading } from "../shared/ui/PageLoading";
 import "../styles/pages/categories.css";
 
 export function Categories() {
@@ -101,24 +103,15 @@ export function Categories() {
   };
 
   if (loading) {
-    return (
-      <div className="categories-loading">
-        <div className="loading-spinner" />
-        <p>Загрузка...</p>
-      </div>
-    );
+    return <PageLoading />;
   }
 
   if (!user?.organizationId) {
     return (
-      <div className="page-shell">
-        <div className="categories-empty-state">
-          <h2>Организация не выбрана</h2>
-          <p>
-            Создайте или выберите организацию чтобы управлять статьями учета.
-          </p>
-        </div>
-      </div>
+      <EmptyPage
+        title="Организация не выбрана"
+        description="Создайте или выберите организацию чтобы управлять статьями учета."
+      />
     );
   }
 

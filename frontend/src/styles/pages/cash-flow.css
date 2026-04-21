@@ -81,25 +81,6 @@
   color: var(--color-text-tertiary);
 }
 
-.cashflow-loading,
-.cashflow-empty {
-  min-height: 60vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 10px;
-  color: var(--color-text-secondary);
-}
-
-.cashflow-loading .loading-spinner {
-  width: 24px;
-  height: 24px;
-  border-radius: 999px;
-  border-width: 3px;
-  border-top-color: var(--color-info);
-}
-
 @media (max-width: 768px) {
   .date-range {
     width: 100%;
