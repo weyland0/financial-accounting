@@ -7,6 +7,7 @@ import {
 import { getUsersByOrganization } from "../services/userService";
 import { CreateInviteModal } from "../components/CreateInviteModal";
 import { canEdit } from "../config/roles";
+import { PageHeader } from "../shared/ui/PageHeader";
 import "../styles/pages/organization-info.css";
 
 export function OrganizationInfo() {
@@ -116,19 +117,21 @@ export function OrganizationInfo() {
 
   return (
     <div className="page-shell page-shell--constrained">
-      <header className="page-header">
-        <div className="page-header__lead">
-          <h1>Информация об организации</h1>
-        </div>
+      <PageHeader title="Информация об организации">
         {canEdit(user.roleName, "/organizationinfo") && (
-          <div className="page-header__actions">
+          <div className="page-header-actions">
             {!editMode ? (
-              <button onClick={handleEditToggle} className="btn btn-primary">
+              <button
+                type="button"
+                onClick={handleEditToggle}
+                className="btn btn-primary"
+              >
                 Редактировать
               </button>
             ) : (
               <>
                 <button
+                  type="button"
                   onClick={handleSave}
                   disabled={saving}
                   className="btn btn-success"
@@ -136,6 +139,7 @@ export function OrganizationInfo() {
                   {saving ? "Сохранение..." : "Сохранить"}
                 </button>
                 <button
+                  type="button"
                   onClick={handleEditToggle}
                   className="btn btn-secondary"
                 >
@@ -146,6 +150,7 @@ export function OrganizationInfo() {
           </div>
         )}
       </header>
+      </PageHeader>
 
       {error && (
         <div className="alert alert-error page-alert-error" role="alert">
@@ -250,13 +255,11 @@ export function OrganizationInfo() {
       </div>
 
       <div className="employees-section">
-        <div className="page-header page-header--plain">
-          <div className="page-header__lead">
-            <h1>Сотрудники организации</h1>
-          </div>
+        <PageHeader title="Сотрудники организации">
           {canEdit(user.roleName, "/organizationinfo") && (
-            <div className="page-header__actions">
+            <div className="page-header-actions">
               <button
+                type="button"
                 onClick={() => setShowModal(true)}
                 className="btn btn-primary"
               >
@@ -264,7 +267,7 @@ export function OrganizationInfo() {
               </button>
             </div>
           )}
-        </div>
+        </PageHeader>
 
         {loadingEmployees ? (
           <p>Загрузка сотрудников...</p>

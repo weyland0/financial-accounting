@@ -4,6 +4,7 @@ import { getTransactionsByOrganization } from '../services/transactionService';
 import { getCategoriesByOrganization } from '../services/categoryService';
 import { activityTypeLabels } from '../config/enums'
 import { parseDateOnly } from '../utils/dates';
+import { PageHeader } from '../shared/ui/PageHeader';
 import '../styles/pages/cash-flow.css';
 
 function toDateOnlyString(d) {
@@ -215,14 +216,10 @@ export function CashFlow() {
 
   return (
     <div className="page-shell">
-      <header className="page-header">
-        <div className="page-header__lead">
-          <h1>Отчёт о движении денежных средств (Cash Flow)</h1>
-          <p className="page-header__subtitle">
-            Данные из всех транзакций (фактическое движение денежных средств)
-          </p>
-        </div>
-      </header>
+      <PageHeader
+        title="Отчёт о движении денежных средств (Cash Flow)"
+        subtitle="Данные из всех транзакций (фактическое движение денежных средств)"
+      />
 
       {error && (
         <div className="alert alert-error page-alert-error" role="alert">

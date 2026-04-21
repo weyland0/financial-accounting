@@ -7,6 +7,7 @@ import { getCounterpartiesByOrganization } from '../services/counterpartyService
 import { CreateInvoiceModal } from '../components/CreateInvoiceModal';
 import { PayInvoiceModal } from '../components/PayInvoiceModal';
 import { canCreate } from '../config/roles';
+import { PageHeader } from '../shared/ui/PageHeader';
 import {
   getInvoiceDueBucket,
   invoiceRemaining,
@@ -150,16 +151,12 @@ export function Invoices() {
 
   return (
     <div className="page-shell">
-      <header className="page-header">
-        <div className="page-header__lead">
-          <h1>Счета на оплату</h1>
-          <p className="page-header__subtitle">
-            Выставленные вашей организацией и для вашей организации
-          </p>
-        </div>
-
+      <PageHeader
+        title="Счета на оплату"
+        subtitle="Выставленные вашей организацией и для вашей организации"
+      >
         {canCreate(user.roleName, '/invoices') && (
-          <div className="page-header__actions">
+          <div className="page-header-actions">
             <button
               type="button"
               className="btn-create-invoice"
@@ -169,7 +166,7 @@ export function Invoices() {
             </button>
           </div>
         )}
-      </header>
+      </PageHeader>
 
       {error && (
         <div className="alert alert-error page-alert-error" role="alert">

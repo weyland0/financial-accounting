@@ -1,0 +1,59 @@
+/* Единый стиль шапки страницы. Все элементы стилизуются только по классам (без селекторов по тегам). */
+
+.page-header {
+  background: var(--color-surface);
+  padding: 24px 28px;
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-sm);
+  border: 1px solid var(--color-border-subtle);
+  margin-bottom: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+}
+
+.page-header-main {
+  min-width: 0;
+}
+
+.page-header-title {
+  margin: 0 0 6px 0;
+  font-size: 24px;
+  font-weight: 600;
+  color: var(--color-text-primary);
+}
+
+/* Если подзаголовка нет, заголовок — последний ребёнок: убираем лишний отступ снизу */
+.page-header-main .page-header-title:last-child {
+  margin-bottom: 0;
+}
+
+.page-header-subtitle {
+  margin: 0;
+  color: var(--color-text-secondary);
+  font-size: 13px;
+}
+
+.page-header-actions {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+@media (max-width: 768px) {
+  .page-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .page-header-actions {
+    width: 100%;
+  }
+
+  .page-header-actions > .btn,
+  .page-header-actions > button {
+    width: 100%;
+  }
+}

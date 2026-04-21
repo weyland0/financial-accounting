@@ -7,6 +7,7 @@ import { getTransactionsByOrganization } from '../services/transactionService';
 import { getInvoicesByOrganization } from '../services/invoiceService';
 import { getCategoriesByOrganization } from '../services/categoryService';
 import { CreateOrganizationModal } from '../components/CreateOrganizationModal';
+import { PageHeader } from '../shared/ui/PageHeader';
 import { aggregateCalendarMonthFinancials } from '../utils/reporting';
 import { formatMoney } from '../utils/numbers';
 
@@ -118,14 +119,10 @@ export function Dashboard() {
   if (!hasOrganization && !user?.organizationId) {
     return (
       <div className="page-shell page-shell--soft page-shell--dense">
-        <header className="page-header page-header--dashboard">
-          <div className="page-header__lead">
-            <h1>Главная панель</h1>
-            <p className="page-header__subtitle page-header__subtitle--prominent">
-              Выберите действие для начала работы
-            </p>
-          </div>
-        </header>
+        <PageHeader
+          title="Главная панель"
+          subtitle="Выберите действие для начала работы"
+        />
 
         <div className="callout callout--info">
           <div className="callout__icon" aria-hidden>
@@ -174,14 +171,10 @@ export function Dashboard() {
 
   return (
     <div className="page-shell page-shell--soft page-shell--dense">
-      <header className="page-header page-header--dashboard">
-        <div className="page-header__lead">
-          <h1>Главная панель</h1>
-          <p className="page-header__subtitle page-header__subtitle--prominent">
-            Организация: {organizationName || 'Загрузка...'}
-          </p>
-        </div>
-      </header>
+      <PageHeader
+        title="Главная панель"
+        subtitle={`Организация: ${organizationName || 'Загрузка...'}`}
+      />
 
       <section
         className="page-panel page-panel--padded page-panel--elevated page-panel--spacing"

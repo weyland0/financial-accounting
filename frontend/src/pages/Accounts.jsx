@@ -4,10 +4,13 @@ import { getAllAccountsByOrganization } from "../services/accountService";
 import { AccountCard } from "../components/AccountCard";
 import { CreateAccountModal } from "../components/CreateAccountModal";
 import { canCreate } from "../config/roles";
+
+import { PageHeader } from "../shared/ui/PageHeader";
+
 import "../styles/pages/accounts.css";
 
 export function Accounts() {
-  const { user, loading, token, hasRole } = useAuth();
+  const { user, loading, token } = useAuth();
   const [accounts, setAccounts] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const [error, setError] = useState(null);
@@ -33,8 +36,7 @@ export function Accounts() {
   }, [user?.organizationId, token]);
 
   const handleAccountCreated = (newAccount) => {
-    // Добавляем новый счет в список
-    setAccounts(prev => [...prev, newAccount]);
+    setAccounts((prev) => [...prev, newAccount]);
   };
 
   if (loading) {
@@ -59,26 +61,23 @@ export function Accounts() {
 
   return (
     <div className="page-shell">
-      <header className="page-header">
-        <div className="page-header__lead">
-          <h1>Счета организации</h1>
-          <p className="page-header__subtitle">
-            Управление счетами вашей организации
-          </p>
-        </div>
-
+      <PageHeader
+        title="Счета организации"
+        subtitle="Управление счетами вашей организации"
+      >
         {canCreate(user.roleName, "/accounts") && (
-          <div className="page-header__actions">
-          <button
-            className="btn btn-primary"
-            onClick={() => setShowModal(true)}
-            title="Создать новый счет"
-          >
-            ➕ Создать счет
-          </button>
+          <div className="page-header-actions">
+            <button
+              className="btn btn-primary"
+              onClick={() => setShowModal(true)}
+              title="Создать новый счет"
+              type="button"
+            >
+              ➕ Создать счет
+            </button>
           </div>
         )}
-      </header>
+      </PageHeader>
 
       {error && (
         <div className="alert alert-error page-alert-error" role="alert">
@@ -95,13 +94,14 @@ export function Accounts() {
           <button
             className="btn btn-primary"
             onClick={() => setShowModal(true)}
+            type="button"
           >
             Создать счет
           </button>
         </div>
       ) : (
         <div className="accounts-grid">
-          {accounts.map(account => (
+          {accounts.map((account) => (
             <AccountCard key={account.id} account={account} />
           ))}
         </div>

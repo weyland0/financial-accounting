@@ -4,6 +4,7 @@ import { getCounterpartiesByOrganization } from "../services/counterpartyService
 import { CreateCounterpartyModal } from "../components/CreateCounterpartyModal";
 import { UpdateCounterpartyModal } from "../components/UpdateCounterpartyModal";
 import { canCreate } from "../config/roles";
+import { PageHeader } from "../shared/ui/PageHeader";
 import "../styles/pages/counterparties.css";
 
 export function Counterparties() {
@@ -88,23 +89,22 @@ export function Counterparties() {
 
   return (
     <div className="page-shell">
-      <header className="page-header">
-        <div className="page-header__lead">
-          <h1>Клиенты / Партнеры</h1>
-          <p className="page-header__subtitle">Контрагенты вашей организации</p>
-        </div>
-
+      <PageHeader
+        title="Клиенты / Партнеры"
+        subtitle="Контрагенты вашей организации"
+      >
         {canCreate(user.roleName, "/counterparties") && (
-          <div className="page-header__actions">
-          <button
-            className="btn-create-counterparty"
-            onClick={() => setModalOpen(true)}
-          >
-            ➕ Добавить
-          </button>
+          <div className="page-header-actions">
+            <button
+              type="button"
+              className="btn-create-counterparty"
+              onClick={() => setModalOpen(true)}
+            >
+              ➕ Добавить
+            </button>
           </div>
         )}
-      </header>
+      </PageHeader>
 
       {error && (
         <div className="alert alert-error page-alert-error" role="alert">

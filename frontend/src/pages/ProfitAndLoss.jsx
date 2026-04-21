@@ -6,6 +6,7 @@ import { getCategoriesByOrganization } from '../services/categoryService';
 import { parseDateOnly } from '../utils/dates';
 import { classifyExpenseCategory } from '../utils/expenseCategories';
 import { isInvoicePaymentTransaction } from '../utils/transactions';
+import { PageHeader } from '../shared/ui/PageHeader';
 import '../styles/pages/profit-and-loss.css';
 
 function toDateOnlyString(d) {
@@ -222,14 +223,10 @@ export function ProfitAndLoss() {
 
   return (
     <div className="page-shell">
-      <header className="page-header">
-        <div className="page-header__lead">
-          <h1>Отчёт о прибылях и убытках (P&L)</h1>
-          <p className="page-header__subtitle">
-            Начисление: учитываем счета (включая неоплаченные) + прочие операции
-          </p>
-        </div>
-      </header>
+      <PageHeader
+        title="Отчёт о прибылях и убытках (P&L)"
+        subtitle="Начисление: учитываем счета (включая неоплаченные) + прочие операции"
+      />
 
       {error && (
         <div className="alert alert-error page-alert-error" role="alert">

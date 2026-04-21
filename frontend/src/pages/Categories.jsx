@@ -3,6 +3,7 @@ import { useAuth } from "../context/AuthContext";
 import { getCategoriesByOrganization } from "../services/categoryService";
 import { CreateCategoryModal } from "../components/CreateCategoryModal";
 import { canCreate } from "../config/roles";
+import { PageHeader } from "../shared/ui/PageHeader";
 import "../styles/pages/categories.css";
 
 export function Categories() {
@@ -123,25 +124,22 @@ export function Categories() {
 
   return (
     <div className="page-shell">
-      <header className="page-header page-header--spacious">
-        <div className="page-header__lead">
-          <h1>Статьи учета</h1>
-          <p className="page-header__subtitle">
-            Управление поступлениями и расходами вашей организации
-          </p>
-        </div>
-
+      <PageHeader
+        title="Статьи учета"
+        subtitle="Управление поступлениями и расходами вашей организации"
+      >
         {canCreate(user.roleName, "/categories") && (
-          <div className="page-header__actions">
-          <button
-            className="btn-create-category"
-            onClick={() => setModalOpen(true)}
-          >
-            ➕ Создать
-          </button>
+          <div className="page-header-actions">
+            <button
+              type="button"
+              className="btn-create-category"
+              onClick={() => setModalOpen(true)}
+            >
+              ➕ Создать
+            </button>
           </div>
         )}
-      </header>
+      </PageHeader>
 
       {error && (
         <div className="alert alert-error page-alert-error" role="alert">

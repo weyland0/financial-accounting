@@ -6,6 +6,7 @@ import { getCategoriesByOrganization } from "../services/categoryService";
 import { getCounterpartiesByOrganization } from "../services/counterpartyService";
 import { CreateTransactionModal } from "../components/CreateTransactionModal";
 import { canCreate } from "../config/roles";
+import { PageHeader } from "../shared/ui/PageHeader";
 import "../styles/pages/transactions.css";
 
 export function Transactions() {
@@ -111,20 +112,21 @@ export function Transactions() {
 
   return (
     <div className="page-shell">
-      <header className="page-header">
-        <div className="page-header__lead">
-          <h1>Операции</h1>
-          <p className="page-header__subtitle">Доходы и расходы вашей организации</p>
-        </div>
+      <PageHeader
+        title="Операции"
+        subtitle="Доходы и расходы вашей организации"
+      >
         {canCreate(user.roleName, "/transactions") && (
-          <div className="page-header__actions">
+          <div className="page-header-actions">
             <button
+              type="button"
               className="btn-income"
               onClick={() => setShowIncomeModal(true)}
             >
               ➕ Добавить доход
             </button>
             <button
+              type="button"
               className="btn-expense"
               onClick={() => setShowExpenseModal(true)}
             >
@@ -132,7 +134,7 @@ export function Transactions() {
             </button>
           </div>
         )}
-      </header>
+      </PageHeader>
 
       {error && (
         <div className="alert alert-error page-alert-error" role="alert">
