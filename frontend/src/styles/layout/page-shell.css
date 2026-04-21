@@ -4,14 +4,6 @@
   background-color: var(--color-bg-app);
 }
 
-.page-shell--soft {
-  background: var(--color-bg-app-soft);
-}
-
-.page-shell--dense {
-  padding: 20px;
-}
-
 .page-shell--constrained {
   margin-left: auto;
   margin-right: auto;
@@ -47,10 +39,6 @@
 @media (max-width: 768px) {
   .page-shell {
     padding: 16px;
-  }
-
-  .page-shell--dense {
-    padding: 12px;
   }
 
   .page-panel--padded {

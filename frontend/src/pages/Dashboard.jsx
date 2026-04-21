@@ -115,7 +115,7 @@ export function Dashboard() {
 
   if (!hasOrganization && !user?.organizationId) {
     return (
-      <div className="page-shell page-shell--soft page-shell--dense">
+      <div className="page-shell">
         <PageHeader
           title="Главная панель"
           subtitle="Выберите действие для начала работы"
@@ -156,14 +156,14 @@ export function Dashboard() {
 
   if (!hasOrganization && user?.organizationId) {
     return (
-      <div className="page-shell page-shell--soft page-shell--dense">
+      <div className="page-shell">
         <p className="dashboard-fallback-msg">Не удалось загрузить организацию.</p>
       </div>
     );
   }
 
   return (
-    <div className="page-shell page-shell--soft page-shell--dense">
+    <div className="page-shell">
       <PageHeader
         title="Главная панель"
         subtitle={`Организация: ${organizationName || 'Загрузка...'}`}
