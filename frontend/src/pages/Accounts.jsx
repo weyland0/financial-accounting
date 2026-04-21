@@ -7,6 +7,7 @@ import { canCreate } from "../config/roles";
 
 import { PageHeader } from "../shared/ui/PageHeader";
 import { PageHeaderActions } from "../shared/ui/PageHeaderActions"; 
+import { ErrorMessage } from "../shared/ui/ErrorMessage";
 
 import "../styles/pages/accounts.css";
 
@@ -78,12 +79,7 @@ export function Accounts() {
         </PageHeaderActions>
       </PageHeader>
 
-      {error && (
-        <div className="alert alert-error page-alert-error" role="alert">
-          <span className="error-icon">⚠️</span>
-          <span>{error}</span>
-        </div>
-      )}
+      <ErrorMessage active={error != null} error={error}/>
 
       {accounts.length === 0 ? (
         <div className="accounts-empty-state">
