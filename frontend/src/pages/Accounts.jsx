@@ -6,6 +6,7 @@ import { CreateAccountModal } from "../components/CreateAccountModal";
 import { canCreate } from "../config/roles";
 
 import { PageHeader } from "../shared/ui/PageHeader";
+import { PageHeaderActions } from "../shared/ui/PageHeaderActions"; 
 
 import "../styles/pages/accounts.css";
 
@@ -65,18 +66,16 @@ export function Accounts() {
         title="Счета организации"
         subtitle="Управление счетами вашей организации"
       >
-        {canCreate(user.roleName, "/accounts") && (
-          <div className="page-header-actions">
-            <button
-              className="btn btn-primary"
-              onClick={() => setShowModal(true)}
-              title="Создать новый счет"
-              type="button"
-            >
-              ➕ Создать счет
-            </button>
-          </div>
-        )}
+        <PageHeaderActions disabled={!canCreate(user.roleName, "/accounts")}>
+          <button
+            className="btn btn-primary"
+            onClick={() => setShowModal(true)}
+            title="Создать новый счет"
+            type="button"
+          >
+            ➕ Создать счет
+          </button>
+        </PageHeaderActions>
       </PageHeader>
 
       {error && (
