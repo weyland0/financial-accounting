@@ -7,6 +7,13 @@
 ##
 ## Get latest from https://github.com/github/gitignore/blob/main/Dotnet.gitignore
 
+# dev 
+.vscode/
+arch.md
+review.md
+use-cases-organization.md
+*.drawio
+
 # Build results
 [Dd]ebug/
 [Dd]ebugPublic/
