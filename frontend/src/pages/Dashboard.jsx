@@ -7,8 +7,12 @@ import { getTransactionsByOrganization } from '../services/transactionService';
 import { getInvoicesByOrganization } from '../services/invoiceService';
 import { getCategoriesByOrganization } from '../services/categoryService';
 import { CreateOrganizationModal } from '../components/CreateOrganizationModal';
+
+
 import { PageHeader } from '../shared/ui/PageHeader';
 import { PageLoading } from '../shared/ui/PageLoading';
+import { ContentSection } from '../shared/ui/ContentSection';
+
 import { aggregateCalendarMonthFinancials } from '../utils/reporting';
 import { formatMoney } from '../utils/numbers';
 
@@ -169,22 +173,12 @@ export function Dashboard() {
         subtitle={`Организация: ${organizationName || 'Загрузка...'}`}
       />
 
-      <section
-        className="page-panel page-panel--padded page-panel--elevated page-panel--spacing"
-        aria-label="Краткая сводка"
+      <ContentSection
+        title="Сводка"
+        errorActive={statsError != null}
+        errorMessage={statsError}
+        loading={statsLoading && !stats && !statsError}
       >
-        <h2 className="page-section-title dashboard-summary__title">Сводка</h2>
-        {statsError && (
-          <div
-            className="alert alert-error page-alert-error"
-            role="alert"
-          >
-            {statsError}
-          </div>
-        )}
-        {statsLoading && !stats && !statsError && (
-          <p className="dashboard-summary__loading">Загрузка показателей…</p>
-        )}
         {stats && (
           <div className="dashboard-summary__grid">
             <button
@@ -275,10 +269,14 @@ export function Dashboard() {
             </button>
           </div>
         )}
-      </section>
+      </ContentSection>
 
-      <section className="page-panel page-panel--padded page-panel--elevated">
-        <h2 className="page-section-title">Доступные инструменты</h2>
+      <ContentSection
+        title="Доступные инструменты"
+        errorActive={false}
+        errorMessage={null}
+        loading={false}
+      >
         <div className="action-tile-grid">
           <div
             className="action-tile action-tile--clickable"
@@ -351,9 +349,8 @@ export function Dashboard() {
             <h3>Cash Flow</h3>
             <p>Движение денежных средств</p>
           </div>
-
         </div>
-      </section>
+      </ContentSection>
     </div>
   );
 }

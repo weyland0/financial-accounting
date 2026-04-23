@@ -7,7 +7,13 @@ import {
 import { getUsersByOrganization } from "../services/userService";
 import { CreateInviteModal } from "../components/CreateInviteModal";
 import { canEdit } from "../config/roles";
+
 import { PageHeader } from "../shared/ui/PageHeader";
+import { EmptyPage } from "../shared/ui/EmptyPage";
+import { PageLoading } from "../shared/ui/PageLoading";
+import { ContentSection } from "../shared/ui/ContentSection";
+import { ErrorMessage } from "../shared/ui/ErrorMessage";
+
 import "../styles/pages/organization-info.css";
 
 export function OrganizationInfo() {
@@ -31,6 +37,7 @@ export function OrganizationInfo() {
   const [loadingEmployees, setLoadingEmployees] = useState(false);
   const [inviteLink, setInviteLink] = useState("");
   const [showModal, setShowModal] = useState(false);
+  const [roleEditEmployee, setRoleEditEmployee] = useState(null);
 
   // Загрузка организации
   useEffect(() => {
@@ -104,14 +111,11 @@ export function OrganizationInfo() {
 
   if (!user?.organizationId) {
     return (
-      <div className="page-shell page-shell--constrained">
-        <div className="empty-state">
-          <h2>Организация не выбрана</h2>
-          <p>
-            Создайте или выберите организацию чтобы управлять статьями учета.
-          </p>
-        </div>
-      </div>
+      <EmptyPage
+        shellClassName="page-shell "
+        title="Организация не выбрана"
+        description="Создайте или выберите организацию чтобы управлять статьями учета."
+      />
     );
   }
 
@@ -151,12 +155,7 @@ export function OrganizationInfo() {
         )}
       </PageHeader>
 
-      {error && (
-        <div className="alert alert-error page-alert-error" role="alert">
-          <span className="error-icon">⚠️</span>
-          <span>{error}</span>
-        </div>
-      )}
+      <ErrorMessage active={error != null} error={error} />
 
       <div className="organization-details">
         <div className="field">
@@ -253,20 +252,23 @@ export function OrganizationInfo() {
         </div>
       </div>
 
-      <div className="employees-section">
-        <PageHeader title="Сотрудники организации">
-          {canEdit(user.roleName, "/organizationinfo") && (
-            <div className="page-header-actions">
-              <button
-                type="button"
-                onClick={() => setShowModal(true)}
-                className="btn btn-primary"
-              >
-                Добавить
-              </button>
-            </div>
-          )}
-        </PageHeader>
+
+    <PageHeader title="Сотрудники организации">
+        {canEdit(user.roleName, "/organizationinfo") && (
+          <div className="page-header-actions">
+            <button
+              type="button"
+              onClick={() => setShowModal(true)}
+              className="btn btn-primary"
+            >
+              Добавить
+            </button>
+          </div>
+        )}
+        
+      </PageHeader>
+
+      <ContentSection>
 
         {loadingEmployees ? (
           <p>Загрузка сотрудников...</p>
@@ -287,7 +289,7 @@ export function OrganizationInfo() {
             ))}
           </div>
         )}
-      </div>
+      </ContentSection>
 
       <CreateInviteModal
         isOpen={showModal}
